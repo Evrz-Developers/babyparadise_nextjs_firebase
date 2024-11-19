@@ -1,14 +1,9 @@
-import React from 'react'
-import ContentWrapper from '@/components/layouts/ContentWrapper'
-
 const DefaultFooter = () => {
     return (
-        <footer className='w-full bg-red-3000 px-5 py-3 shadow-[0_2px_10px_0px_rgba(0,0,0,0.4)]'>
-            <ContentWrapper>
-                <div className='text-xs text-[#888]'> Evrz &#x2022; Starter &#x2022; Nextjs </div>
-            </ContentWrapper>
+        <footer className="bg-gray-800 text-white py-4 text-center fixed bottom-0 w-full">
+            <div className='text-xs text-[#888]'> Evrz &#x2022; @2024 </div>
         </footer>
-    )
-}
+    );
+};
 
-export default DefaultFooter
+export default DefaultFooter;

@@ -71,21 +71,22 @@ const MainNavbar = ({ title }) => {
                 <DropdownTrigger>
                     <Image
                         alt="Profile"
-                        width={32}
-                        height={32}
-                        src="/images/logo.png"
+                        width={34}
+                        height={34}
+                        src="/images/dev.png"
+                        className="rounded-full"
                     />
                 </DropdownTrigger>
                 <DropdownMenu aria-label="Profile Actions" variant="flat">
                     <DropdownItem key="profile" className="h-14 gap-2">
                         <p className="font-semibold">Signed in as</p>
-                        <p className="font-semibold">zoey@example.com</p>
+                        <p className="font-semibold">robz@admin.com</p>
                     </DropdownItem>
+                    <DropdownItem key="team_settings">Dashboard</DropdownItem>
                     <DropdownItem key="settings">My Settings</DropdownItem>
-                    <DropdownItem key="team_settings">Team Settings</DropdownItem>
                     <DropdownItem key="analytics">Analytics</DropdownItem>
-                    <DropdownItem key="system">System</DropdownItem>
-                    <DropdownItem key="configurations">Configurations</DropdownItem>
+                    <DropdownItem key="system">Shop</DropdownItem>
+                    <DropdownItem key="configurations">Users</DropdownItem>
                     <DropdownItem key="help_and_feedback">Help & Feedback</DropdownItem>
                     <DropdownItem key="logout" color="danger">
                         Log Out

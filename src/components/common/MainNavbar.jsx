@@ -19,7 +19,7 @@ const MainNavbar = ({ title }) => {
     return (
         <Navbar onMenuOpenChange={setIsMenuOpen} maxWidth="2xl" className="px-0" classNames={{
             wrapper: "justify-start",
-            content: "data-[justify=start]:!flex-grow-0 md:flex-grow"
+            content: "data-[justify=start]:!flex-grow-0 sm:flex-grow"
         }}>
             {/* Logo and title */}
             <NavbarContent className="gap-2 flex-grow-0">
@@ -54,7 +54,7 @@ const MainNavbar = ({ title }) => {
             <NavbarContent as="div" className="items-center gap-2" justify="center">
                 <Input
                     classNames={{
-                        base: "max-w-full sm:max-w-[20rem] h-10 pr-1",
+                        base: "max-w-full sm:max-w-[10rem] md:max-w-[20rem] lg:max-w-[30rem] h-10",
                         mainWrapper: "h-full",
                         input: "text-small",
                         inputWrapper: "h-full font-normal text-default-500 bg-default-400/20 dark:bg-default-500/20",

@@ -4,6 +4,41 @@
 
 body {
   font-family: Arial, Helvetica, sans-serif;
+  @apply scrollbar-custom;
+}
+
+* {
+  scroll-behavior: smooth;
+}
+
+/* Custom CSS to hide the scrollbar */
+.scrollbar-hidden::-webkit-scrollbar {
+  display: none; /* Safari and Chrome */
+}
+
+.scrollbar-hidden {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+  overflow: hidden; /* For other browsers */
+}
+
+/* Custom CSS for a sleek and stylish scrollbar */
+.scrollbar-custom::-webkit-scrollbar {
+  width: 6px; /* Width of the scrollbar */
+}
+
+.scrollbar-custom::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Background of the scrollbar track */
+  border-radius: 10px; /* Rounded corners for the track */
+}
+
+.scrollbar-custom::-webkit-scrollbar-thumb {
+  background: #888; /* Color of the scrollbar thumb */
+  border-radius: 10px; /* Rounded corners for the thumb */
+}
+
+.scrollbar-custom::-webkit-scrollbar-thumb:hover {
+  background: #555; /* Color of the thumb on hover */
 }
 
 @layer base {

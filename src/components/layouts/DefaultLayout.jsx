@@ -1,18 +1,17 @@
 import React from "react";
-import DefaultFooter from "@/components/layouts/DefaultFooter";
-import DefaultHeader from "@/components/layouts/DefaultHeader";
-import PageWrapper from "@/components/layouts/PageWrapper";
-import ContentWrapper from "@/components/layouts/ContentWrapper";
+import ContentWrapper from "@/components/common/ContentWrapper";
+import Footer from "@/components/layouts/Footer";
+import MainNavbar from "@/components/layouts/MainNavbar";
+import ScrollToTop from "@/components/layouts/ScrollToTop";
 
-const DefaultLayout = ({ children, className = "", header = true, footer = true }) => {
+const DefaultLayout = ({ children, footer = true }) => {
   return (
-    <PageWrapper className={className}>
-      {header && <DefaultHeader />}
-      <main className="flex flex-col flex-grow max-w-screen-2xl mx-auto w-full px-4 lg:px-6">
-        <ContentWrapper>{children}</ContentWrapper>
-      </main>
-      {footer && <DefaultFooter />}
-    </PageWrapper>
+    <div className="relative min-h-screen flex flex-col">
+      <MainNavbar title="SHOP" />
+      <ContentWrapper className="flex-grow">{children}</ContentWrapper>
+      <ScrollToTop />
+      {footer && <Footer />}
+    </div>
   );
 };
 

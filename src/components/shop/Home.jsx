@@ -1,15 +1,15 @@
 import React from 'react';
-import { Button } from '@nextui-org/button';
+import DummyCard from '@/components/common/DummyCard';
 
 const Home = () => {
     return (
-        <>
-            <div className="flex flex-col items-center justify-center space-y-4">
-                <h1 className="text-2xl font-bold mt-10">Welcome to Baby Paradise</h1>
-                <p>Project is under renovation.</p>
-                <Button>OK</Button>
-            </div>
-        </>
+        <div className="flex flex-col items-center justify-center pt-32">
+            <DummyCard
+                gradientColor="#2634"
+                title="🚧"
+                description="We'll be back soon."
+            />
+        </div>
     );
 };
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import DummyCard from '@/components/common/DummyCard';
 
-const ProductPage = () => {
+const ProductsPage = () => {
     return (
         <div className="flex flex-col items-center justify-center pt-32">
             <DummyCard
@@ -13,4 +13,4 @@ const ProductPage = () => {
     )
 }
 
-export default ProductPage
+export default ProductsPage

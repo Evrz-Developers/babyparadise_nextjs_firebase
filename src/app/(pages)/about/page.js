@@ -1,7 +1,7 @@
-import React from 'react';
+import React from 'react'
 import DummyCard from '@/components/common/DummyCard';
 
-const Home = () => {
+const AboutPage = () => {
     return (
         <div className="flex flex-col items-center justify-center pt-32">
             <DummyCard
@@ -10,7 +10,7 @@ const Home = () => {
                 description="We'll be back soon."
             />
         </div>
-    );
-};
+    )
+}
 
-export default Home;
+export default AboutPage

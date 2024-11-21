@@ -1,9 +1,9 @@
+// DUMMYCARD COMPONENT FOR SHOWING A TITLE AND DESCRIPTION
 import React from 'react';
 import BlurFade from '@/components/ui/blur-fade';
 import { MagicCard } from '@/components/ui/magic-card';
 import { NeonGradientCard } from '@/components/ui/neon-gradient-card';
 
-// DummyCard component for pages under renovation
 const DummyCard = ({ gradientColor, title, description }) => (
 
     <BlurFade duration={0.5} inView>

@@ -1,8 +1,8 @@
 "use client";
 import React from "react";
 import { Navbar, NavbarBrand, NavbarContent, NavbarItem, NavbarMenuToggle, NavbarMenu, NavbarMenuItem, Link, Button, Input, DropdownItem, DropdownTrigger, Dropdown, DropdownMenu, Avatar } from "@nextui-org/react";
-import { AcmeLogo } from "../common/AcmeLogo.jsx";
-import { SearchIcon } from "../common/SearchIcon.jsx";
+import { ShopLogo } from "@/components/common/ShopLogo.jsx";
+import { SearchIcon } from "@/components/common/SearchIcon.jsx";
 import Image from "next/image.js";
 
 const MainNavbar = ({ title }) => {
@@ -26,7 +26,7 @@ const MainNavbar = ({ title }) => {
                 <NavbarMenuToggle aria-label={isMenuOpen ? "Close menu" : "Open menu"} className="sm:hidden" />
                 <NavbarBrand as={Link} href="/" className="flex items-center">
                     {/* TODO: Change logo */}
-                    <AcmeLogo />
+                    <ShopLogo />
                     <p className="font-bold text-inherit">{title}</p>
                 </NavbarBrand>
             </NavbarContent>

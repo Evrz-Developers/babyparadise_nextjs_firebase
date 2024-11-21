@@ -1,6 +1,8 @@
+"use client"
 import Link from 'next/link'
 import React from 'react'
 import { useForm } from 'react-hook-form'
+import ContentWrapper from '@/components/common/ContentWrapper'
 
 const Login = () => {
 
@@ -11,8 +13,8 @@ const Login = () => {
     }
 
     return (
-        <div className='mt-10 '>
-            <div className='w-full max-w-[400px] h-[calc(100vh-150px)] rounded md:shadow-md p-10 m-auto'>
+        <ContentWrapper className='h-full mt-20'>
+            <div className='w-full max-w-[400px] h-full rounded md:shadow-md p-10 m-auto bg-slate-50'>
                 <h3 className='text-2xl'> Login </h3>
 
                 <form onSubmit={handleSubmit(onSubmit)}>
@@ -44,7 +46,7 @@ const Login = () => {
                     </Link>
                 </div>
             </div>
-        </div>
+        </ContentWrapper>
     )
 }
 

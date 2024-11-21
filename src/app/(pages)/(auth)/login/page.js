@@ -1,16 +1,10 @@
-import React from 'react'
-import DummyCard from '@/components/common/DummyCard';
+// LOGIN PAGE
+import Login from '@/components/auth/Login'
 
-const loginPage = () => {
+const LoginPage = () => {
     return (
-        <div className="flex flex-col items-center justify-center pt-32">
-            <DummyCard
-                gradientColor="#2634"
-                title="🚧"
-                description="We'll be back soon."
-            />
-        </div>
+        <Login />
     )
 }
 
-export default loginPage
+export default LoginPage

@@ -1,4 +1,4 @@
-import { auth } from "@/utilities/firebaseConfig";
+import { auth } from "@/lib/firebase/config";
 import { signInWithEmailAndPassword } from "firebase/auth";
 
 const loginWithEmailPassword = async (email, password) => {

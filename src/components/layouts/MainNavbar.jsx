@@ -9,11 +9,26 @@ const MainNavbar = ({ title }) => {
     const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
     const menuItems = [
-        "Profile",
-        "Dashboard",
-        "Activity",
-        "Help & Feedback",
-        "Log Out",
+        {
+            name: "Login",
+            href: "/login",
+        },
+        {
+            name: "Register",
+            href: "/register",
+        },
+        {
+            name: "Profile",
+            href: "/profile",
+        },
+        {
+            name: "Dashboard",
+            href: "/dashboard",
+        },
+        {
+            name: "Logout",
+            href: "/logout",
+        },
     ];
 
     return (
@@ -101,10 +116,10 @@ const MainNavbar = ({ title }) => {
                         <Link
                             color={index === 2 ? "primary" : index === menuItems.length - 1 ? "danger" : "foreground"}
                             className="w-full"
-                            href="#"
+                            href={item.href}
                             size="lg"
                         >
-                            {item}
+                            {item.name}
                         </Link>
                     </NavbarMenuItem>
                 ))}

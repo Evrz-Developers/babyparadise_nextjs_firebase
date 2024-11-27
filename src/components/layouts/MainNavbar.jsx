@@ -4,6 +4,7 @@ import { Navbar, NavbarBrand, NavbarContent, NavbarItem, NavbarMenuToggle, Navba
 import { ShopLogo } from "@/components/common/ShopLogo.jsx";
 import { SearchIcon } from "@/components/common/SearchIcon.jsx";
 import Image from "next/image.js";
+import ThemeSwitcher from "../common/ThemeSwitcher";
 
 const MainNavbar = ({ title }) => {
     const [isMenuOpen, setIsMenuOpen] = React.useState(false);
@@ -80,7 +81,9 @@ const MainNavbar = ({ title }) => {
                     type="search"
                 />
             </NavbarContent>
-
+            <NavbarContent as="div" className="items-center gap-2 mr-2" justify="end">
+                <ThemeSwitcher />
+            </NavbarContent>
             {/* Profile */}
             <Dropdown placement="bottom-end">
                 <DropdownTrigger>

@@ -3,13 +3,33 @@ import Link from 'next/link'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import ContentWrapper from '@/components/common/ContentWrapper'
+import AUTH from '@/lib/firebase/auth';
+import useLoggedUserStore from '@/store/loggedUserStore';
+import { useRouter } from 'next/navigation';
 
 const Login = () => {
 
     const { handleSubmit, register, formState: { errors } } = useForm()
+    const setUser = useLoggedUserStore((state) => state.setUser);
+    const router = useRouter();
 
     const onSubmit = async (data) => {
-        console.log(data);
+        const { email, password } = data;
+        try {
+            const result = await AUTH.login(email, password);
+            if (result.error) {
+                console.error("Error signing in:", result.error);
+            } else {
+                const userWithLoginTime = {
+                    ...result.user,
+                    lastLoginAt: Date.now(),
+                };
+                setUser(userWithLoginTime);
+                router.push('/');
+            }
+        } catch (error) {
+            console.error("Error signing in:", error.message);
+        }
     }
 
     return (
@@ -35,7 +55,7 @@ const Login = () => {
                     </div>
 
                     <div className='mt-6'>
-                        <button type='submit' className='px-5 py-3 w-full bg-yellow-300 rounded-md'> Login </button>
+                        <button type='submit' className='px-5 py-3 w-full bg-purple-300 rounded-md'> Login </button>
                     </div>
 
                 </form>

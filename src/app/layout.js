@@ -2,6 +2,9 @@ import "./globals.css";
 import localFont from "next/font/local";
 import { NextUIProvider } from "@nextui-org/react";
 import DefaultLayout from "@/components/layouts/DefaultLayout";
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -15,7 +18,7 @@ const geistMono = localFont({
 });
 
 export const metadata = {
-  title: "Baby Paradise",  
+  title: "Baby Paradise",
   description: "A one stop shop for all your kids' needs.",
 };
 
@@ -31,12 +34,15 @@ export default function RootLayout({ children }) {
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <NextUIProvider>
-          <DefaultLayout>
-            {children}
-          </DefaultLayout>
-        </NextUIProvider>
+      ><>
+          <NextUIProvider>
+            <DefaultLayout>
+              {children}
+            </DefaultLayout>
+          </NextUIProvider>
+          <ToastContainer position="bottom-right" autoClose={5000} hideProgressBar={false} closeOnClick draggable pauseOnHover />
+
+        </>
       </body>
     </html>
   );

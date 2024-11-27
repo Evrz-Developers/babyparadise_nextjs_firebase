@@ -6,9 +6,9 @@ import ScrollToTop from "@/components/layouts/ScrollToTop";
 
 const DefaultLayout = ({ children, footer = true }) => {
   return (
-    <div className="relative min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-background">
       <MainNavbar title="SHOP" />
-      <ContentWrapper className="flex-grow">{children}</ContentWrapper>
+      <ContentWrapper className="flex-grow relative">{children}</ContentWrapper>
       <ScrollToTop />
       {footer && <Footer />}
     </div>

@@ -1,8 +1,6 @@
 import "./globals.css";
 import localFont from "next/font/local";
 import { NextUIProvider } from "@nextui-org/react";
-import MainNavbar from "@/components/layouts/MainNavbar";
-import Footer from "@/components/layouts/Footer";
 import DefaultLayout from "@/components/layouts/DefaultLayout";
 
 const geistSans = localFont({
@@ -17,7 +15,7 @@ const geistMono = localFont({
 });
 
 export const metadata = {
-  title: "Baby Paradise",
+  title: "Baby Paradise",  
   description: "A one stop shop for all your kids' needs.",
 };
 

@@ -4,10 +4,13 @@ import { Navbar, NavbarBrand, NavbarContent, NavbarItem, NavbarMenuToggle, Navba
 import { ShopLogo } from "@/components/common/ShopLogo.jsx";
 import { SearchIcon } from "@/components/common/SearchIcon.jsx";
 import Image from "next/image.js";
+import useLoggedUserStore from '@/store/loggedUserStore';
 import ThemeSwitcher from "../common/ThemeSwitcher";
 
 const MainNavbar = ({ title }) => {
     const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+    const { user, isLoggedIn } = useLoggedUserStore(); // Access the entire store
+
 
     const menuItems = [
         {
@@ -98,7 +101,7 @@ const MainNavbar = ({ title }) => {
                 <DropdownMenu aria-label="Profile Actions" variant="flat">
                     <DropdownItem key="profile" className="h-14 gap-2">
                         <p className="font-semibold">Signed in as</p>
-                        <p className="font-semibold">robz@admin.com</p>
+                        <p className="font-semibold"> {isLoggedIn && user ? user.email : "Guest"}</p>
                     </DropdownItem>
                     <DropdownItem key="team_settings">Dashboard</DropdownItem>
                     <DropdownItem key="settings">My Settings</DropdownItem>

@@ -61,7 +61,7 @@ const Register = () => {
                     </div>
 
                     <div className='mt-6'>
-                        <button type='submit' className='px-5 py-3 w-full bg-yellow-300 rounded-md'> Register </button>
+                        <button type='submit' className='px-5 py-3 w-full bg-purple-300 rounded-md'> Register </button>
                     </div>
 
                 </form>

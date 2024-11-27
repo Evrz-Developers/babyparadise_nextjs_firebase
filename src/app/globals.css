@@ -2,8 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+/* TODO: Make transition only for theme switching */
 html {
-  transition: background-color 1.5s ease, color 1.5s ease; 
+  transition: background-color 0.5s ease, color 0.5s ease; 
 }
 
 body {

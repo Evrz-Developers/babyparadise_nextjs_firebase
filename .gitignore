@@ -12,6 +12,8 @@
 
 # testing
 /coverage
+# old
+*.old-refer
 
 # next.js
 /.next/

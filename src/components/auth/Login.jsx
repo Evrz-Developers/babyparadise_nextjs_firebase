@@ -6,6 +6,7 @@ import ContentWrapper from '@/components/common/ContentWrapper'
 import AUTH from '@/lib/firebase/auth';
 import useLoggedUserStore from '@/store/loggedUserStore';
 import { useRouter } from 'next/navigation';
+import { toast } from 'react-toastify'
 
 const Login = () => {
 
@@ -25,10 +26,11 @@ const Login = () => {
                     lastLoginAt: Date.now(),
                 };
                 setUser(userWithLoginTime);
+                toast.success("Logged in successfully");
                 router.push('/');
             }
         } catch (error) {
-            console.error("Error signing in:", error.message);
+            toast.error("Login failed");
         }
     }
 

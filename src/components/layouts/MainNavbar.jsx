@@ -46,7 +46,7 @@ const MainNavbar = ({ title }) => {
                 <NavbarBrand as={Link} href="/" className="flex items-center">
                     {/* TODO: Change logo */}
                     <ShopLogo />
-                    <p className="font-bold text-inherit">{title}</p>
+                    <p className="font-bold text-inherit hidden sm:flex">{title}</p>
                 </NavbarBrand>
             </NavbarContent>
 
@@ -84,9 +84,12 @@ const MainNavbar = ({ title }) => {
                     type="search"
                 />
             </NavbarContent>
-            <NavbarContent as="div" className="items-center gap-2 mr-2" justify="end">
+
+            {/* Theme switcher */}
+            <NavbarContent as="div" className="items-center gap-2 md:mr-2" justify="end">
                 <ThemeSwitcher />
             </NavbarContent>
+
             {/* Profile */}
             <Dropdown placement="bottom-end">
                 <DropdownTrigger>

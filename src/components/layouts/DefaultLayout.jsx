@@ -1,15 +1,22 @@
 import React from "react";
-import ContentWrapper from "@/components/common/ContentWrapper";
 import Footer from "@/components/layouts/Footer";
 import MainNavbar from "@/components/layouts/MainNavbar";
 import ScrollToTop from "@/components/layouts/ScrollToTop";
 
 const DefaultLayout = ({ children, footer = true }) => {
   return (
-    <div className="min-h-screen flex flex-col bg-background">
+    <div className="flex flex-col min-h-screen bg-background">
+      {/* Navbar */}
       <MainNavbar title="SHOP" />
-      <ContentWrapper className="flex-grow relative">{children}</ContentWrapper>
+      {/* Main Content Wrapper */}
+      <main className="flex-grow">
+        <div className="max-w-screen-2xl mx-auto px-4 sm:px-6">
+          {children}
+        </div>
+      </main>
+      {/* Scroll to Top */}
       <ScrollToTop />
+      {/* Footer */}
       {footer && <Footer />}
     </div>
   );

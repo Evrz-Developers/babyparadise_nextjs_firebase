@@ -1,6 +1,5 @@
 import { create } from "zustand";
 import AUTH from '@/lib/firebase/auth';
-import { toast } from 'react-toastify';
 
 const useLoggedUserStore = create((set) => {
     // Retrieve user data from local storage
@@ -22,7 +21,6 @@ const useLoggedUserStore = create((set) => {
             try {
                 await AUTH.logout();
                 set({ user: null, isLoggedIn: false });
-                toast.warning("Logged out");
                 if (typeof window !== "undefined") {
                     localStorage.removeItem("user"); // Remove user from localStorage
                 }

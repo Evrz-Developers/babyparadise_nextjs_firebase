@@ -124,8 +124,10 @@ const MainNavbar = ({ title }) => {
                     <DropdownItem as={Link} key="orders" href="/orders">Orders</DropdownItem>
                     <DropdownItem as={Link} key="cart" href="/cart">Cart</DropdownItem>
                     <DropdownItem as={Link} key="about" href="/about">About</DropdownItem>
-                    <DropdownItem key="help_and_feedback">Help & Feedback</DropdownItem>
-                    <DropdownItem key="logout" color="danger" onClick={handleLogout}>Log Out</DropdownItem>
+                    <DropdownItem as={Link} key="help_and_feedback" href="/help">Help & Feedback</DropdownItem>
+                    {isLoggedIn && (
+                    <DropdownItem as="button" key="logout" color="danger" onClick={handleLogout}>Log Out</DropdownItem>
+                    )}
                 </DropdownMenu>
             </Dropdown>
 
@@ -133,19 +135,30 @@ const MainNavbar = ({ title }) => {
             <NavbarMenu>
                 {menuItems.map((item, index) => (
                     <NavbarMenuItem key={`${item}-${index}`}>
-                        <Link
-                            color={index === 2 ? "primary" : index === menuItems.length - 1 ? "danger" : "foreground"}
-                            className="w-full"
-                            href={item?.href}
-                            onClick={item?.onClick}
-                            size="lg"
-                        >
-                            {item.name}
-                        </Link>
+                        {item?.as === Link ? (
+                            <Link
+                                color={index === 2 ? "primary" : "foreground"}
+                                className="w-full"
+                                href={item?.href}
+                                onClick={item?.onClick}
+                                size="lg"
+                            >
+                                {item.name}
+                            </Link>
+                        ) : (
+                            <button // Render button if 'as' prop is not Link
+                                className="w-full"
+                                color={item?.color || "foreground"}
+                                onClick={item?.onClick}
+                            >
+                                {item.name}
+                            </button>
+                        )}
                     </NavbarMenuItem>
                 ))}
             </NavbarMenu>
         </Navbar>
+
     );
 };
 

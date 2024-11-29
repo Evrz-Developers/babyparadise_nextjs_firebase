@@ -6,7 +6,6 @@ import { ShopLogo } from "@/components/common/ShopLogo.jsx";
 import { SearchIcon } from "@/components/common/SearchIcon.jsx";
 import Image from "next/image.js";
 import useLoggedUserStore from '@/store/loggedUserStore';
-import ThemeSwitcher from "../common/ThemeSwitcher";
 import { useRouter } from 'next/navigation';
 
 const MainNavbar = ({ title }) => {
@@ -91,11 +90,6 @@ const MainNavbar = ({ title }) => {
                     startContent={<SearchIcon size={18} />}
                     type="search"
                 />
-            </NavbarContent>
-
-            {/* Theme switcher */}
-            <NavbarContent as="div" className="items-center gap-2 md:mr-2" justify="end">
-                <ThemeSwitcher />
             </NavbarContent>
 
             {/* Profile */}

@@ -2,11 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* TODO: Make transition only for theme switching */
-html {
-  transition: background-color 0.5s ease, color 0.5s ease; 
-}
-
 body {
   font-family: Arial, Helvetica, sans-serif;
   @apply scrollbar-custom;
@@ -44,17 +39,6 @@ body {
 
 .scrollbar-custom::-webkit-scrollbar-thumb:hover {
   background: #555; /* Color of the thumb on hover */
-}
-
-/* Styles for light and dark themes */
-.light {
-  --background: #ffffff; /* Light background */
-  --foreground: #000000; /* Dark text */
-}
-
-.dark {
-  --background: #000000; /* Dark background */
-  --foreground: #ffffff; /* Light text */
 }
 
 @layer base {

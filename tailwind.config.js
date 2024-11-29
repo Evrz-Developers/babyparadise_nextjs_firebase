@@ -4,12 +4,12 @@ const { nextui } = require("@nextui-org/react");
 
 module.exports = {
 	darkMode: ["class"],
-	content: [
-		"./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
-		"./src/components/**/*.{js,ts,jsx,tsx,mdx}",
-		"./src/app/**/*.{js,ts,jsx,tsx,mdx}",
-		"./node_modules/@nextui-org/theme/dist/components/(button|dropdown|input|navbar|ripple|spinner|menu|divider|popover).js"
-	],
+  content: [
+    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./node_modules/@nextui-org/theme/dist/components/(button|card|dropdown|image|input|navbar|ripple|spinner|menu|divider|popover).js"
+  ],
 	theme: {
     	extend: {
     		colors: {

@@ -59,6 +59,17 @@ const Navbar = ({ title }) => {
         </div>
       </div>
 
+      {/* Second Navbar (hidden on mobile) */}
+      <div className="flex-grow hidden md:flex items-center justify-start bg-neutral-300 w-full py-2 px-2 ">
+          {/* Hamburger Menu */}
+          <button
+            className="text-gray-700"
+            onClick={() => setIsSidebarOpen(true)}
+          >
+            <FiMenu className="h-6 w-6" />
+          </button>
+      </div>
+
       {/* Mobile Search Bar and Delivery Address */}
       <div className="flex flex-col items-center justify-center w-full md:hidden">
         <div className="bg-neutral-300 w-full py-2 px-4">

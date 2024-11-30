@@ -9,8 +9,8 @@ const DummyCard = ({ gradientColor, title, description }) => (
     <BlurFade duration={0.5} inView>
         <NeonGradientCard borderRadius="16">
             <MagicCard gradientColor={gradientColor} className="items-center justify-center text-center select-none px-2 py-2">
-                <h1 className="text-xl font-semibold justify-center text-center">{title}</h1>
-                <p>{description}</p>
+                <h1 className="text-xl font-semibold justify-center text-center">{title ? title : "🎈"}</h1>
+                <p>{description ? description : ""}</p>
             </MagicCard>
         </NeonGradientCard>
     </BlurFade>

@@ -7,7 +7,7 @@ const ProductCard = ({ product }) => {
         <Image
           alt="Card background"
           className="object-center rounded-xl mix-blend-soft-light bg-white"
-          src="/images/shop/test.jpg"
+          src={product?.imageURL}
           layout="fixed" // Ensures the image maintains its aspect ratio
           width={200} // Fixed width
           height={200} // Fixed height

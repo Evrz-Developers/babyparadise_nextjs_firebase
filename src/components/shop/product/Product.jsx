@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import PRODUCT_API from "@/utilities/shop/product.api";
+import PRODUCT_API from "@/utilities/api/products";
 import { useRouter } from "next/navigation";
 import ProductGrid from "./ProductGrid";
 import Loader from "@/components/common/Loader";

@@ -19,7 +19,7 @@ const Navbar = ({ title }) => {
       <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 flex items-center justify-between py-2">
         {/* Left Section*/}
         <div className="flex items-center gap-4">
-          {/* Hamburger Menu */}
+          {/* Hamburger Menu (MOBILE ONLY) */}
           <button
             className="md:hidden text-gray-700"
             onClick={() => setIsSidebarOpen(true)}
@@ -33,20 +33,20 @@ const Navbar = ({ title }) => {
             <p className="font-bold text-inherit mr-2">{title}</p>
           </div>
 
-          {/* Delivery Address (hidden on mobile) */}
+          {/* Delivery Address (EXCLUDING MOBILE) */}
           <div className="hidden md:flex items-center justify-center gap-4">
             <NavDeliveryAddress />
           </div>
         </div>
 
-        {/* Middle Section: Search Bar and Delivery Address (hidden on mobile) */}
+        {/* Middle Section: Search Bar and Delivery Address (EXCLUDING MOBILE) */}
         <div className="flex-grow mx-4 hidden md:flex items-center justify-center">
           <NavSearchBar />
         </div>
 
         {/* Right Section: Login Button & Cart Icon */}
         <div className="flex items-center gap-4">
-          <button className="bg-secondary hover:bg-color-purple-p50 text-primary hover:text-color-secondary-s95 px-4 py-2 rounded-md flex items-center gap-2">
+          <button className="bg-color-primary-p90 hover:bg-color-primary-p80 text-neutral-600 hover:text-neutral-900 px-4 py-2 rounded-md flex items-center gap-2">
             <FiUser className="h-5 w-5" />
             Login
           </button>
@@ -59,8 +59,8 @@ const Navbar = ({ title }) => {
         </div>
       </div>
 
-      {/* Second Navbar (hidden on mobile) */}
-      <div className="flex-grow hidden md:flex items-center justify-start bg-neutral-300 w-full py-2 px-2 ">
+      {/* Second Navbar (EXCLUDING MOBILE) */}
+      <div className="flex-grow hidden md:flex items-center justify-start bg-color-primary-p100 w-full py-2 px-2 ">
           {/* Hamburger Menu */}
           <button
             className="text-gray-700"
@@ -70,12 +70,12 @@ const Navbar = ({ title }) => {
           </button>
       </div>
 
-      {/* Mobile Search Bar and Delivery Address */}
+      {/* Search Bar and Delivery Address (MOBILE ONLY)*/}
       <div className="flex flex-col items-center justify-center w-full md:hidden">
-        <div className="bg-neutral-300 w-full py-2 px-4">
+        <div className="bg-color-primary-p90 w-full py-2 px-4">
           <NavSearchBar />
         </div>
-        <div className="bg-neutral-200 w-full py-1 px-4">
+        <div className="bg-color-primary-p100 w-full py-1 px-4">
           <NavDeliveryAddress inline />
         </div>
       </div>

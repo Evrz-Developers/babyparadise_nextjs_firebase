@@ -1,4 +1,4 @@
-import PRODUCT_API from "@/utilities/shop/product.api";
+import PRODUCT_API from "@/utilities/api/products";
 import React, { useEffect, useState } from "react";
 import ProductDetailModal from "@/components/shop/product/ProductDetailModal";
 import Loader from "@/components/common/Loader";

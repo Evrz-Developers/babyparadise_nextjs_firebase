@@ -60,7 +60,7 @@ const Navbar = ({ title }) => {
       </div>
 
       {/* Second Navbar (EXCLUDING MOBILE) */}
-      <div className="flex-grow hidden md:flex items-center justify-start bg-color-primary-p100 w-full py-2 px-2 ">
+      <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 flex-grow hidden md:flex items-center justify-start bg-color-primary-p100 w-full py-2">
           {/* Hamburger Menu */}
           <button
             className="text-gray-700"

@@ -16,7 +16,6 @@ const ProductCard = ({ product }) => {
       <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
         <p className="text-tiny uppercase font-bold">{product?.price}</p>
         <h4 className="font-bold text-large">{product?.name}</h4>
-        <small className="text-default-500">{product?.productCode}</small>
       </CardHeader>
     </Card>
   );

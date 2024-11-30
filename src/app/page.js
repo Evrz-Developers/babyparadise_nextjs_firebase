@@ -1,36 +1,28 @@
+"use client"; // Move fetch to client-side
+
+import React, { useEffect, useState } from "react";
 import Home from "@/components/shop/Home";
 
-async function fetchProducts(queryParams = "") {
-  try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/products${queryParams}`, {
-      cache: "no-store", 
-    });
+export default function Page() {
+  const [products, setProducts] = useState([]);
 
-    if (!res.ok) throw new Error("Failed to fetch products");
-
-    const data = await res.json();
-    console.log(data);
-    return data?.data || [];
-  } catch (error) {
-    console.error("Error fetching products:", error);
-    return [];
-  }
-}
-// TODO: Remove this function after testing
-async function fetchDemoProducts() {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/data/products.json`);
-  const data = await response.json();
-  return data;
-}
-
-export default async function Page() {
-  const queryParams = ""; // Optionally add category query like `?category=toy`
-  // const initialProducts = await fetchProducts(queryParams); // Fetch all products on the server side
-  const initialProducts = await fetchDemoProducts(); // Fetch all products on the server side
+  useEffect(() => {
+    async function fetchProducts() {
+      try {
+        const response = await fetch(`data/products.json`); // Fetch from public folder
+        if (!response.ok) throw new Error("Failed to fetch products");
+        const data = await response.json();
+        setProducts(data); // Set products after fetching
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    }
+    fetchProducts();
+  }, []);
 
   return (
     <div>
-      <Home initialProducts={initialProducts} />
+      <Home initialProducts={products} />
     </div>
   );
 }

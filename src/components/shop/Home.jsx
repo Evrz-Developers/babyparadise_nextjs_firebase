@@ -18,7 +18,7 @@ const Home = ({ initialProducts = [], category = "" }) => {
   }, [initialProducts, setProducts]);
 
   return (
-    <div>
+    <div className="home-container">
       <Gridlayout>
         {loading ? (
           Array.from({ length: 6 }).map((_, index) => (

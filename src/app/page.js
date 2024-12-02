@@ -21,8 +21,6 @@ export default function Page() {
   }, []);
 
   return (
-    <div>
-      <Home initialProducts={products} />
-    </div>
+    <Home initialProducts={products} />
   );
 }

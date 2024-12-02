@@ -15,16 +15,10 @@ export default async function ProductDetailPage({ params }) {
     // const product = await fetchProductData(id); // Fetch product data (commented out)
 
     return (
-        <div className="flex flex-col items-center justify-center pt-32">
             <DummyCard
                 gradientColor="#2634"
                 title={id}
                 description="product id 👆!"
             />
-            {/* Display product details */}
-            {/* <h1>{product.name}</h1>
-            <p>{product.description}</p> */}
-            {/* ... other product details */}
-        </div>
     );
 }

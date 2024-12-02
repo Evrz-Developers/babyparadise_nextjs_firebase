@@ -1,6 +1,5 @@
 import React from "react";
 import Footer from "@/components/layouts/Footer";
-import MainNavbar from "@/components/layouts/MainNavbar";
 import ScrollToTop from "@/components/layouts/ScrollToTop";
 import Navbar from "@/components/layouts/Navbar/Navbar";
 
@@ -9,11 +8,12 @@ const DefaultLayout = ({ children, footer = true }) => {
     <div className="flex flex-col min-h-screen bg-background">
       {/* Navbar */}
       <Navbar title="SHOP" />
-      {/* <MainNavbar title="SHOP" /> */}
-      {/* Main Content Wrapper */}
+      {/* Default Layout Wrapper */}
       <main className="flex-grow">
         <div className="max-w-screen-2xl mx-auto px-4 sm:px-6">
-          {children}
+          <div className="flex flex-col items-center justify-center py-4">
+            {children}
+          </div>
         </div>
       </main>
       {/* Scroll to Top */}

@@ -8,6 +8,7 @@ const Register = () => {
     const { handleSubmit, register, watch, setError, formState: { errors } } = useForm()
 
     const onSubmit = async (data) => {
+        // TODO: Remove log
         console.log(data);
     }
 

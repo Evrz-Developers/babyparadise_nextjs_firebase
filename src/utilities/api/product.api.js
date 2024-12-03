@@ -7,8 +7,9 @@ const getProducts = async (category = null) => {
       const data = await response.json();
       return { data: data.data };
     } catch (error) {
-      console.error("Error fetching products:", error);
-      throw error;
+        // TODO: Remove log
+        console.error("Error fetching products:", error);
+        throw error;
     }
   };
   

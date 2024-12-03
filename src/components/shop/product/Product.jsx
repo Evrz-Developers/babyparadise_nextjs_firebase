@@ -19,11 +19,11 @@ const Product = () => {
       try {
         const response = await PRODUCT_API.getAllProducts();
         setProducts(response?.data);
-        // console.log('response?.data', response?.data)
       } catch (error) {
+        // TODO: Remove log
         console.error("Error fetching products:", error);
       } finally {
-        setLoading(false); // Set loading to false once data is fetched (success or error)
+        setLoading(false); 
       }
     };
     fetchData();

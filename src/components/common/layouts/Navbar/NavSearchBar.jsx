@@ -7,6 +7,7 @@ const NavSearchBar = () => {
   const [searchQuery, setSearchQuery] = useState("");
 
   const handleSearch = () => {
+    // TODO: Remove log
     console.log(`Searching for: ${searchQuery}`);
   };
 

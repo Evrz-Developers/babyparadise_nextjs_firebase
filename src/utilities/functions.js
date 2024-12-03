@@ -1,15 +1,7 @@
 import { ref, listAll, getDownloadURL } from "firebase/storage";
 import { storage } from "@/app/firebase/firebaseConfig";
-import Link from "next/link";
-import { ShopLogo } from "@/components/common/ShopLogo.jsx";
-import { SearchIcon } from "@/components/common/SearchIcon.jsx";
-import Image from "next/image.js";
-import useLoggedUserStore from '@/store/loggedUserStore';
-import { useRouter } from 'next/navigation';
 
 // PS:AUTH FUNCTIONS: @/lib/firebase/auth.js
-
-// 
 
 const getImageUrls = async (storagePath) => {
   const storageRef = ref(storage, storagePath);

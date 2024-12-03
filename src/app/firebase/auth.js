@@ -16,9 +16,9 @@ const loginWithEmailPassword = async (email, password) => {
 const logout = async () => {
   try {
     await signOut(auth);
-    // console.log("Successfully logged out");
     toast.warning("Logged out");
   } catch (error) {
+    // TODO: Remove log
     console.error("Error logging out:", error);
     toast.error("Error logging out");
     // return { error: error.message };

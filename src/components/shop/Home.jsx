@@ -16,11 +16,11 @@ const Home = ({ initialProducts = [], category = "" }) => {
   const [imageUrls, setImageUrls] = useState([]);
 
   useEffect(() => {
-    console.log("Setting initial products...");
-    setProducts(initialProducts);
+    // TODO: Remove log
+    console.log("Setting initial data...");
     setLoading(false);
-    console.log("Initial products set:", initialProducts);
-  }, [initialProducts, setProducts]);
+    // TODO: Remove log
+    console.log("Initial data set:", initialData);
 
   useEffect(() => {
     const fetchImages = async () => {
@@ -46,6 +46,7 @@ const Home = ({ initialProducts = [], category = "" }) => {
             src={url}
             alt={`Carousel Image ${index + 1}`}
             className="h-64 md:h-96"
+            // TODO: Remove log
             onClick={() => console.log(`Clicked on image ${index + 1}`)} // Example onClick function
           />
         ))} />

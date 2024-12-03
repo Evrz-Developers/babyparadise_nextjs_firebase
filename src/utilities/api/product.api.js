@@ -1,10 +1,10 @@
-const API_HOST = process.env.NEXT_PUBLIC_API_URL_PROD;
+const DEFAULT_HOST = process.env.NEXT_PUBLIC_API_URL_PROD;
 
-const getProducts = async (category = null, req = null) => {
+const getProducts = async (category = null, host = DEFAULT_HOST) => {
     try {
-        const baseUrl = req && req.headers ? `${req.headers.origin}` : API_HOST; 
-        const url = new URL(`${baseUrl}/api/products`);
-        if (category) url.searchParams.append("category", category); // Optionally filter by category
+        const url = new URL(`${host}/api/products`);
+        // Optionally filter by category
+        if (category) url.searchParams.append("category", category); 
         const response = await fetch(url);
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);

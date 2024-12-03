@@ -3,7 +3,7 @@ import Link from 'next/link'
 import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import ContentWrapper from '@/components/common/layouts/ContentWrapper'
-import AUTH from '@/lib/firebase/auth';
+import AUTH from '@/app/firebase/auth';
 import useLoggedUserStore from '@/store/loggedUserStore';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify'

@@ -1,4 +1,4 @@
-import { auth } from "@/lib/firebase/config";
+import { auth } from "@/app/firebase/firebaseConfig";
 import { signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { toast } from "react-toastify";
 

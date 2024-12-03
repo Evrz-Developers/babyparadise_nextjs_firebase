@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import AUTH from '@/lib/firebase/auth';
+import AUTH from '@/app/firebase/auth';
 
 const useLoggedUserStore = create((set) => {
     // Retrieve user data from local storage

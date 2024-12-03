@@ -1,5 +1,5 @@
 import { ref, listAll, getDownloadURL } from "firebase/storage";
-import { storage } from "@/lib/firebase/config";
+import { storage } from "@/app/firebase/firebaseConfig";
 import Link from "next/link";
 import { ShopLogo } from "@/components/common/ShopLogo.jsx";
 import { SearchIcon } from "@/components/common/SearchIcon.jsx";

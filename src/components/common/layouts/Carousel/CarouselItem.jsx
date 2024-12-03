@@ -10,9 +10,9 @@ const CarouselItem = ({ src, alt, className, onClick }) => {
       <Image 
         src={src} 
         alt={alt} 
-        layout="fill" // Use fill layout to cover the parent div
-        objectFit="cover" // Cover the entire area
-        className="rounded-md" // Add any additional classes if needed
+        fill 
+        style={{ objectFit: 'cover' }} 
+        className="rounded-md" 
       />
     </div>
   );

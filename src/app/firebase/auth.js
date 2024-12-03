@@ -1,4 +1,4 @@
-import { auth } from "@/lib/firebase/config";
+import { auth } from "@/app/firebase/firebaseConfig";
 import { signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { toast } from "react-toastify";
 
@@ -16,9 +16,9 @@ const loginWithEmailPassword = async (email, password) => {
 const logout = async () => {
   try {
     await signOut(auth);
-    // console.log("Successfully logged out");
     toast.warning("Logged out");
   } catch (error) {
+    // TODO: Remove log
     console.error("Error logging out:", error);
     toast.error("Error logging out");
     // return { error: error.message };

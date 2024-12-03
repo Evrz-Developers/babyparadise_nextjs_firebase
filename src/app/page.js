@@ -1,26 +1,15 @@
-"use client"; // Move fetch to client-side
-
-import React, { useEffect, useState } from "react";
 import Home from "@/components/shop/Home";
+import PRODUCT_API from "@/utilities/api/product.api";
+import FUNCTIONS from "@/utilities/functions";
+export default async function Page({ req }) {
 
-export default function Page() {
-  const [products, setProducts] = useState([]);
+// PREFETCH DATA FOR HOME PAGE
+  const { data: PRODUCTS } = await PRODUCT_API.getProducts(null, req);
+  const CAROUSEL = await FUNCTIONS.CAROUSEL.GET_IMAGES();
 
-  useEffect(() => {
-    async function fetchProducts() {
-      try {
-        const response = await fetch(`data/products.json`); // Fetch from public folder
-        if (!response.ok) throw new Error("Failed to fetch products");
-        const data = await response.json();
-        setProducts(data); // Set products after fetching
-      } catch (error) {
-        console.error("Error fetching products:", error);
-      }
-    }
-    fetchProducts();
-  }, []);
+  const INITIAL_DATA = { PRODUCTS, CAROUSEL };
 
   return (
-    <Home initialProducts={products} />
+    <Home initialData={INITIAL_DATA} />
   );
 }

@@ -1,7 +1,5 @@
 const SET_VALUE_CONFIG = {
   shouldValidate: true,
-  shouldDirty: true,
-  shouldTouch: true,
 };
 
 const HTTP_METHODS = {
@@ -19,10 +17,32 @@ const PLACEHOLDER = {
   MONEY: "₹__",
 };
 
-export { HTTP_METHODS };
+const MENU_ITEMS = [
+    {
+        name: "Login",
+        href: "/login",
+    },
+    {
+        name: "Register",
+        href: "/register",
+    },
+    {
+        name: "Profile",
+        href: "/profile",
+    },
+    {
+        name: "Dashboard",
+        href: "/dashboard",
+    },
+    {
+        name: "Logout",
+        // onClick: handleLogout,
+    },
+];
 
 const CONSTANTS = {
   PLACEHOLDER,
 };
 
+export { HTTP_METHODS };
 export default CONSTANTS;

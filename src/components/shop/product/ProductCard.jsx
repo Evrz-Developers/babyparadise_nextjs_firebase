@@ -2,6 +2,7 @@ import {Card, CardHeader, CardBody, Image} from "@nextui-org/react";
 
 const ProductCard = ({ product }) => {
   return (
+    // TODO: Remove log
     <Card className="pb-2" isPressable onPress={() => console.log("item pressed")}>
       {/* <CardBody className="overflow-visible py-2"> */}
         <Image

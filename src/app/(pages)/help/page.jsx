@@ -1,4 +1,4 @@
-import Help from '@/components/user/Help'
+import Help from '@/components/shop/user/Help'
 
 const HelpPage = () => {
     return (

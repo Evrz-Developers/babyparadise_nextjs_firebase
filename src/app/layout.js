@@ -1,7 +1,7 @@
 import "./globals.css";
 import localFont from "next/font/local";
 import { NextUIProvider } from "@nextui-org/react";
-import DefaultLayout from "@/components/layouts/DefaultLayout";
+import DefaultLayout from "@/components/common/layouts/DefaultLayout";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 

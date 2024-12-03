@@ -1,7 +1,7 @@
 import React from "react";
-import Footer from "@/components/layouts/Footer";
-import ScrollToTop from "@/components/layouts/ScrollToTop";
-import Navbar from "@/components/layouts/Navbar/Navbar";
+import Footer from "@/components/common/layouts/Footer";
+import ScrollToTop from "@/components/common/ScrollToTop";
+import Navbar from "@/components/common/layouts/Navbar/Navbar";
 
 const DefaultLayout = ({ children, footer = true }) => {
   return (
@@ -14,7 +14,7 @@ const DefaultLayout = ({ children, footer = true }) => {
           <div className="flex flex-col items-center justify-center py-4">
             {children}
           </div>
-        </div>
+        </div>  
       </main>
       {/* Scroll to Top */}
       <ScrollToTop />

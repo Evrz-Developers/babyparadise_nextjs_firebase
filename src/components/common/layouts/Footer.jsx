@@ -1,4 +1,4 @@
-import ContentWrapper from "@/components/common/ContentWrapper";
+import ContentWrapper from "@/components/common/layouts/ContentWrapper";
 
 const Footer = () => {
   return (

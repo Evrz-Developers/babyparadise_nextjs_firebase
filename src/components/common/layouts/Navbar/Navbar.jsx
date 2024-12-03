@@ -7,9 +7,9 @@ import {
   FiX,
 } from "react-icons/fi"; // React Icons
 import { ShopLogo } from "@/components/common/ShopLogo.jsx";
-import NavSearchBar from "@/components/layouts/Navbar/NavSearchBar";
-import NavDeliveryAddress from "@/components/layouts/Navbar/NavDeliveryAddress";
-import Sidebar from "@/components/layouts/Sidebar/Sidebar";
+import NavSearchBar from "@/components/common/layouts/Navbar/NavSearchBar";
+import NavDeliveryAddress from "@/components/common/layouts/Navbar/NavDeliveryAddress";
+import Sidebar from "@/components/common/layouts/Sidebar/Sidebar";
 
 const Navbar = ({ title }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);

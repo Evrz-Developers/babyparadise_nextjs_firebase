@@ -3,14 +3,13 @@
 import React, { useEffect, useState } from "react";
 import Gridlayout from "@/components/common/layouts/Gridlayout";
 import ProductCard from "@/components/shop/product/ProductCard";
-import SkeletonCard from "@/components/shop/product/SkeletonProductCard";
 import useProductStore from "@/store/useProductStore";
 import CarouselLayout from "@/components/common/layouts/Carousel/CarouselLayout"; 
 import CarouselItem from "@/components/common/layouts/Carousel/CarouselItem";
 import FUNCTIONS from "@/utilities/functions";
-import Image from "next/image";
+import Loader from "@/components/common/Loader";
 
-const Home = ({ initialProducts = [], category = "" }) => {
+const Home = ({ initialData, category = "" }) => {
   const { products, setProducts } = useProductStore();
   const [loading, setLoading] = useState(false);
   const [imageUrls, setImageUrls] = useState([]);
@@ -18,23 +17,13 @@ const Home = ({ initialProducts = [], category = "" }) => {
   useEffect(() => {
     // TODO: Remove log
     console.log("Setting initial data...");
+    setProducts(initialData.PRODUCTS);
+    setImageUrls(initialData.CAROUSEL);
     setLoading(false);
     // TODO: Remove log
     console.log("Initial data set:", initialData);
+  }, [initialData, setProducts]);
 
-  useEffect(() => {
-    const fetchImages = async () => {
-      try {
-        const imageUrls = await FUNCTIONS.CAROUSEL.GET_IMAGES();
-        console.log("Image URLs:", imageUrls);
-        setImageUrls(imageUrls);
-      } catch (error) {
-        console.error("Error fetching images:", error);
-      }
-    };
-
-    fetchImages();
-  }, []);
 
   return (
     <div className="home-container w-full">
@@ -52,23 +41,19 @@ const Home = ({ initialProducts = [], category = "" }) => {
         ))} />
       )}
       {/* Offers */}
-      <div className="mb-4">
+      {/* <div className="mb-4">
         <h2 className="text-lg md:text-xl font-bold">Offers here</h2>
-      </div>
+      </div> */}
       {/* Products */}
       <Gridlayout>
         {loading ? (
-          Array.from({ length: 6 }).map((_, index) => (
-            <SkeletonCard key={index} />
-          ))
+          <Loader />
         ) : products && products.length > 0 ? (
           products.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))
         ) : (
-          Array.from({ length: 6 }).map((_, index) => (
-            <SkeletonCard key={index} />
-          ))
+          <Loader />
         )}
       </Gridlayout>
     </div>

@@ -15,13 +15,9 @@ const Home = ({ initialData, category = "" }) => {
   const [imageURLs, setImageUrls] = useState([]);
 
   useEffect(() => {
-    // TODO: Remove log
-    console.log("Setting initial data...");
     setProducts(initialData.PRODUCTS);
     setImageUrls(initialData.CAROUSEL);
     setLoading(false);
-    // TODO: Remove log
-    console.log("Initial data set:", initialData);
   }, [initialData, setProducts]);
 
   return (

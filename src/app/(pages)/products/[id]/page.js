@@ -1,3 +1,4 @@
+import PageWrapper from "@/components/common/layouts/PageWrapper";
 import ProductDetails from "@/components/shop/product/ProductDetails";
 
 export default function ProductDetailPage({ searchParams }) {
@@ -9,7 +10,13 @@ export default function ProductDetailPage({ searchParams }) {
   return (
     <>
       {product ? (
-        <ProductDetails product={product} />
+        <PageWrapper
+          breadcrumbItems={[
+            { label: product?.name, href: `#` },
+          ]}
+        >
+          <ProductDetails product={product} />
+        </PageWrapper>
       ) : (
         <div>
           <h2 className="title flex justify-center text-heading-4 pb-2">

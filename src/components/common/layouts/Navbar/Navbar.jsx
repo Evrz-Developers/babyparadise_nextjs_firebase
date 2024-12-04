@@ -42,7 +42,7 @@ const Navbar = ({ title }) => {
 
           {/* Delivery Address (EXCLUDING MOBILE) */}
           <div className="hidden md:flex items-center justify-center gap-4">
-            <NavDeliveryAddress />
+            <NavbarDeliveryAddress />
           </div>
         </div>
 
@@ -52,17 +52,9 @@ const Navbar = ({ title }) => {
         </div>
 
         {/* Right Section: Login Button & Cart Icon */}
-        <div className="flex items-center gap-4">
-          <button className="bg-color-primary-p90 hover:bg-color-primary-p80 text-neutral-600 hover:text-neutral-900 px-4 py-2 rounded-md flex items-center gap-2">
-            <FiUser className="h-5 w-5" />
-            Login
-          </button>
-          <button className="relative">
-            <FiShoppingCart className="h-6 w-6 text-gray-700" />
-            <span className="absolute -top-1 -right-2 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
-              3
-            </span>
-          </button>
+        <div className="flex items-center gap-6">
+          <NavbarCart />
+          <NavbarLogin user={user} isLoggedIn={isLoggedIn} handleLogout={handleLogout} />
         </div>
       </div>
 
@@ -83,7 +75,7 @@ const Navbar = ({ title }) => {
           <NavSearchBar />
         </div>
         <div className="bg-color-primary-p100 w-full py-1 px-4">
-          <NavDeliveryAddress inline />
+          <NavbarDeliveryAddress inline />
         </div>
       </div>
 

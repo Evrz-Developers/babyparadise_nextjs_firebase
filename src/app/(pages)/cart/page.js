@@ -1,13 +1,9 @@
 import React from 'react'
-import DummyCard from '@/components/common/DummyCard';
+import Cart from '@/components/shop/user/Cart';
 
 const cartPage = () => {
     return (
-            <DummyCard
-                gradientColor="#2634"
-                title="🚧"
-                description="We'll be back soon."
-            />
+        <Cart />
     )
 }
 

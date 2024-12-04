@@ -1,6 +1,7 @@
 import { CustomimageLoader } from "@/components/common/CustomImageLoader";
 import ContentWrapper from "@/components/common/layouts/ContentWrapper";
 import { Button } from "@nextui-org/button";
+import { useRouter } from "next/navigation";
 import {
   Card,
   CardHeader,
@@ -10,6 +11,15 @@ import {
 } from "@nextui-org/react";
 
 const ProductCard = ({ product, index }) => {
+  const router = useRouter();
+  // PUSH TO DETAILS PAGE, WITH PRODUCT DATA IN QUERY PARAMS
+  const handleProductClick = () => {
+    const productData = JSON.stringify(product);
+    router.push(
+      `/products/${product?.id}?product=${encodeURIComponent(productData)}`
+    );
+  };
+
   return (
     // TODO: Remove log
     <ContentWrapper className="flex flex-col">
@@ -18,7 +28,7 @@ const ProductCard = ({ product, index }) => {
         key={index}
         isPressable
         className="rounded-none rounded-t-lg"
-        onPress={() => console.log("item pressed")}
+        onPress={handleProductClick}
       >
         <CardBody className="overflow-visible p-0">
           <Image

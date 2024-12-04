@@ -36,10 +36,9 @@ const Navbar = ({ title }) => {
           </button>
 
           {/* Logo & Title */}
-          <div className="flex items-center gap-1">
-            <ShopLogo />
-            <p className="font-bold text-inherit mr-2">{title}</p>
-          </div>
+          <Link href="/" className="flex items-center gap-1">
+            <NavbarLogo title={title} />
+          </Link>
 
           {/* Delivery Address (EXCLUDING MOBILE) */}
           <div className="hidden md:flex items-center justify-center gap-4">

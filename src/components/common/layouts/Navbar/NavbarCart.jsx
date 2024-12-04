@@ -1,7 +1,7 @@
+import { ShoppingCartIcon } from "lucide-react";
 import React from "react";
-import { ShoppingCartIcon } from "@heroicons/react/outline";
 
-const NavCartIcon = () => {
+const NavbarCart = () => {
   return (
     <button className="relative">
       <ShoppingCartIcon className="h-6 w-6 text-gray-700" />
@@ -12,4 +12,4 @@ const NavCartIcon = () => {
   );
 };
 
-export default NavCartIcon;
+export default NavbarCart;

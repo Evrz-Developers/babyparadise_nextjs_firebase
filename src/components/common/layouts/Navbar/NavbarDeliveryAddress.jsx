@@ -1,6 +1,6 @@
 import React from "react";
 import { FiMapPin } from "react-icons/fi";
-const NavDeliveryAddress = ({ inline = false, address = "Thrissur, IN" }) => {
+const NavbarDeliveryAddress = ({ inline = false, address = "Thrissur, IN" }) => {
   return (
     <div
       className={`flex ${
@@ -21,4 +21,4 @@ const NavDeliveryAddress = ({ inline = false, address = "Thrissur, IN" }) => {
   );
 };
 
-export default NavDeliveryAddress;
+export default NavbarDeliveryAddress;

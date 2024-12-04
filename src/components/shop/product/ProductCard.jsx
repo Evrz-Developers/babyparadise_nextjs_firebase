@@ -1,24 +1,53 @@
-import {Card, CardHeader, CardBody, Image} from "@nextui-org/react";
+import { CustomimageLoader } from "@/components/common/CustomImageLoader";
+import ContentWrapper from "@/components/common/layouts/ContentWrapper";
+import { Button } from "@nextui-org/button";
+import {
+  Card,
+  CardHeader,
+  CardBody,
+  Image,
+  CardFooter,
+} from "@nextui-org/react";
 
-const ProductCard = ({ product }) => {
+const ProductCard = ({ product, index }) => {
   return (
     // TODO: Remove log
-    <Card className="pb-2" isPressable onPress={() => console.log("item pressed")}>
-      {/* <CardBody className="overflow-visible py-2"> */}
-        <Image
-          alt="Card background"
-          className="object-center rounded-xl mix-blend-multiply bg-white"
-          src={product?.imageURL}
-          layout="fixed" // Ensures the image maintains its aspect ratio
-          width={200} // Fixed width
-          height={200} // Fixed height
-        />
-      {/* </CardBody> */}
-      <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
-        <p className="text-tiny uppercase font-bold">{product?.price}</p>
-        <h4 className="font-bold text-large">{product?.name}</h4>
-      </CardHeader>
-    </Card>
+    <ContentWrapper className="flex flex-col">
+      <Card
+        shadow="sm"
+        key={index}
+        isPressable
+        className="rounded-none rounded-t-lg"
+        onPress={() => console.log("item pressed")}
+      >
+        <CardBody className="overflow-visible p-0">
+          <Image
+            shadow="sm"
+            // radius="lg"
+            width="100"
+            height={200}
+            alt={product?.name}
+            className="w-full object-cover h-[140px] rounded-none rounded-t-lg"
+            src={product?.imageURL}
+            layout="fixed"
+          />
+        </CardBody>
+        <CardFooter className="text-small justify-between">
+          <p className="text-tiny uppercase font-bold">{product?.price}</p>
+          <h4 className="font-bold text-large">{product?.name}</h4>
+        </CardFooter>
+      </Card>
+      <Button
+        size="sm"
+        className=" flex bg-warning rounded-none rounded-b-lg"
+        variant="solid"
+        color="warning"
+        // radius="md"
+        onClick={() => console.log("button pressed")}
+      >
+        Add to Cart
+      </Button>
+    </ContentWrapper>
   );
 };
 

@@ -18,10 +18,7 @@ const logout = async () => {
     await signOut(auth);
     toast.warning("Logged out");
   } catch (error) {
-    // TODO: Remove log
-    console.error("Error logging out:", error);
     toast.error("Error logging out");
-    // return { error: error.message };
   }
 };
 

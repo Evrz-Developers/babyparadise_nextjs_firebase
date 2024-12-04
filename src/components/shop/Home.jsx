@@ -29,12 +29,12 @@ const Home = ({ initialData, category = "" }) => {
     <div className="home-container w-full">
       {/* Carousel */}
       {imageUrls.length > 0 && (
-        <CarouselLayout className="mb-4 md:max-h-[60vh]k" items={imageUrls.map((url, index) => (
+        <CarouselLayout className="md:max-h-[60vh]f" items={imageUrls.map((url, index) => (
           <CarouselItem
             key={index}
             src={url}
             alt={`Carousel Image ${index + 1}`}
-            className="h-64 md:h-96"
+            className="h-64 md:h-80"
             // TODO: Remove log
             onClick={() => console.log(`Clicked on image ${index + 1}`)} // Example onClick function
           />

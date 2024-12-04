@@ -1,17 +1,18 @@
-// CarouselItem.js
+// CarouselItem
 import Image from 'next/image';
 
 const CarouselItem = ({ src, alt, className, onClick }) => {
   return (
     <div
-      className={`relative min-w-full ${className} flex items-center justify-center cursor-pointer`} // Set position to relative
+      className={`relative min-w-full ${className} flex items-center justify-center cursor-pointer`}
       onClick={onClick}
+      style={{ height: 'auto', aspectRatio: '851 / 315' }} // Maintain aspect ratio
     >
       <Image 
         src={src} 
         alt={alt} 
         fill 
-        style={{ objectFit: 'cover' }} 
+        style={{ objectFit: 'contain' }} 
         className="rounded-md" 
       />
     </div>

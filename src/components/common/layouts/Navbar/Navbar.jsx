@@ -1,17 +1,21 @@
 "use client";
 import React, { useState } from "react";
 import {
-  FiMenu,
-  FiShoppingCart,
-  FiUser,
-  FiX,
+  FiMenu
 } from "react-icons/fi"; // React Icons
-import { ShopLogo } from "@/components/common/ShopLogo.jsx";
-import NavSearchBar from "@/components/common/layouts/Navbar/NavSearchBar";
-import NavDeliveryAddress from "@/components/common/layouts/Navbar/NavDeliveryAddress";
 import Sidebar from "@/components/common/layouts/Sidebar/Sidebar";
+import NavbarLogo from "@/components/common/layouts/Navbar/NavbarLogo";
+import NavbarDeliveryAddress from "@/components/common/layouts/Navbar/NavbarDeliveryAddress";
+import NavSearchBar from "@/components/common/layouts/Navbar/NavSearchBar";
+import NavbarCart from "@/components/common/layouts/Navbar/NavbarCart";
+import NavbarLogin from "@/components/common/layouts/Navbar/NavbarLogin";
+import useLoggedUserStore from '@/store/loggedUserStore';
+import Link from "next/link";
+import { useRouter } from 'next/navigation';
 
 const Navbar = ({ title }) => {
+  const router = useRouter();
+  const { user, isLoggedIn, logout } = useLoggedUserStore();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   return (

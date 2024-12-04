@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import Gridlayout from "@/components/common/layouts/Gridlayout";
 import ProductCard from "@/components/shop/product/ProductCard";
 import useProductStore from "@/store/useProductStore";
-import CarouselLayout from "@/components/common/layouts/Carousel/CarouselLayout"; 
+import CarouselLayout from "@/components/common/layouts/Carousel/CarouselLayout";
 import CarouselItem from "@/components/common/layouts/Carousel/CarouselItem";
 import FUNCTIONS from "@/utilities/functions";
 import Loader from "@/components/common/Loader";
@@ -12,7 +12,7 @@ import Loader from "@/components/common/Loader";
 const Home = ({ initialData, category = "" }) => {
   const { products, setProducts } = useProductStore();
   const [loading, setLoading] = useState(false);
-  const [imageUrls, setImageUrls] = useState([]);
+  const [imageURLs, setImageUrls] = useState([]);
 
   useEffect(() => {
     // TODO: Remove log
@@ -24,21 +24,23 @@ const Home = ({ initialData, category = "" }) => {
     console.log("Initial data set:", initialData);
   }, [initialData, setProducts]);
 
-
   return (
     <div className="home-container w-full">
       {/* Carousel */}
-      {imageUrls.length > 0 && (
-        <CarouselLayout className="md:max-h-[60vh]f" items={imageUrls.map((url, index) => (
-          <CarouselItem
-            key={index}
-            src={url}
-            alt={`Carousel Image ${index + 1}`}
-            className="h-64 md:h-80"
-            // TODO: Remove log
-            onClick={() => console.log(`Clicked on image ${index + 1}`)} // Example onClick function
-          />
-        ))} />
+      {imageURLs.length > 0 && (
+        <CarouselLayout
+          className="md:max-h-[60vh]f"
+          items={imageURLs.map((url, index) => (
+            <CarouselItem
+              key={index}
+              src={url}
+              alt={`Carousel Image ${index + 1}`}
+              className="h-64 md:h-80"
+              // TODO: Remove log
+              onClick={() => console.log(`Clicked on image ${index + 1}`)} // Example onClick function
+            />
+          ))}
+        />
       )}
       {/* Offers */}
       {/* <div className="mb-4">
@@ -49,8 +51,8 @@ const Home = ({ initialData, category = "" }) => {
         {loading ? (
           <Loader />
         ) : products && products.length > 0 ? (
-          products.map((product) => (
-            <ProductCard key={product.id} product={product} />
+          products.map((product, index) => (
+            <ProductCard key={product?.id} product={product} index={index} />
           ))
         ) : (
           <Loader />

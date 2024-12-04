@@ -6,13 +6,13 @@ import { storage } from "@/app/firebase/firebaseConfig";
 const getImageUrls = async (storagePath) => {
   const storageRef = ref(storage, storagePath);
   const result = await listAll(storageRef);
-  
+
   // Fetch download URLs for each image
-  const imageUrls = await Promise.all(
+  const imageURLs = await Promise.all(
     result.items.map((item) => getDownloadURL(item))
   );
-  
-  return imageUrls;
+
+  return imageURLs;
 };
 
 const CATEGORY = {

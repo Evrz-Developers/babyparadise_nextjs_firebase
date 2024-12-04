@@ -17,7 +17,11 @@ const Navbar = ({ title }) => {
   const router = useRouter();
   const { user, isLoggedIn, logout } = useLoggedUserStore();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
+  
+  const handleLogout = async () => {
+    await logout(); 
+    router.push('/');
+  };
   return (
     <nav className="bg-background shadow-sm sticky top-0 z-50">
       <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 flex items-center justify-between py-2">

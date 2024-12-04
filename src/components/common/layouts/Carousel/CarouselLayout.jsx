@@ -3,7 +3,7 @@ import { FaArrowCircleLeft, FaArrowCircleRight } from 'react-icons/fa';
 
 // SlideItem Component
 const SlideItem = ({ item }) => (
-  <div className="min-w-full flex-shrink-0 snap-start">
+  <div className="min-w-full h-full flex-shrink-0 snap-start">
     {item}
   </div>
 );
@@ -11,14 +11,14 @@ const SlideItem = ({ item }) => (
 // CarouselIndicator Component
 const CarouselIndicator = ({ index, currentIndex, onClick }) => (
   <div
-    className={`w-2 h-2 md:w-3 md:h-3 rounded-sm cursor-pointer transition-colors duration-300 ${currentIndex === index ? 'bg-blue-500' : 'bg-gray-200'}`}
+    className={`w-1 h-1 md:w-3 md:h-3 rounded-sm cursor-pointer transition-colors duration-300 ${currentIndex === index ? 'bg-blue-500' : 'bg-gray-200'}`}
     onClick={onClick}
   />
 );
 
 // CarouselButton Component
 const CarouselButton = ({ direction, onClick }) => (
-  <button onClick={onClick} className={`absolute top-1/2 transform -translate-y-1/2 ${direction === 'left' ? 'left-0 md:ml-4' : 'right-0 md:mr-4'} rounded-full`}>
+  <button onClick={onClick} className={`absolute top-1/2 transform -translate-y-1/2 ${direction === 'left' ? 'left-4' : 'right-4'} rounded-full`}>
     {direction === 'left' ? (
       <FaArrowCircleLeft size={22} className="md:size-10 text-color-primary-p100 hover:text-color-primary-p80" />
     ) : (
@@ -96,7 +96,7 @@ const CarouselLayout = ({ items, className }) => {
       </div>
       <CarouselButton direction="left" onClick={handlePrev} />
       <CarouselButton direction="right" onClick={handleNext} />
-      <div className="absolute bottom-2 left-[10%] md:left-[5%] transform -translate-x-1/2 flex space-x-2">
+      <div className="absolute bottom-2 left-[13%] md:left-[5%] transform -translate-x-1/2 flex space-x-2">
         {items.map((_, index) => (
           <CarouselIndicator
             key={index}

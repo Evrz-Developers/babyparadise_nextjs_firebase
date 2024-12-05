@@ -12,7 +12,7 @@ export default async function Page() {
   const INITIAL_DATA = { PRODUCTS, CAROUSEL };
 
   return (
-    <div>
+    <div className="w-full">
       <Home initialData={INITIAL_DATA} />
       <InstallPrompt />
     </div>

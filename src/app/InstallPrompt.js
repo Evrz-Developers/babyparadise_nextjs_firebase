@@ -20,12 +20,20 @@ function PushNotificationManager() {
   const [isSupported, setIsSupported] = useState(false);
   const [subscription, setSubscription] = useState(null);
   const [message, setMessage] = useState("");
+  const [deferredPrompt, setDeferredPrompt] = useState(null);
 
   useEffect(() => {
     if ("serviceWorker" in navigator && "PushManager" in window) {
       setIsSupported(true);
       registerServiceWorker();
     }
+
+    // Listen for the beforeinstallprompt event
+    window.addEventListener("beforeinstallprompt", (e) => {
+      e.preventDefault();
+      setDeferredPrompt(e); // Store the event for later use
+      console.log("beforeinstallprompt event fired"); // Debugging line
+    });
   }, []);
 
   async function registerServiceWorker() {
@@ -44,21 +52,27 @@ function PushNotificationManager() {
   async function subscribeToPush() {
     try {
       const registration = await navigator.serviceWorker.ready;
-      const sub = await registration.pushManager.subscribe({
-        userVisibleOnly: true,
-        applicationServerKey: urlBase64ToUint8Array(
-          process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY
-        ),
-      });
-      setSubscription(sub);
+      const permission = await Notification.requestPermission(); // Request permission
 
-      await subscribeUser({
-        endpoint: sub.endpoint,
-        keys: {
-          p256dh: sub.getKey("p256dh"),
-          auth: sub.getKey("auth"),
-        },
-      });
+      if (permission === "granted") {
+        const sub = await registration.pushManager.subscribe({
+          userVisibleOnly: true,
+          applicationServerKey: urlBase64ToUint8Array(
+            process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY
+          ),
+        });
+        setSubscription(sub);
+
+        await subscribeUser({
+          endpoint: sub.endpoint,
+          keys: {
+            p256dh: sub.getKey("p256dh"),
+            auth: sub.getKey("auth"),
+          },
+        });
+      } else {
+        console.error("Push notifications permission denied");
+      }
     } catch (error) {
       console.error("Failed to subscribe to push notifications:", error);
     }
@@ -78,6 +92,20 @@ function PushNotificationManager() {
       setMessage("");
     }
   }
+
+  const handleInstallClick = () => {
+    if (deferredPrompt) {
+      deferredPrompt.prompt(); // Show the install prompt
+      deferredPrompt.userChoice.then((choiceResult) => {
+        if (choiceResult.outcome === "accepted") {
+          console.log("User accepted the A2HS prompt");
+        } else {
+          console.log("User dismissed the A2HS prompt");
+        }
+        setDeferredPrompt(null); // Clear the prompt
+      });
+    }
+  };
 
   if (!isSupported) {
     return <p>Push notifications are not supported in this browser.</p>;
@@ -104,52 +132,11 @@ function PushNotificationManager() {
           <button onClick={subscribeToPush}>Subscribe</button>
         </>
       )}
-    </div>
-  );
-}
-
-function InstallPrompt() {
-  const [isIOS, setIsIOS] = useState(false);
-  const [isStandalone, setIsStandalone] = useState(false);
-
-  useEffect(() => {
-    setIsIOS(/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream);
-
-    setIsStandalone(window.matchMedia("(display-mode: standalone)").matches);
-  }, []);
-
-  if (isStandalone) {
-    return null; // Don't show install button if already installed
-  }
-
-  return (
-    <div>
-      <h3>Install App</h3>
-      <button>Add to Home Screen</button>
-      {isIOS && (
-        <p>
-          To install this app on your iOS device, tap the share button
-          <span role="img" aria-label="share icon">
-            {" "}
-            ⎋{" "}
-          </span>
-          and then &quot;Add to Home Screen&quot;
-          <span role="img" aria-label="plus icon">
-            {" "}
-            ➕{" "}
-          </span>
-          .
-        </p>
+      {deferredPrompt && (
+        <button onClick={handleInstallClick}>Install App</button>
       )}
     </div>
   );
 }
 
-export default function Page() {
-  return (
-    <div>
-      <PushNotificationManager />
-      <InstallPrompt />
-    </div>
-  );
-}
+export default PushNotificationManager;

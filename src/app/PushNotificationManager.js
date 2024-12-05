@@ -15,11 +15,10 @@ function urlBase64ToUint8Array(base64String) {
   return outputArray;
 }
 
-export default function PushNotificationManager() {
+function usePushNotifications() {
   const [isSupported, setIsSupported] = useState(false);
   const [subscription, setSubscription] = useState(null);
   const [message, setMessage] = useState("");
-  const [deferredPrompt, setDeferredPrompt] = useState(null);
 
   useEffect(() => {
     if ("serviceWorker" in navigator && "PushManager" in window) {
@@ -29,12 +28,6 @@ export default function PushNotificationManager() {
       toast.error("Push notifications are not supported.");
     }
 
-    window.addEventListener("beforeinstallprompt", (e) => {
-      e.preventDefault();
-      setDeferredPrompt(e);
-    });
-
-    // Retrieve subscription from local storage
     const storedSubscription = localStorage.getItem("pushSubscription");
     if (storedSubscription) {
       setSubscription(JSON.parse(storedSubscription));
@@ -104,6 +97,36 @@ export default function PushNotificationManager() {
     }
   }
 
+  return {
+    isSupported,
+    subscription,
+    message,
+    setMessage,
+    subscribeToPush,
+    unsubscribeFromPush,
+    sendTestNotification,
+  };
+}
+
+function useInstallApp() {
+  const [deferredPrompt, setDeferredPrompt] = useState(null);
+
+  useEffect(() => {
+    const handleBeforeInstallPrompt = (e) => {
+      e.preventDefault();
+      setDeferredPrompt(e);
+    };
+
+    window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+
+    return () => {
+      window.removeEventListener(
+        "beforeinstallprompt",
+        handleBeforeInstallPrompt
+      );
+    };
+  }, []);
+
   const handleInstallClick = () => {
     if (deferredPrompt) {
       deferredPrompt.prompt();
@@ -117,6 +140,23 @@ export default function PushNotificationManager() {
       });
     }
   };
+
+  return {
+    deferredPrompt,
+    handleInstallClick,
+  };
+}
+
+export function PushNotificationManager() {
+  const {
+    isSupported,
+    subscription,
+    message,
+    setMessage,
+    subscribeToPush,
+    unsubscribeFromPush,
+    sendTestNotification,
+  } = usePushNotifications();
 
   if (!isSupported) {
     return <p>Push notifications are not supported in this browser.</p>;
@@ -134,7 +174,6 @@ export default function PushNotificationManager() {
             placeholder="Enter notification message"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
-            style={{ minWidth: '200px' }}
           />
           <button onClick={sendTestNotification}>Send Test</button>
         </>
@@ -144,6 +183,15 @@ export default function PushNotificationManager() {
           <button onClick={subscribeToPush}>Subscribe</button>
         </>
       )}
+    </div>
+  );
+}
+
+export function InstallAppManager() {
+  const { deferredPrompt, handleInstallClick } = useInstallApp();
+
+  return (
+    <div>
       {deferredPrompt && (
         <button onClick={handleInstallClick}>Install App</button>
       )}

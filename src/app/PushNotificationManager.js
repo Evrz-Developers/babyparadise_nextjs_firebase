@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { subscribeUser, unsubscribeUser, sendNotification } from "./actions";
+import { toast } from "react-toastify";
 
 function urlBase64ToUint8Array(base64String) {
   const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
@@ -25,7 +26,7 @@ export default function PushNotificationManager() {
       setIsSupported(true);
       registerServiceWorker();
     } else {
-      console.log("Push notifications are not supported.");
+      toast.error("Push notifications are not supported.");
     }
 
     window.addEventListener("beforeinstallprompt", (e) => {
@@ -51,11 +52,11 @@ export default function PushNotificationManager() {
         setSubscription(sub);
         localStorage.setItem("pushSubscription", JSON.stringify(sub));
       } else {
-        console.log("No existing subscription found, subscribing...");
+        toast.info("No existing subscription found, subscribing...");
         await subscribeToPush();
       }
     } catch (error) {
-      console.error("Service Worker registration failed:", error);
+      toast.error("Service Worker registration failed:", error);
     }
   }
 
@@ -80,10 +81,10 @@ export default function PushNotificationManager() {
           },
         });
       } else {
-        console.error("Push notifications permission denied");
+        toast.error("Push notifications permission denied");
       }
     } catch (error) {
-      console.error("Failed to subscribe to push notifications:", error);
+      toast.error("Failed to subscribe to push notifications:", error);
     }
   }
 
@@ -108,9 +109,9 @@ export default function PushNotificationManager() {
       deferredPrompt.prompt();
       deferredPrompt.userChoice.then((choiceResult) => {
         if (choiceResult.outcome === "accepted") {
-          console.log("User accepted the A2HS prompt");
+          toast.success("Installing app...");
         } else {
-          console.log("User dismissed the A2HS prompt");
+          toast.warning("Oops, something went wrong");
         }
         setDeferredPrompt(null);
       });
@@ -133,6 +134,7 @@ export default function PushNotificationManager() {
             placeholder="Enter notification message"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
+            style={{ minWidth: '200px' }}
           />
           <button onClick={sendTestNotification}>Send Test</button>
         </>

@@ -1,7 +1,6 @@
 import Home from "@/components/shop/Home";
 import PRODUCT_API from "@/utilities/api/product.api";
 import FUNCTIONS from "@/utilities/functions";
-import PushNotificationManager from "@/app/PushNotificationManager";
 import InstallPrompt from "@/app/InstallPrompt";
 
 export default async function Page() {
@@ -15,7 +14,6 @@ export default async function Page() {
   return (
     <div>
       <Home initialData={INITIAL_DATA} />
-      <PushNotificationManager />
       <InstallPrompt />
     </div>
   );

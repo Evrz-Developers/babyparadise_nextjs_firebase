@@ -6,17 +6,15 @@ import { subscribeUser, unsubscribeUser, sendNotification } from "./actions";
 function urlBase64ToUint8Array(base64String) {
   const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
   const base64 = (base64String + padding).replace(/-/g, "+").replace(/_/g, "/");
-
   const rawData = window.atob(base64);
   const outputArray = new Uint8Array(rawData.length);
-
   for (let i = 0; i < rawData.length; ++i) {
     outputArray[i] = rawData.charCodeAt(i);
   }
   return outputArray;
 }
 
-function PushNotificationManager() {
+export default function PushNotificationManager() {
   const [isSupported, setIsSupported] = useState(false);
   const [subscription, setSubscription] = useState(null);
   const [message, setMessage] = useState("");
@@ -26,14 +24,20 @@ function PushNotificationManager() {
     if ("serviceWorker" in navigator && "PushManager" in window) {
       setIsSupported(true);
       registerServiceWorker();
+    } else {
+      console.log("Push notifications are not supported.");
     }
 
-    // Listen for the beforeinstallprompt event
     window.addEventListener("beforeinstallprompt", (e) => {
       e.preventDefault();
-      setDeferredPrompt(e); // Store the event for later use
-      console.log("beforeinstallprompt event fired"); // Debugging line
+      setDeferredPrompt(e);
     });
+
+    // Retrieve subscription from local storage
+    const storedSubscription = localStorage.getItem("pushSubscription");
+    if (storedSubscription) {
+      setSubscription(JSON.parse(storedSubscription));
+    }
   }, []);
 
   async function registerServiceWorker() {
@@ -43,7 +47,13 @@ function PushNotificationManager() {
         updateViaCache: "none",
       });
       const sub = await registration.pushManager.getSubscription();
-      setSubscription(sub);
+      if (sub) {
+        setSubscription(sub);
+        localStorage.setItem("pushSubscription", JSON.stringify(sub));
+      } else {
+        console.log("No existing subscription found, subscribing...");
+        await subscribeToPush();
+      }
     } catch (error) {
       console.error("Service Worker registration failed:", error);
     }
@@ -52,8 +62,7 @@ function PushNotificationManager() {
   async function subscribeToPush() {
     try {
       const registration = await navigator.serviceWorker.ready;
-      const permission = await Notification.requestPermission(); // Request permission
-
+      const permission = await Notification.requestPermission();
       if (permission === "granted") {
         const sub = await registration.pushManager.subscribe({
           userVisibleOnly: true,
@@ -62,7 +71,7 @@ function PushNotificationManager() {
           ),
         });
         setSubscription(sub);
-
+        localStorage.setItem("pushSubscription", JSON.stringify(sub));
         await subscribeUser({
           endpoint: sub.endpoint,
           keys: {
@@ -82,6 +91,7 @@ function PushNotificationManager() {
     if (subscription) {
       await subscription.unsubscribe();
       setSubscription(null);
+      localStorage.removeItem("pushSubscription");
       await unsubscribeUser();
     }
   }
@@ -95,14 +105,14 @@ function PushNotificationManager() {
 
   const handleInstallClick = () => {
     if (deferredPrompt) {
-      deferredPrompt.prompt(); // Show the install prompt
+      deferredPrompt.prompt();
       deferredPrompt.userChoice.then((choiceResult) => {
         if (choiceResult.outcome === "accepted") {
           console.log("User accepted the A2HS prompt");
         } else {
           console.log("User dismissed the A2HS prompt");
         }
-        setDeferredPrompt(null); // Clear the prompt
+        setDeferredPrompt(null);
       });
     }
   };
@@ -138,5 +148,3 @@ function PushNotificationManager() {
     </div>
   );
 }
-
-export default PushNotificationManager;

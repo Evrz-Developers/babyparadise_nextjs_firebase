@@ -1,6 +1,7 @@
 self.addEventListener("install", () => {
   // No actions needed during installation
 });
+
 self.addEventListener("activate", () => {
   // No actions needed during activation
 });

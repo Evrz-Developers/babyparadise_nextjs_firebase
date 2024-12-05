@@ -1,7 +1,7 @@
 import Home from "@/components/shop/Home";
 import PRODUCT_API from "@/utilities/api/product.api";
 import FUNCTIONS from "@/utilities/functions";
-import InstallPrompt from "@/app/InstallPrompt";
+import PushNotificationManager from "@/app/PushNotificationManager";
 
 export default async function Page() {
   // PREFETCH DATA FOR HOME PAGE
@@ -14,7 +14,7 @@ export default async function Page() {
   return (
     <div className="w-full">
       <Home initialData={INITIAL_DATA} />
-      <InstallPrompt />
+      <PushNotificationManager />
     </div>
   );
 }

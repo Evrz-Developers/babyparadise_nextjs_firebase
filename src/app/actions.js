@@ -11,7 +11,7 @@ webpush.setVapidDetails(
 let subscription = null;
 
 function arrayBufferToBase64(buffer) {
-  let binary = '';
+  let binary = "";
   const bytes = new Uint8Array(buffer);
   const len = bytes.byteLength;
   for (let i = 0; i < len; i++) {
@@ -22,6 +22,9 @@ function arrayBufferToBase64(buffer) {
 
 export async function subscribeUser(sub) {
   // Convert ArrayBuffer keys to base64 strings
+  if (!sub) {
+    throw new Error("Subscription object is required");
+  }
   subscription = {
     endpoint: sub.endpoint,
     keys: {
@@ -29,8 +32,13 @@ export async function subscribeUser(sub) {
       auth: arrayBufferToBase64(sub.keys.auth), // Convert to base64 string
     },
   };
+  // Store subscription in local storage only if in the browser
   // In a production environment, you would want to store the subscription in a database
   // For example: await db.subscriptions.create({ data: sub })
+
+  if (typeof window !== "undefined") {
+    localStorage.setItem("pushSubscription", JSON.stringify(subscription));
+  }
   return { success: true };
 }
 
@@ -44,7 +52,17 @@ export async function unsubscribeUser() {
 export async function sendNotification(message) {
   console.log("Current subscription:", subscription);
   if (!subscription) {
-    throw new Error("No subscription available");
+    // Attempt to retrieve subscription from local storage only if in the browser
+    if (typeof window !== "undefined") {
+      const storedSubscription = localStorage.getItem("pushSubscription");
+      if (storedSubscription) {
+        subscription = JSON.parse(storedSubscription);
+      } else {
+        throw new Error("No subscription available");
+      }
+    } else {
+      throw new Error("No subscription available and not in a browser context");
+    }
   }
 
   try {

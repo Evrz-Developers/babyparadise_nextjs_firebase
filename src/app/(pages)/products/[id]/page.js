@@ -1,20 +1,14 @@
 import PageWrapper from "@/components/common/layouts/PageWrapper";
 import ProductDetails from "@/components/shop/product/ProductDetails";
 
-export default function ProductDetailPage({ searchParams }) {
-  // Parse product data from query
-  const product = searchParams.product
-    ? JSON.parse(searchParams.product)
-    : null;
+export default async function ProductDetailPage({ searchParams }) {
+  const params = await searchParams;
+  const product = params?.product ? JSON.parse(params.product) : null;
 
   return (
     <>
       {product ? (
-        <PageWrapper
-          breadcrumbItems={[
-            { label: product?.name, href: `#` },
-          ]}
-        >
+        <PageWrapper breadcrumbItems={[{ label: product?.name, href: `#` }]}>
           <ProductDetails product={product} />
         </PageWrapper>
       ) : (

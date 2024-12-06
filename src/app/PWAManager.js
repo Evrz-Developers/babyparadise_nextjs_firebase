@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { subscribeUser, unsubscribeUser, sendNotification } from "./actions";
 import { toast } from "react-toastify";
+import { useState, useEffect } from "react";
+import { MdOutlineInstallMobile } from "react-icons/md";
+import { subscribeUser, unsubscribeUser, sendNotification } from "./actions";
 
 function urlBase64ToUint8Array(base64String) {
   const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
@@ -193,7 +194,9 @@ export function InstallAppManager() {
   return (
     <div>
       {deferredPrompt && (
-        <button onClick={handleInstallClick}>Install App</button>
+        <button onClick={handleInstallClick}>
+          <MdOutlineInstallMobile />
+        </button>
       )}
     </div>
   );

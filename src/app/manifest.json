@@ -1,7 +1,7 @@
 {
-  "name": "SHOP PWA",
-  "short_name": "NextPWA",
-  "description": "A Progressive Web App built with Next.js",
+  "name": "BABY SHOP",
+  "short_name": "EDWIN's",
+  "description": "A new born babies' haven",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",

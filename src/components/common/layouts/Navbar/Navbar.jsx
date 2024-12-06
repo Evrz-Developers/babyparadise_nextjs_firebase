@@ -1,26 +1,26 @@
 "use client";
+
 import React, { useState } from "react";
-import {
-  FiMenu
-} from "react-icons/fi"; // React Icons
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { FiMenu } from "react-icons/fi"; 
+import { InstallAppManager } from "@/app/PWAManager";
+import useLoggedUserStore from "@/store/loggedUserStore";
 import Sidebar from "@/components/common/layouts/Sidebar/Sidebar";
 import NavbarLogo from "@/components/common/layouts/Navbar/NavbarLogo";
 import NavbarDeliveryAddress from "@/components/common/layouts/Navbar/NavbarDeliveryAddress";
 import NavSearchBar from "@/components/common/layouts/Navbar/NavSearchBar";
 import NavbarCart from "@/components/common/layouts/Navbar/NavbarCart";
 import NavbarLogin from "@/components/common/layouts/Navbar/NavbarLogin";
-import useLoggedUserStore from '@/store/loggedUserStore';
-import Link from "next/link";
-import { useRouter } from 'next/navigation';
 
 const Navbar = ({ title }) => {
   const router = useRouter();
   const { user, isLoggedIn, logout } = useLoggedUserStore();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  
+
   const handleLogout = async () => {
-    await logout(); 
-    router.push('/');
+    await logout();
+    router.push("/");
   };
   return (
     <nav className="bg-background shadow-sm sticky top-0 z-50">
@@ -53,20 +53,27 @@ const Navbar = ({ title }) => {
 
         {/* Right Section: Login Button & Cart Icon */}
         <div className="flex items-center gap-6">
+          <div className="md:hidden">
+            <InstallAppManager />
+          </div>
           <NavbarCart />
-          <NavbarLogin user={user} isLoggedIn={isLoggedIn} handleLogout={handleLogout} />
+          <NavbarLogin
+            user={user}
+            isLoggedIn={isLoggedIn}
+            handleLogout={handleLogout}
+          />
         </div>
       </div>
 
       {/* Second Navbar (EXCLUDING MOBILE) */}
       <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 flex-grow hidden md:flex items-center justify-start bg-color-primary-p100 w-full py-2">
-          {/* Hamburger Menu */}
-          <button
-            className="text-gray-700"
-            onClick={() => setIsSidebarOpen(true)}
-          >
-            <FiMenu className="h-6 w-6" />
-          </button>
+        {/* Hamburger Menu */}
+        <button
+          className="text-gray-700"
+          onClick={() => setIsSidebarOpen(true)}
+        >
+          <FiMenu className="h-6 w-6" />
+        </button>
       </div>
 
       {/* Search Bar and Delivery Address (MOBILE ONLY)*/}

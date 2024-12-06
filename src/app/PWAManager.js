@@ -192,12 +192,10 @@ export function InstallAppManager() {
   const { deferredPrompt, handleInstallClick } = useInstallApp();
 
   return (
-    <div>
-      {deferredPrompt && (
-        <button onClick={handleInstallClick}>
-          <MdOutlineInstallMobile />
-        </button>
-      )}
-    </div>
+    deferredPrompt && (
+      <button onClick={handleInstallClick}>
+        <MdOutlineInstallMobile size={20} />
+      </button>
+    )
   );
 }

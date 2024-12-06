@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { FiMenu } from "react-icons/fi"; 
+import { FiMenu } from "react-icons/fi";
 import { InstallAppManager } from "@/app/PWAManager";
 import useLoggedUserStore from "@/store/loggedUserStore";
 import Sidebar from "@/components/common/layouts/Sidebar/Sidebar";
@@ -52,10 +52,8 @@ const Navbar = ({ title }) => {
         </div>
 
         {/* Right Section: Login Button & Cart Icon */}
-        <div className="flex items-center gap-6">
-          <div className="md:hidden">
-            <InstallAppManager />
-          </div>
+        <div className="flex items-center gap-5 md:gap-7">
+          <InstallAppManager />
           <NavbarCart />
           <NavbarLogin
             user={user}

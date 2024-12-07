@@ -8,7 +8,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "generate-vapid-keys": "node generate-vapid-keys.mjs"
+    "generate-vapid-keys": "node generate-vapid-keys.mjs",
+    "add-data": "next dev src/scripts/addData.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",

@@ -36,6 +36,11 @@ service cloud.firestore {
       allow write: if getUserRole() == 'admin'; 
     }
 
+      match /cart/{cartId} {
+        // Allow anyone to create cart data
+        allow write: if true; 
+      }
+
     // Other collections can be defined here
     // match /{collection}/{document} {
     //   allow read, write: if false; // Default deny rule

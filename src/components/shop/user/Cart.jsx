@@ -5,6 +5,7 @@ import ListLayout from "@/components/common/layouts/ListLayout";
 import ProductListItem from "@/components/shop/product/ProductListItem";
 import EmptyCart from "@/components/shop/user/EmptyCart";
 import ContentWrapper from "@/components/common/layouts/ContentWrapper";
+import AddDataButton from "@/components/AddDataButton";
 
 const Cart = ({ products }) => {
   const items = products;
@@ -14,7 +15,7 @@ const Cart = ({ products }) => {
   const EMPTYCARTSTYLES = "my-10 justify-center items-center";
 
   const handleQuantityChange = (id, change) => {
-    // TODO: ADD LOGIC TO UPDATE QUANTITY 
+    // TODO: ADD LOGIC TO UPDATE QUANTITY
   };
 
   const handleSaveForLater = (id) => {
@@ -59,6 +60,7 @@ const Cart = ({ products }) => {
                 />
               ))}
             </ListLayout>
+            <AddDataButton />
           </section>
           {/* Right Side : Price Details */}
           <section className="flex flex-col w-full md:w-1/4 p-4 border bg-background sticky top-4 md:order-2 order-1 ">

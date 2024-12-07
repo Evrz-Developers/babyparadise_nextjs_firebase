@@ -1,6 +1,6 @@
 import { useEffect } from "react";
-import { dummyCartItems } from "@/utilities/demo/demoCart";
 import CART_API from "@/utilities/api/cart.api";
+import { initializeDummyData } from "@/utilities/demo/loadDemo";
 
 // TODO: MOVE TO STORAGE UTILITY
 // Function to get cart items from localStorage(REQUIRED)
@@ -20,7 +20,6 @@ const CartInitializer = ({ setProducts }) => {
     let fetchedProducts;
     const isLoggedIn = isUserLoggedIn();
     if (isLoggedIn) {
-      console.log("isLoggedIn");
       const fetchCartProducts = async () => {
         const { data } = await CART_API.getProductsInCart();
         setProducts(data); // Set products from API
@@ -28,10 +27,9 @@ const CartInitializer = ({ setProducts }) => {
       fetchCartProducts();
     } else {
       initializeDummyData();
-      console.log("notLoggedIn");
-      fetchedProducts = getCartItemsFromLocalStorage(); // Get cart items from local storage
+      fetchedProducts = getCartItemsFromLocalStorage();
       console.log("cartItems", fetchedProducts);
-      setProducts(fetchedProducts); // Set products from local storage
+      setProducts(fetchedProducts);
     }
   }, [setProducts]);
 

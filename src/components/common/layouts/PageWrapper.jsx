@@ -16,7 +16,7 @@ const PageWrapper = ({ children, className = "", breadcrumbItems = [] }) => {
   const router = useRouter();
 
   return (
-    <div className={`w-full py-4 ${className}`}>
+    <div className={`w-full ${className}`}>
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>

@@ -1,18 +1,24 @@
 // EmptyCart.js
-import React from 'react';
-
-const EmptyCart = () => {
-    return (
-        <div className="flex flex-col items-center justify-center h-screen">
-            <div className="mb-4">
-                image
-                {/* <img src="path/to/your/image.svg" alt="Empty Cart" className="w-32 h-32" /> */}
-            </div>
-            <h2 className="text-xl font-bold">Missing Cart items?</h2>
-            <p className="text-gray-600">Login to see the items you added previously</p>
-            <button className="mt-4 bg-orange-500 text-white py-2 px-4 rounded">Login</button>
-        </div>
-    );
+import React from "react";
+import { FaOpencart } from "react-icons/fa6";
+import LinkAsButton from "@/components/common/LinkAsButton";
+const EmptyCart = ({ className }) => {
+  return (
+    <div
+      className={`flex flex-col items-center justify-center h-full ${className}`}
+    >
+      <div className="mb-4">
+        <FaOpencart size={128} className="text-4xl text-color-primary-p40" />
+      </div>
+      <h2 className="text-xl font-bold">Missing Cart items?</h2>
+      <p className="text-gray-600">
+        Login to see the items you added previously
+      </p>
+      <LinkAsButton href="/login" className="mt-4">
+        Login
+      </LinkAsButton>
+    </div>
+  );
 };
 
 export default EmptyCart;

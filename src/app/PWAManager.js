@@ -134,8 +134,6 @@ function useInstallApp() {
       deferredPrompt.userChoice.then((choiceResult) => {
         if (choiceResult.outcome === "accepted") {
           toast.success("Installing app...");
-        } else {
-          toast.warning("Oops, something went wrong");
         }
         setDeferredPrompt(null);
       });

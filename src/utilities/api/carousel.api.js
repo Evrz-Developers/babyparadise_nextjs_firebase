@@ -1,10 +1,8 @@
 const DEFAULT_HOST = process.env.NEXT_PUBLIC_API_URL_PROD;
 
-const getProducts = async (category = null, host = DEFAULT_HOST) => {
+const getCarousel = async (host = DEFAULT_HOST) => {
     try {
-        const url = new URL(`${host}/api/product`);
-        // Optionally filter by category
-        if (category) url.searchParams.append("category", category); 
+        const url = new URL(`${host}/api/carousel`);
         const response = await fetch(url);
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -13,14 +11,13 @@ const getProducts = async (category = null, host = DEFAULT_HOST) => {
         return { data: data.data };
     } catch (error) {
         // TODO: Remove log
-        console.error("Error fetching products:", error);
+        console.error("Error fetching carousel:", error);
         throw error;
     }
 };
   
-  const PRODUCT_API = {
-    getProducts,
-  };
-  
-  export default PRODUCT_API;
-  
+const CAROUSEL_API = {
+  getCarousel,
+};
+
+export default CAROUSEL_API;

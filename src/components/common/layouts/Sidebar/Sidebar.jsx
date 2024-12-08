@@ -46,15 +46,15 @@ const Sidebar = ({ isOpen, onClose }) => {
   const categoryItems = [
     {
       label: "Dresses",
-      href: "/api/products?category=dress",
+      href: "/api/product?category=dress",
     },
     {
       label: "Toys",
-      href: "/api/products?category=toy",
+      href: "/api/product?category=toy",
     },
     {
       label: "Footwear",
-      href: "/api/products?category=footwear",
+      href: "/api/product?category=footwear",
     },
   ];
 

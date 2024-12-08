@@ -4,9 +4,13 @@ import CAROUSEL_API from "@/utilities/api/carousel.api";
 
 export default async function Page() {
   // PREFETCH DATA FOR HOME PAGE
-  const { data: PRODUCTS } = await PRODUCT_API.getProducts(null);
-  const { data: CAROUSEL } = await CAROUSEL_API.getCarousel();
-  const INITIAL_DATA = { PRODUCTS, CAROUSEL };
+  const [carouselResponse, productsResponse] = await Promise.all([
+    CAROUSEL_API.getCarousel(),
+    PRODUCT_API.getProducts(),
+  ]);
+  const { data: CAROUSEL } = carouselResponse;
+  const { data: PRODUCTS } = productsResponse;
+  const INITIAL_DATA = { CAROUSEL, PRODUCTS };
 
   return (
     <div className="w-full">

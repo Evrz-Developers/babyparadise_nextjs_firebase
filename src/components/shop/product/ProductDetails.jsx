@@ -15,7 +15,7 @@ const ProductDetails = ({ product }) => {
       ) : product &&
         typeof product === "object" &&
         Object.keys(product).length > 0 ? (
-        <ContentWrapper className="flex flex-col md:flex-row justify-centerd md:justify-between items-center bg-color-primary-p40 rounded-md">
+        <ContentWrapper className="md:flex-row justify-centerd md:justify-between items-center bg-color-primary-p40 rounded-md">
           <div className="flex flex-col justify-center items-center bg-color-primary-p80 rounded-md">
             <Image
               src={product?.imageURL}

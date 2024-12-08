@@ -27,9 +27,7 @@ const Cart = ({ products }) => {
 
   return (
     <ContentWrapper
-      className={`scontainer flex w-full pt-2 ${
-        items.length === 0 ? EMPTYCARTSTYLES : ""
-      }`}
+      className={`pt-2 ${items.length === 0 ? EMPTYCARTSTYLES : ""}`}
     >
       {items.length === 0 && <EmptyCart />}
       {items.length > 0 && (

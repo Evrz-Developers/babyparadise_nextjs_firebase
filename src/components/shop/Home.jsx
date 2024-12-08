@@ -8,6 +8,7 @@ import CarouselLayout from "@/components/common/layouts/Carousel/CarouselLayout"
 import CarouselItem from "@/components/common/layouts/Carousel/CarouselItem";
 import FUNCTIONS from "@/utilities/functions";
 import Loader from "@/components/common/Loader";
+import ContentWrapper from "@/components/common/layouts/ContentWrapper";
 
 const Home = ({ initialData, category = "" }) => {
   const { products, setProducts } = useProductStore();
@@ -21,11 +22,10 @@ const Home = ({ initialData, category = "" }) => {
   }, [initialData, setProducts]);
 
   return (
-    <div className="home-container w-full">
+    <ContentWrapper className="gap-4">
       {/* Carousel */}
       {imageURLs.length > 0 && (
         <CarouselLayout
-          className="md:max-h-[60vh]f"
           items={imageURLs.map((url, index) => (
             <CarouselItem
               key={index}
@@ -54,7 +54,7 @@ const Home = ({ initialData, category = "" }) => {
           <Loader />
         )}
       </Gridlayout>
-    </div>
+    </ContentWrapper>
   );
 };
 

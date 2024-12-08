@@ -22,7 +22,7 @@ const ProductCard = ({ product, index }) => {
 
   return (
     // TODO: Remove log
-    <ContentWrapper className="flex flex-col">
+    <ContentWrapper>
       <Card
         shadow="sm"
         key={index}

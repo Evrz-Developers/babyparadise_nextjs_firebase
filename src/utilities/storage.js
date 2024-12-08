@@ -50,6 +50,17 @@ const readTokens = () => getFromLocalStorage('tokens');
 //     //
 // }
 
+const clearCache = (key) => {
+    localStorage.removeItem(key);
+};
+
+// Usage example
+const logout = async () => {
+    await AUTH.logout();
+    clearCache('cartItems'); // Clear cart items on logout
+    // Other logout logic...
+};
+
 const Storage = {
     // user
     writeUserData,

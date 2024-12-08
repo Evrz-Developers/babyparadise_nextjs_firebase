@@ -14,7 +14,7 @@ const DefaultLayout = ({ children, footer = true }) => {
           <div className="flex flex-col items-center justify-center py-4">
             {children}
           </div>
-        </div>  
+        </div>
       </main>
       {/* Scroll to Top */}
       <ScrollToTop />

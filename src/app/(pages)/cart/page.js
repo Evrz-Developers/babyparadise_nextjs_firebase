@@ -1,14 +1,16 @@
-import React from 'react'
-import DummyCard from '@/components/common/DummyCard';
+"use client";
+import React, { useState } from "react";
+import Cart from "@/components/shop/user/Cart";
+import PageWrapper from "@/components/common/layouts/PageWrapper";
+import CartInitializer from "@/components/shop/user/CartInitializer";
 
-const cartPage = () => {
-    return (
-            <DummyCard
-                gradientColor="#2634"
-                title="🚧"
-                description="We'll be back soon."
-            />
-    )
+export default function CartPage() {
+  const [products, setProducts] = useState([]);
+
+  return (
+    <PageWrapper breadcrumbItems={[{ label: "Cart", href: `#` }]}>
+      <CartInitializer setProducts={setProducts} />
+      <Cart products={products} />
+    </PageWrapper>
+  );
 }
-
-export default cartPage

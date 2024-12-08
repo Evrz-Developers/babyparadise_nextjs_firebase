@@ -1,11 +1,11 @@
 import Home from "@/components/shop/Home";
 import PRODUCT_API from "@/utilities/api/product.api";
-import FUNCTIONS from "@/utilities/functions";
+import CAROUSEL_API from "@/utilities/api/carousel.api";
 
 export default async function Page() {
   // PREFETCH DATA FOR HOME PAGE
   const { data: PRODUCTS } = await PRODUCT_API.getProducts(null);
-  const CAROUSEL = await FUNCTIONS.CAROUSEL.GET_IMAGES();
+  const { data: CAROUSEL } = await CAROUSEL_API.getCarousel();
   const INITIAL_DATA = { PRODUCTS, CAROUSEL };
 
   return (

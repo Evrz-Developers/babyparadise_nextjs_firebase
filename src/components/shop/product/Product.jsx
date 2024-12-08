@@ -17,7 +17,7 @@ const Product = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await PRODUCT_API.getAllProducts();
+        const response = await PRODUCT_API.getProducts(null);
         setProducts(response?.data);
       } catch (error) {
         // TODO: Remove log

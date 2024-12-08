@@ -4,36 +4,36 @@ import React, { useEffect, useState } from "react";
 import Gridlayout from "@/components/common/layouts/Gridlayout";
 import ProductCard from "@/components/shop/product/ProductCard";
 import useProductStore from "@/store/useProductStore";
+import useCarouselStore from "@/store/useCarouselStore";
 import CarouselLayout from "@/components/common/layouts/Carousel/CarouselLayout";
 import CarouselItem from "@/components/common/layouts/Carousel/CarouselItem";
-import FUNCTIONS from "@/utilities/functions";
 import Loader from "@/components/common/Loader";
 import ContentWrapper from "@/components/common/layouts/ContentWrapper";
 
 const Home = ({ initialData, category = "" }) => {
   const { products, setProducts } = useProductStore();
+  const { carousel, setCarousel } = useCarouselStore();
   const [loading, setLoading] = useState(false);
-  const [imageURLs, setImageUrls] = useState([]);
 
   useEffect(() => {
     setProducts(initialData.PRODUCTS);
-    setImageUrls(initialData.CAROUSEL);
+    setCarousel(initialData.CAROUSEL);
     setLoading(false);
-  }, [initialData, setProducts]);
+  }, []);
 
   return (
     <ContentWrapper className="gap-4">
       {/* Carousel */}
-      {imageURLs.length > 0 && (
+      {carousel.length > 0 && (
         <CarouselLayout
-          items={imageURLs.map((url, index) => (
+          items={carousel.map((item, index) => (
             <CarouselItem
               key={index}
-              src={url}
+              src={item?.imageURL}
               alt={`Carousel Image ${index + 1}`}
               className="h-64 md:h-80"
               // TODO: Remove log
-              onClick={() => console.log(`Clicked on image ${index + 1}`)} // Example onClick function
+              onClick={() => console.log(`Clicked on slide ${index + 1}`)} // Example onClick function
             />
           ))}
         />

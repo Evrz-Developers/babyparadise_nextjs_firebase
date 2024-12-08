@@ -10,7 +10,7 @@ import CarouselItem from "@/components/common/layouts/Carousel/CarouselItem";
 import Loader from "@/components/common/Loader";
 import ContentWrapper from "@/components/common/layouts/ContentWrapper";
 
-const Home = ({ initialData, category = "" }) => {
+const Home = ({ initialData }) => {
   const { products, setProducts } = useProductStore();
   const { carousel, setCarousel } = useCarouselStore();
   const [loading, setLoading] = useState(false);
@@ -30,10 +30,11 @@ const Home = ({ initialData, category = "" }) => {
             <CarouselItem
               key={index}
               src={item?.imageURL}
-              alt={`Carousel Image ${index + 1}`}
+              alt={`slide ${index + 1}`}
               className="h-64 md:h-80"
-              // TODO: Remove log
-              onClick={() => console.log(`Clicked on slide ${index + 1}`)} // Example onClick function
+              // TODO: Add link once ready
+              // href={item?.link}
+              href="#"
             />
           ))}
         />

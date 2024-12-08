@@ -6,12 +6,12 @@ import { useRouter } from "next/navigation";
 import { FiMenu } from "react-icons/fi";
 import { InstallAppManager } from "@/app/PWAManager";
 import useLoggedUserStore from "@/store/loggedUserStore";
-import Sidebar from "@/components/common/layouts/Sidebar/Sidebar";
-import NavbarLogo from "@/components/common/layouts/Navbar/NavbarLogo";
-import NavbarDeliveryAddress from "@/components/common/layouts/Navbar/NavbarDeliveryAddress";
-import NavSearchBar from "@/components/common/layouts/Navbar/NavSearchBar";
-import NavbarCart from "@/components/common/layouts/Navbar/NavbarCart";
-import NavbarLogin from "@/components/common/layouts/Navbar/NavbarLogin";
+import Sidebar from "@/components/common/Sidebar/Sidebar";
+import NavbarLogo from "@/components/common/Navbar/NavbarLogo";
+import NavbarDeliveryAddress from "@/components/common/Navbar/NavbarDeliveryAddress";
+import NavSearchBar from "@/components/common/Navbar/NavSearchBar";
+import NavbarCart from "@/components/common/Navbar/NavbarCart";
+import NavbarLogin from "@/components/common/Navbar/NavbarLogin";
 
 const Navbar = ({ title }) => {
   const router = useRouter();

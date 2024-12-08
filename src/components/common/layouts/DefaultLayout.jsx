@@ -1,7 +1,7 @@
 import React from "react";
-import Footer from "@/components/common/layouts/Footer";
+import Footer from "@/components/common/Footer";
 import ScrollToTop from "@/components/common/ScrollToTop";
-import Navbar from "@/components/common/layouts/Navbar/Navbar";
+import Navbar from "@/components/common/Navbar/Navbar";
 
 const DefaultLayout = ({ children, footer = true }) => {
   return (

@@ -1,9 +1,15 @@
 import "./globals.css";
 import localFont from "next/font/local";
+import { Manrope } from "next/font/google";
 import { NextUIProvider } from "@nextui-org/react";
 import DefaultLayout from "@/components/common/layouts/DefaultLayout";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
+const manrope = Manrope({
+  subsets: ["latin"],
+  variable: "--font-manrope",
+});
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -34,7 +40,10 @@ export default function RootLayout({ children }) {
           property="og:image"
           content="https://babyparadisestore.netlify.app/images/logo.jpg"
         />
-        <meta property="og:url" content="Your_Page_URL" />
+        <meta
+          property="og:url"
+          content="https://babyparadisestore.netlify.app/"
+        />
         <meta property="og:type" content="website" />
         <meta
           name="viewport"
@@ -51,7 +60,7 @@ export default function RootLayout({ children }) {
         <meta name="msapplication-TileColor" content="#2B5797" />
         <meta name="msapplication-tap-highlight" content="no" />
         <meta name="theme-color" content="#000000" />
-
+        {/* TODO: Update icons and content*/}
         <link rel="apple-touch-icon" href="/icons/touch-icon-iphone.png" />
         <link
           rel="apple-touch-icon"
@@ -89,15 +98,6 @@ export default function RootLayout({ children }) {
         />
         <link rel="shortcut icon" href="/favicon.ico" />
 
-        <meta name="twitter:card" content="summary" />
-        <meta name="twitter:url" content="https://yourdomain.com" />
-        <meta name="twitter:title" content="PWA App" />
-        <meta name="twitter:description" content="Best PWA App in the world" />
-        <meta
-          name="twitter:image"
-          content="https://yourdomain.com/icons/android-chrome-192x192.png"
-        />
-        <meta name="twitter:creator" content="@DavidWShadow" />
         <meta property="og:type" content="website" />
         <meta property="og:title" content="PWA App" />
         <meta property="og:description" content="Best PWA App in the world" />
@@ -146,7 +146,7 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${manrope.variable} font-sans antialiased`}
       >
         <>
           <NextUIProvider>

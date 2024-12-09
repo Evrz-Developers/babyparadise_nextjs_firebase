@@ -114,7 +114,7 @@ const CarouselLayout = ({ items, className }) => {
       </div>
       {/* <CarouselButton direction="left" onClick={handlePrev} />
       <CarouselButton direction="right" onClick={handleNext} /> */}
-      <div className="absolute bottom-2 left-[13%] md:left-[5%] transform -translate-x-1/2 flex space-x-2">
+      <div className="absolute bottom-2 md:bottom-4  left-1/2 transform -translate-x-1/2 flex space-x-2">
         {items.map((_, index) => (
           <CarouselIndicator
             key={index}

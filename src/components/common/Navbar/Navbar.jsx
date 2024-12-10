@@ -12,81 +12,86 @@ import NavbarDeliveryAddress from "@/components/common/Navbar/NavbarDeliveryAddr
 import NavSearchBar from "@/components/common/Navbar/NavSearchBar";
 import NavbarCart from "@/components/common/Navbar/NavbarCart";
 import NavbarLogin from "@/components/common/Navbar/NavbarLogin";
+import {
+  Navbar as NextNavbar,
+  NavbarContent,
+  NavbarMenu,
+  NavbarMenuItem,
+  NavbarMenuToggle,
+  NavbarItem,
+  NavbarBrand,
+} from "@nextui-org/navbar";
+
+import NavbarMenuContent from "./NavbarMenuContent";
 
 const Navbar = ({ title }) => {
   const router = useRouter();
   const { user, isLoggedIn, logout } = useLoggedUserStore();
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  // const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const {isOpen, onOpen, onOpenChange} = useDisclosure();
 
   const handleLogout = async () => {
     await logout();
     router.push("/");
   };
+
   return (
-    <nav className="bg-background shadow-sm sticky top-0 z-50">
-      <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 flex items-center justify-between py-2">
-        {/* Left Section*/}
-        <div className="flex items-center gap-4">
-          {/* Hamburger Menu (MOBILE ONLY) */}
-          <button
-            className="md:hidden text-gray-700"
-            onClick={() => setIsSidebarOpen(true)}
-          >
-            <FiMenu className="h-6 w-6" />
-          </button>
+    <NextNavbar
+      maxWidth="2xl"
+      className="shadow-sm "
+      classNames={{
+        base: "bg-white/50",
+      }}
+    >
+      {/* Left Section: Hamburger Menu and Shop Logo */}
+      <NavbarContent className="" justify="start">
+        {/* <NavbarMenuToggle /> */}
 
-          {/* Logo & Title */}
-          <Link href="/" className="flex items-center gap-1">
-            <NavbarLogo title={title} />
-          </Link>
+        <Link href="/" className="flex items-center gap-1">
+          <NavbarLogo title={title} />
+        </Link>
+        {/* Delivery Address (DESKTOP ONLY) */}
+        {/* <div className="hidden md:flex items-center justify-center gap-4">
+          <NavbarDeliveryAddress />
+        </div> */}
+      </NavbarContent>
 
-          {/* Delivery Address (EXCLUDING MOBILE) */}
-          <div className="hidden md:flex items-center justify-center gap-4">
-            <NavbarDeliveryAddress />
-          </div>
-        </div>
+      {/* Middle Section: Search Bar and Delivery Address (DESKTOP ONLY) */}
+      <NavbarContent className="hidden sm:flex gap-4 w-1/3" justify="center">
+        <NavSearchBar />
+      </NavbarContent>
 
-        {/* Middle Section: Search Bar and Delivery Address (EXCLUDING MOBILE) */}
-        <div className="flex-grow mx-4 hidden md:flex items-center justify-center">
-          <NavSearchBar />
-        </div>
-
-        {/* Right Section: Login Button & Cart Icon */}
-        <div className="flex items-center gap-5 md:gap-7">
+      {/* Right Section: Install App Manager, Cart Icon & Login Button */}
+      <NavbarContent justify="end">
+        <NavbarItem>
           <InstallAppManager />
+        </NavbarItem>
+        <NavbarItem>
           <NavbarCart />
+        </NavbarItem>
+        <NavbarItem>
           <NavbarLogin
             user={user}
             isLoggedIn={isLoggedIn}
             handleLogout={handleLogout}
           />
-        </div>
-      </div>
+        </NavbarItem>
+      </NavbarContent>
 
-      {/* Second Navbar (EXCLUDING MOBILE) */}
-      <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 flex-grow hidden md:flex items-center justify-start bg-color-primary-p100 w-full py-2">
-        {/* Hamburger Menu */}
-        <button
-          className="text-gray-700"
-          onClick={() => setIsSidebarOpen(true)}
+      {/* Hamburger Menu Content */}
+      <NavbarMenu className="bg-white/50 h-40">
+        <NavbarItem
+          aria-label="Profile Actions"
+          variant="flat"
+          className="w-full h-full bg-red-500"
         >
-          <FiMenu className="h-6 w-6" />
-        </button>
-      </div>
-
-      {/* Search Bar and Delivery Address (MOBILE ONLY)*/}
-      <div className="flex flex-col items-center justify-center w-full md:hidden">
-        <div className="bg-color-primary-p90 w-full py-2 px-4">
-          <NavSearchBar />
-        </div>
-        <div className="bg-color-primary-p100 w-full py-1 px-4">
-          <NavbarDeliveryAddress inline />
-        </div>
-      </div>
-
-      {/* Sidebar */}
-      <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
-    </nav>
+          <NavbarMenuContent
+            isLoggedIn={isLoggedIn}
+            handleLogout={handleLogout}
+          />
+        </NavbarItem>
+      </NavbarMenu>
+    </NextNavbar>
   );
 };
 

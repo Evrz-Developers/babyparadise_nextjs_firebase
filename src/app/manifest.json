@@ -1,0 +1,11 @@
+{
+  "name": "BABY SHOP",
+  "short_name": "EDWIN's",
+  "description": "A new born babies' haven",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#000000",
+  "scope": "/",
+  "orientation": "portrait"
+}

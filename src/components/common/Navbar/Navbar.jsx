@@ -3,7 +3,6 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { FiLogIn, FiUser } from "react-icons/fi";
 import { InstallAppManager } from "@/app/PWAManager";
 import useLoggedUserStore from "@/store/loggedUserStore";
 import NavbarLogo from "@/components/common/Navbar/NavbarLogo";
@@ -17,20 +16,15 @@ import {
 } from "@nextui-org/navbar";
 import NextDrawer from "@/components/ui/next-drawer";
 import { useDisclosure } from "@nextui-org/use-disclosure";
-import { Button } from "@nextui-org/button";
 import Login from "@/components/auth/Login";
 import Profile from "@/components/shop/user/Profile";
-import {
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownTrigger,
-} from "@nextui-org/dropdown";
-import CustomDropdown from "@/components/common/CustomDropdown";
 import NavbarLogin from "./NavbarLogin";
+import Register from "@/components/auth/Register";
+import { Tabs, Tab } from "@nextui-org/tabs";
 
 const Navbar = ({ title }) => {
   const router = useRouter();
+  const [activeTab, setActiveTab] = useState("login");
   const { user, isLoggedIn, logout } = useLoggedUserStore();
   const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
 
@@ -51,7 +45,6 @@ const Navbar = ({ title }) => {
       {/* Left Section: Hamburger Menu and Shop Logo */}
       <NavbarContent className="" justify="start">
         {/* <NavbarMenuToggle /> */}
-
         <Link href="/" className="flex items-center gap-1">
           <NavbarLogo title={title} />
         </Link>
@@ -97,7 +90,22 @@ const Navbar = ({ title }) => {
         {isLoggedIn ? (
           <Profile handleLogout={handleLogout} />
         ) : (
-          <Login onClose={onClose} />
+          <>
+            <Tabs
+              aria-label="Sign in options"
+              variant="ghost"
+              // color="primary"
+              selectedKey={activeTab}
+              onSelectionChange={setActiveTab}
+            >
+              <Tab key="login" title="Login">
+                <Login onClose={onClose} setActiveTab={setActiveTab} />
+              </Tab>
+              <Tab key="register" title="Register">
+                <Register onClose={onClose} setActiveTab={setActiveTab} />
+              </Tab>
+            </Tabs>
+          </>
         )}
       </NextDrawer>
     </NextNavbar>

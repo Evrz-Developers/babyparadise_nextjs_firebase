@@ -1,81 +1,142 @@
-"use client"
-import Link from 'next/link'
-import React from 'react'
-import { useForm } from 'react-hook-form'
+"use client";
 
-const Register = () => {
+import React from "react";
+import AUTH from "@/app/firebase/auth";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
+import { Form } from "@nextui-org/form";
+import { Input } from "@nextui-org/input";
+import { Button } from "@nextui-org/button";
+import { Divider } from "@nextui-org/divider";
+import ContentWrapper from "@/components/common/layouts/ContentWrapper";
 
-    const { handleSubmit, register, watch, setError, formState: { errors } } = useForm()
+const Register = ({ setActiveTab }) => {
+  const router = useRouter();
 
-    const onSubmit = async (data) => {
-        // TODO: Remove log
-        console.log(data);
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    const first_name = formData.get("first_name");
+    const last_name = formData.get("last_name");
+    const email = formData.get("email");
+    const password = formData.get("password");
+    const confirm_password = formData.get("confirm_password");
+    console.log("first", first_name);
+    console.log("last", last_name);
+    console.log("email", email);
+    console.log("password", password);
+    console.log("confirm_password", confirm_password);
+    if (password !== confirm_password) {
+      toast.error("Passwords do not match");
+      return;
     }
 
-    const handlePasswordMatch = (confirm_password) => {
-        const password = watch('password')
-        if (password !== confirm_password) return 'Not same as password'
+    try {
+      const result = await AUTH.register(email, password);
+      if (result.error) {
+        console.error("Error registering:", result.error);
+        toast.error("Registration failed");
+      } else {
+        // Update user profile with name and role
+        await AUTH.updateProfile(result.user, {
+          displayName: `${first_name} ${last_name}`,
+          role: "user",
+        });
+        toast.success("Registered successfully");
+        router.push("/login");
+      }
+    } catch (error) {
+      toast.error("Registration failed");
     }
+  };
 
-    return (
+  const handleGoogleSignIn = async () => {
+    try {
+      const result = await AUTH.signInWithGoogle();
+      if (result.error) {
+        console.error("Error signing in with Google:", result.error);
+        toast.error("Google sign-in failed");
+      } else {
+        // Set role for Google sign-in user
+        await AUTH.updateProfile(result.user, { role: "user" });
+        toast.success("Signed in with Google successfully");
+        router.push("/");
+      }
+    } catch (error) {
+      toast.error("Google sign-in failed");
+    }
+  };
 
-        <div className='mt-10 '>
-            <div className='w-full max-w-[500px] rounded md:shadow-md p-10 m-auto'>
-                <h3 className='text-2xl'> Create account </h3>
+  return (
+    <ContentWrapper className="h-90 mt-1 sm:mt-4">
+      <div className="w-full max-w-[400px]g h-full rounded-xl md:shadow-md p-4 m-auto border">
+        <h3 className="text-xl mb-4 text-center"> Create account </h3>
 
-                <form onSubmit={handleSubmit(onSubmit)}>
+        <Form onSubmit={handleSubmit}>
+          <Input
+            name="first_name"
+            label="First Name"
+            placeholder="Enter your first name"
+            isRequired
+          />
+          <Input
+            name="last_name"
+            label="Last Name"
+            placeholder="Enter your last name"
+            isRequired
+          />
+          <Input
+            name="email"
+            label="Email"
+            placeholder="Enter your email"
+            type="email"
+            isRequired
+          />
+          <Input
+            name="password"
+            label="Password"
+            placeholder="Enter your password"
+            type="password"
+            isRequired
+          />
+          <Input
+            name="confirm_password"
+            label="Confirm Password"
+            placeholder="Confirm your password"
+            type="password"
+            isRequired
+          />
+          <Button
+            type="submit"
+            variant="ghost"
+            color="primary"
+            className="mt-6 w-full"
+          >
+            Register
+          </Button>
+        </Form>
 
-                    <div className='mt-3 text-sm'>
-                        <label htmlFor="first_name"> First Name </label>
-                        <input type="name" id='first_name' {...register('first_name', { required: 'This is required' })} className={`px-5 py-3 w-full bg-gray-100 rounded-md ${errors?.first_name ? 'border-2 border-red-400' : undefined}`} />
-                        {errors && errors.first_name && (
-                            <label htmlFor="first_name" className='text-red-600 mt-1'> {errors.first_name.message} </label>
-                        )}
-                    </div>
-                    <div className='mt-3 text-sm'>
-                        <label htmlFor="last_name"> Last Name </label>
-                        <input type="name" id='last_name' {...register('last_name', { required: 'This is required' })} className={`px-5 py-3 w-full bg-gray-100 rounded-md ${errors?.last_name ? 'border-2 border-red-400' : undefined}`} />
-                        {errors && errors.last_name && (
-                            <label htmlFor="last_name" className='text-red-600 mt-1'> {errors.last_name.message} </label>
-                        )}
-                    </div>
-                    <div className='mt-3 text-sm'>
-                        <label htmlFor="email"> Email </label>
-                        <input type="email" id='email' {...register('email', { required: 'This is required' })} className={`px-5 py-3 w-full bg-gray-100 rounded-md ${errors?.email ? 'border-2 border-red-400' : undefined}`} />
-                        {errors && errors.email && (
-                            <label htmlFor="email" className='text-red-600 mt-1'> {errors.email.message} </label>
-                        )}
-                    </div>
-                    <div className='mt-3 text-sm'>
-                        <label htmlFor="password"> Password </label>
-                        <input type="password" id='password' {...register('password', { required: 'This is required' })} className={`px-5 py-3 w-full bg-gray-100 rounded-md ${errors?.password ? 'border-2 border-red-400' : undefined}`} />
-                        {errors && errors.password && (
-                            <label htmlFor="password" className='text-red-600 mt-1'> {errors.password.message} </label>
-                        )}
-                    </div>
-                    <div className='mt-3 text-sm'>
-                        <label htmlFor="confirm_password"> Confirm Password </label>
-                        <input type="password" id='confirm_password' {...register('confirm_password', { required: 'This is required', validate: handlePasswordMatch })} className={`px-5 py-3 w-full bg-gray-100 rounded-md ${errors?.confirm_password ? 'border-2 border-red-400' : undefined}`} />
-                        {errors && errors.confirm_password && (
-                            <label htmlFor="confirm_password" className='text-red-600 mt-1'> {errors.confirm_password.message} </label>
-                        )}
-                    </div>
+        <Divider className="my-4" />
 
-                    <div className='mt-6'>
-                        <button type='submit' className='px-5 py-3 w-full bg-purple-300 rounded-md'> Register </button>
-                    </div>
+        <Button
+          onPress={handleGoogleSignIn}
+          color="secondary"
+          className="w-full"
+        >
+          Sign in with Google
+        </Button>
 
-                </form>
-
-                <div className='mt-3 text-sm'>
-                    I have an account,
-                    <Link href={'/login'} className="ml-1 text-link">
-                        Login
-                    </Link>
-                </div>
-            </div>
+        <div className="mt-3 text-sm">
+          <button
+            className="text-color-primary-p50 hover:text-color-primary-p40 text-sm"
+            onClick={() => setActiveTab("login")}
+          >
+            Already have an account? Login
+          </button>
         </div>
-    )
-}
+      </div>
+    </ContentWrapper>
+  );
+};
 
-export default Register
+export default Register;

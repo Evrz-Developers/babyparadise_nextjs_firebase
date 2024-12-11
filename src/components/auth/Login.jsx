@@ -1,17 +1,16 @@
 "use client";
 
 import React from "react";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
+import AUTH from "@/app/firebase/auth";
 import { toast } from "react-toastify";
 import { Form } from "@nextui-org/form";
 import { Input } from "@nextui-org/input";
 import { Button } from "@nextui-org/button";
-import ContentWrapper from "@/components/common/layouts/ContentWrapper";
-import AUTH from "@/app/firebase/auth";
+import { useRouter } from "next/navigation";
 import useLoggedUserStore from "@/store/loggedUserStore";
+import ContentWrapper from "@/components/common/layouts/ContentWrapper";
 
-const Login = ({ onClose }) => {
+const Login = ({ onClose, setActiveTab }) => {
   const setUser = useLoggedUserStore((state) => state.setUser);
   const router = useRouter();
 
@@ -56,8 +55,8 @@ const Login = ({ onClose }) => {
   // };
 
   return (
-    <ContentWrapper className="h-90 mt-4 sm:mt-24">
-      <div className="w-full max-w-[400px]g h-full rounded-xl md:shadow-md p-4 m-auto border sm:border-none">
+    <ContentWrapper className="h-90 mt-1 sm:mt-4">
+      <div className="w-full max-w-[400px]g h-full rounded-xl md:shadow-md p-4 m-auto border">
         <h3 className="text-xl mb-4 text-center"> Welcome back! </h3>
         <Form
           onSubmit={handleSubmit}
@@ -87,10 +86,13 @@ const Login = ({ onClose }) => {
             Login
           </Button>
         </Form>
-        <div className="mt-2">
-          <Link href={"/register"} className="text-link text-sm">
-            Create an account
-          </Link>
+        <div className="mt-2 ml-1">
+          <button
+            className="text-color-primary-p50 hover:text-color-primary-p40 text-sm"
+            onClick={() => setActiveTab("register")}
+          >
+            👶New here? Sign up!
+          </button>
         </div>
       </div>
     </ContentWrapper>

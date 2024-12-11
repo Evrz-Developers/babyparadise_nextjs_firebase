@@ -5,7 +5,7 @@ module.exports = {
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
-    "./node_modules/@nextui-org/theme/dist/components/(breadcrumbs|button|card|divider|dropdown|form|image|input|navbar|ripple|spinner|menu|popover).js"
+    "./node_modules/@nextui-org/theme/dist/components/(breadcrumbs|button|card|divider|drawer|dropdown|form|image|input|navbar|ripple|spinner|modal|menu|popover).js",
   ],
   theme: {
     extend: {
@@ -40,9 +40,9 @@ module.exports = {
           DEFAULT: "hsl(var(--warning))",
           foreground: "hsl(var(--warning-foreground))",
         },
-        destructive: {
-          DEFAULT: "hsl(var(--destructive))",
-          foreground: "hsl(var(--destructive-foreground))",
+        danger: {
+          DEFAULT: "hsl(var(--danger))",
+          foreground: "hsl(var(--danger-foreground))",
         },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

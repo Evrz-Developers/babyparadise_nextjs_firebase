@@ -43,7 +43,7 @@ const Navbar = ({ title }) => {
       }}
     >
       {/* Left Section: Hamburger Menu and Shop Logo */}
-      <NavbarContent className="" justify="start">
+      <NavbarContent justify="start">
         {/* <NavbarMenuToggle /> */}
         <Link href="/" className="flex items-center gap-1">
           <NavbarLogo title={title} />

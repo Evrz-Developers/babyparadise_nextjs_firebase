@@ -7,7 +7,7 @@ const NavbarLogo = ({ title }) => {
       <Image
         src="/logo-temp.svg"
         alt="Logo"
-        className="bg-color-primary-p100 rounded-md"
+        className="rounded-md"
         width={134}
         height={36}
         priority

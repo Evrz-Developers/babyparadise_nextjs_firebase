@@ -60,7 +60,7 @@ const Navbar = ({ title }) => {
       </NavbarContent>
 
       {/* Right Section: Install App Manager, Cart Icon & Login Button */}
-      <NavbarContent justify="end">
+      <NavbarContent justify="end" className="flex gap-4">
         <NavbarItem>
           <InstallAppManager />
         </NavbarItem>

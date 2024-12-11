@@ -1,74 +1,102 @@
-"use client"
-import Link from 'next/link'
-import React, { useEffect } from 'react'
-import { useForm } from 'react-hook-form'
-import ContentWrapper from '@/components/common/layouts/ContentWrapper'
-import AUTH from '@/app/firebase/auth';
-import useLoggedUserStore from '@/store/loggedUserStore';
-import { useRouter } from 'next/navigation';
-import { toast } from 'react-toastify'
+"use client";
 
-const Login = () => {
+import React from "react";
+import AUTH from "@/app/firebase/auth";
+import { toast } from "react-toastify";
+import { Form } from "@nextui-org/form";
+import { Input } from "@nextui-org/input";
+import { Button } from "@nextui-org/button";
+import { useRouter } from "next/navigation";
+import useLoggedUserStore from "@/store/loggedUserStore";
+import ContentWrapper from "@/components/common/layouts/ContentWrapper";
 
-    const { handleSubmit, register, formState: { errors }, reset } = useForm()
-    const setUser = useLoggedUserStore((state) => state.setUser);
-    const router = useRouter();
+const Login = ({ onClose, setActiveTab }) => {
+  const setUser = useLoggedUserStore((state) => state.setUser);
+  const router = useRouter();
 
-    useEffect(() => {
-        reset();
-    }, [reset]);
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    let data = Object.fromEntries(new FormData(event.currentTarget));
+    const { email, password } = data;
 
-    const onSubmit = async (data) => {
-        const { email, password } = data;
-        try {
-            const result = await AUTH.login(email, password);
-            if (result.error) {
-                console.error("Error signing in:", result.error);
-            } else {
-                const userWithLoginTime = {
-                    ...result.user,
-                    lastLoginAt: Date.now(),
-                };
-                setUser(userWithLoginTime);
-                toast.success("Logged in successfully");
-                router.push('/');
-            }
-        } catch (error) {
-            toast.error("Login failed");
-        }
+    try {
+      const result = await AUTH.login(email, password);
+      if (result.error) {
+        toast.error("Oops! " + result.error, {
+          autoClose: 1500,
+        });
+      } else {
+        const userWithLoginTime = {
+          ...result.user,
+          lastLoginAt: Date.now(),
+        };
+        setUser(userWithLoginTime);
+        toast.success("Logged in successfully", {
+          autoClose: 1500,
+        });
+        router.push("/");
+        onClose();
+      }
+    } catch (error) {
+      toast.error("Login failed", {
+        autoClose: 1500,
+      });
     }
+  };
 
-    return (
-        <ContentWrapper className='h-full mt-20'>
-            <div className='w-full max-w-[400px] h-full rounded md:shadow-md p-10 m-auto bg-slate-50s bg-neutral-100 dark:bg-neutral-900 border text-black dark:text-white'>
-                <h3 className='text-2xl'> Login </h3>
-                <form onSubmit={handleSubmit(onSubmit)}>
-                    <div className='mt-3 text-sm'>
-                        <label htmlFor="email"> Email </label>
-                        <input type="email" id='email' placeholder='Enter your email' {...register('email', { required: 'This is required' })} className={`px-2 py-3 w-full bg-neutral-200 dark:bg-neutral-700 border border-neutral-300 dark:border-neutral-600 rounded-md ${errors?.email ? 'border-2 border-red-400' : undefined}`} />
-                        {errors && errors.email && (
-                            <label htmlFor="email" className='text-red-600 mt-1'> {errors.email.message} </label>
-                        )}
-                    </div>
-                    <div className='mt-3 text-sm'>
-                        <label htmlFor="password"> Password </label>
-                        <input type="password" id='password' placeholder='Enter password' {...register('password', { required: 'This is required' })} className={`px-2 py-3 w-full bg-neutral-200 dark:bg-neutral-700 border border-neutral-300 dark:border-neutral-600 rounded-md ${errors?.password ? 'border-2 border-red-400' : undefined}`} />
-                        {errors && errors.password && (
-                            <label htmlFor="email" className='text-red-600 mt-1'> {errors.password.message} </label>
-                        )}
-                    </div>
-                    <div className='mt-6'>
-                        <button type='submit' className='px-5 py-3 w-full bg-color-primary-p70 rounded-md'> Login </button>
-                    </div>
-                </form>
-                <div className='mt-2'>
-                    <Link href={'/register'} className="text-link text-sm">
-                        Create an account
-                    </Link>
-                </div>
-            </div>
-        </ContentWrapper>
-    )
-}
+  // const handleClick = () => {
+  //   const activeElement = document.activeElement;
+  //   if (
+  //     activeElement &&
+  //     (activeElement.tagName === "INPUT" || activeElement.tagName === "BUTTON")
+  //   ) {
+  //     activeElement.blur();
+  //   }
+  // };
 
-export default Login
+  return (
+    <ContentWrapper className="h-90 mt-1 sm:mt-4">
+      <div className="w-full max-w-[400px]g h-full rounded-xl md:shadow-md p-4 m-auto border">
+        <h3 className="text-xl mb-4 text-center"> Welcome back! </h3>
+        <Form
+          onSubmit={handleSubmit}
+          className="flex flex-col items-center gap-4"
+        >
+          <Input
+            type="email"
+            name="email"
+            label="Email"
+            placeholder="Enter your email"
+            isRequired
+          />
+          <Input
+            type="password"
+            name="password"
+            label="Password"
+            placeholder="Enter password"
+            isRequired
+          />
+          <Button
+            type="submit"
+            variant="ghost"
+            color="primary"
+            className="w-full"
+            // onPress={handleClick}
+          >
+            Login
+          </Button>
+        </Form>
+        <div className="mt-2 ml-1">
+          <button
+            className="text-color-primary-p50 hover:text-color-primary-p40 text-sm"
+            onClick={() => setActiveTab("register")}
+          >
+            👶New here? Sign up!
+          </button>
+        </div>
+      </div>
+    </ContentWrapper>
+  );
+};
+
+export default Login;

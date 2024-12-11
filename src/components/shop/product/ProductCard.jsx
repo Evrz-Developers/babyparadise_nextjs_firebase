@@ -2,13 +2,8 @@ import { CustomimageLoader } from "@/components/common/CustomImageLoader";
 import ContentWrapper from "@/components/common/layouts/ContentWrapper";
 import { Button } from "@nextui-org/button";
 import { useRouter } from "next/navigation";
-import {
-  Card,
-  CardHeader,
-  CardBody,
-  Image,
-  CardFooter,
-} from "@nextui-org/react";
+import { Card, CardHeader, CardBody, CardFooter } from "@nextui-org/card";
+import { Image } from "@nextui-org/image";
 
 const ProductCard = ({ product, index }) => {
   const router = useRouter();

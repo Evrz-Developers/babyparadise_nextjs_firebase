@@ -1,16 +1,8 @@
 import { NavbarItem } from "@nextui-org/navbar";
 import React from "react";
 import Link from "next/link";
-import { DropdownItem, DropdownMenu } from "@nextui-org/react";
-
+// TODO: use it for something else and remove.
 const NavbarMenuContent = ({ isLoggedIn, handleLogout }) => {
-  const menuItems = [
-    { label: "Login", href: "/login" },
-    { label: "Wishlist", href: "/wishlist" },
-    { label: "Cart", href: "/cart" },
-    { label: "About", href: "/about" },
-    { label: "Help & Feedback", href: "/help" },
-  ];
   const isLoggedInItems = [
     { label: "Profile Settings", href: "/profile" },
     { label: "Wishlist", href: "/wishlist" },

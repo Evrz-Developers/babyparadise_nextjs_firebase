@@ -1,19 +1,18 @@
 import "./globals.css";
-import localFont from "next/font/local";
-import { NextUIProvider } from "@nextui-org/react";
+import { NextUIProvider } from "@nextui-org/system";
 import DefaultLayout from "@/components/common/layouts/DefaultLayout";
 import { ToastContainer } from "react-toastify";
+import { Manrope, Oswald } from "next/font/google";
 import "react-toastify/dist/ReactToastify.css";
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
+const manrope = Manrope({
+  subsets: ["latin"],
+  variable: "--font-manrope",
 });
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
+
+const oswald = Oswald({
+  subsets: ["latin"],
+  variable: "--font-oswald",
 });
 
 export const metadata = {
@@ -89,20 +88,6 @@ export default function RootLayout({ children }) {
         />
         <link rel="shortcut icon" href="/favicon.ico" />
 
-        <meta name="twitter:card" content="summary" />
-        <meta name="twitter:url" content="https://yourdomain.com" />
-        <meta name="twitter:title" content="PWA App" />
-        <meta name="twitter:description" content="Best PWA App in the world" />
-        <meta
-          name="twitter:image"
-          content="https://yourdomain.com/icons/android-chrome-192x192.png"
-        />
-        <meta name="twitter:creator" content="@DavidWShadow" />
-        <meta property="og:type" content="website" />
-        <meta property="og:title" content="PWA App" />
-        <meta property="og:description" content="Best PWA App in the world" />
-        <meta property="og:site_name" content="PWA App" />
-        <meta property="og:url" content="https://yourdomain.com" />
         <meta
           property="og:image"
           content="https://yourdomain.com/icons/apple-touch-icon.png"
@@ -145,9 +130,7 @@ export default function RootLayout({ children }) {
           sizes="640x1136"
         />
       </head>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`${manrope.variable} antialiased`}>
         <>
           <NextUIProvider>
             <DefaultLayout>{children}</DefaultLayout>

@@ -13,7 +13,7 @@ const NavSearchBar = () => {
 
   return (
     <div className="w-full flex items-center relative">
-      <div className="flex w-full overflow-hidden rounded-xl border focus-within:ring focus-within:ring-color-primary-p105 focus-within:border-color-purple-p70 border-color-purple-p80 sm:max-w-md md:max-w-lg lg:max-w-xl md:ml-2">
+      <div className="flex w-full overflow-hidden rounded-xl border focus-within:ring focus-within:ring-color-primary-p105 focus-within:border-color-primary-p70 border-color-primary-p80 sm:max-w-md md:max-w-lg lg:max-w-xl md:ml-2">
         <input
           type="text"
           value={searchQuery}
@@ -25,11 +25,10 @@ const NavSearchBar = () => {
               handleSearch();
             }
           }}
-          
         />
         <button
           onClick={handleSearch}
-          className="bg-color-purple-p70 hover:bg-color-purple-p80 text-white px-4 py-2 flex items-center justify-center"
+          className="bg-color-primary-p80 hover:bg-color-primary-p70 text-white px-4 py-2 flex items-center justify-center"
         >
           <FiSearch className="h-5 w-5" />
         </button>

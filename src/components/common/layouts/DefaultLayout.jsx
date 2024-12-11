@@ -10,7 +10,7 @@ const DefaultLayout = ({ children, footer = true }) => {
       <Navbar title="SHOP" />
       {/* Default Layout Wrapper */}
       <main className="flex-grow">
-        <div className="max-w-screen-2xl mx-auto px-4 sm:px-6">
+        <div className="max-w-screen-2xl mx-auto px-4">
           <div className="flex flex-col items-center justify-center py-4">
             {children}
           </div>

@@ -1,14 +1,11 @@
+const { nextui } = require("@nextui-org/theme");
 /** @type {import('tailwindcss').Config} */
-
-const { nextui } = require("@nextui-org/react");
-
 module.exports = {
-  darkMode: ["class"],
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
-    "./node_modules/@nextui-org/theme/dist/components/(button|card|dropdown|image|input|navbar|ripple|spinner|menu|divider|popover).js",
+    "./node_modules/@nextui-org/theme/dist/components/(breadcrumbs|button|card|divider|drawer|dropdown|form|image|input|navbar|tabs|ripple|spinner|modal|menu|popover).js"
   ],
   theme: {
     extend: {
@@ -43,9 +40,9 @@ module.exports = {
           DEFAULT: "hsl(var(--warning))",
           foreground: "hsl(var(--warning-foreground))",
         },
-        destructive: {
-          DEFAULT: "hsl(var(--destructive))",
-          foreground: "hsl(var(--destructive-foreground))",
+        danger: {
+          DEFAULT: "hsl(var(--danger))",
+          foreground: "hsl(var(--danger-foreground))",
         },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -115,8 +112,6 @@ module.exports = {
       animation: {
         "background-position-spin":
           "background-position-spin 3000ms infinite alternate",
-        marquee: "marquee var(--duration) infinite linear",
-        "marquee-vertical": "marquee-vertical var(--duration) linear infinite",
       },
       keyframes: {
         "background-position-spin": {
@@ -127,24 +122,8 @@ module.exports = {
             backgroundPosition: "bottom center",
           },
         },
-        marquee: {
-          from: {
-            transform: "translateX(0)",
-          },
-          to: {
-            transform: "translateX(calc(-100% - var(--gap)))",
-          },
-        },
-        "marquee-vertical": {
-          from: {
-            transform: "translateY(0)",
-          },
-          to: {
-            transform: "translateY(calc(-100% - var(--gap)))",
-          },
-        },
       },
     },
   },
-  plugins: [require("tailwindcss-animate"), nextui()],
+  plugins: [nextui()],
 };

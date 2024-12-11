@@ -130,7 +130,7 @@ export default function RootLayout({ children }) {
           sizes="640x1136"
         />
       </head>
-      <body className={`${oswald.variable} antialiased`}>
+      <body className={`${manrope.variable} antialiased`}>
         <>
           <NextUIProvider>
             <DefaultLayout>{children}</DefaultLayout>

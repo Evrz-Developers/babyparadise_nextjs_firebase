@@ -1,13 +1,17 @@
-import React from 'react'
-import DummyCard from '@/components/common/DummyCard';
+import React from "react";
+import { Button } from "@nextui-org/button";
 
-const Profile = () => {
-    return (
-            <DummyCard
-                gradientColor="#2634"
-                title="🚧 Profile Details"
-            />
-    )
-}
+const Profile = ({ handleLogout }) => {
+  return (
+    <Button
+      color="danger"
+      variant="ghost"
+      onPress={handleLogout}
+      className="w-full"
+    >
+      Logout
+    </Button>
+  );
+};
 
-export default Profile
+export default Profile;

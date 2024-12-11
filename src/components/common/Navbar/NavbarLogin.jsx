@@ -58,7 +58,7 @@ const NavbarLogin = ({ user, isLoggedIn, handleLogout, onOpen }) => {
           <Button variant="light" onPress={onOpen}>
             <div className="flex items-center cursor-pointer">
               <p className="font-normal">Login</p>
-              <FiLogIn className="h-5 w-5 ml-2" />
+              <FiLogIn className="h-5 w-5 ml-1" />
             </div>
           </Button>
         </div>

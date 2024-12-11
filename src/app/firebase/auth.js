@@ -4,11 +4,17 @@ import { toast } from "react-toastify";
 
 const loginWithEmailPassword = async (email, password) => {
   try {
-    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    const userCredential = await signInWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
     return { user: userCredential.user };
   } catch (error) {
     // console.error("Error logging in:", error);
-    toast.error("Error logging in", error);
+    toast.error("Error logging in", error, {
+      autoClose: 1500,
+    });
     return { error: error.message };
   }
 };
@@ -16,9 +22,13 @@ const loginWithEmailPassword = async (email, password) => {
 const logout = async () => {
   try {
     await signOut(auth);
-    toast.warning("Logged out");
+    toast.warning("Logged out", {
+      autoClose: 1500,
+    });
   } catch (error) {
-    toast.error("Error logging out");
+    toast.error("Error logging out", {
+      autoClose: 1500,
+    });
   }
 };
 

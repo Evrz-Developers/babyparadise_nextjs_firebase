@@ -17,32 +17,28 @@ const PLACEHOLDER = {
   MONEY: "₹__",
 };
 
-const MENU_ITEMS = [
-    {
-        name: "Login",
-        href: "/login",
-    },
-    {
-        name: "Register",
-        href: "/register",
-    },
-    {
-        name: "Profile",
-        href: "/profile",
-    },
-    {
-        name: "Dashboard",
-        href: "/dashboard",
-    },
-    {
-        name: "Logout",
-        // onClick: handleLogout,
-    },
+const menuItems = [
+  { label: "Login", href: "/login" },
+  { label: "Wishlist", href: "/wishlist" },
+  { label: "Cart", href: "/cart" },
+  { label: "About", href: "/about" },
+  { label: "Dashboard", href: "/dashboard" },
+  { label: "Help & Feedback", href: "/help" },
+];
+
+const LOGGED_IN_MENU_ITEMS = [
+  { key: "profile", label: "Profile", href: "/profile" },
+  { key: "wishlist", label: "Wishlist", href: "/wishlist" },
+  { key: "cart", label: "Cart", href: "/cart" },
+  { key: "about", label: "About", href: "/about" },
+  { key: "help", label: "Help & Feedback", href: "/help" },
+  { key: "orders", label: "Orders", href: "/orders" },
 ];
 
 const CONSTANTS = {
   PLACEHOLDER,
+  LOGGED_IN_MENU_ITEMS,
 };
 
-export { HTTP_METHODS };
+export { HTTP_METHODS, LOGGED_IN_MENU_ITEMS };
 export default CONSTANTS;

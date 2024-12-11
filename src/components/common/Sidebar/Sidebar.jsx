@@ -104,7 +104,7 @@ const Sidebar = ({ isOpen, onClose }) => {
                 <Link
                   key={index}
                   href={item?.href}
-                  className="block hover:bg-gray-100 p-2 rounded-md w-full"
+                  className="block hover:bg-gray-100 p-2 rounded-xl w-full"
                   size="lg"
                 >
                   {item.label}
@@ -120,7 +120,7 @@ const Sidebar = ({ isOpen, onClose }) => {
                 <Link
                   key={index}
                   href={item?.href}
-                  className="block hover:bg-gray-100 p-2 rounded-md w-full"
+                  className="block hover:bg-gray-100 p-2 rounded-xl w-full"
                   size="lg"
                 >
                   <li>{item.label}</li>

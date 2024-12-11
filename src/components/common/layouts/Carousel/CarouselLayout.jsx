@@ -9,7 +9,7 @@ const SlideItem = ({ item }) => (
 // CarouselIndicator Component
 const CarouselIndicator = ({ index, currentIndex, onClick }) => (
   <div
-    className={`w-1 h-1 md:w-3 md:h-3 rounded-sm cursor-pointer transition-colors duration-300 ${
+    className={`w-1 h-1 md:w-3 md:h-3 rounded-full cursor-pointer transition-colors duration-300 ${
       currentIndex === index ? "bg-color-primary-p60" : "bg-neutral-300"
     }`}
     onClick={onClick}

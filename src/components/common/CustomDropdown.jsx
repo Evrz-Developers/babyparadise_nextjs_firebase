@@ -18,7 +18,7 @@ const CustomDropdown = ({ isOpen, children, setIsDropdownOpen }) => {
   return (
     <div
       aria-label="User Actions"
-      className={`bg-white absolute right-0 w-40 p-2 rounded-md shadow-md ${
+      className={`bg-white absolute right-0 w-40 p-2 rounded-xl shadow-md ${
         isOpen ? "block" : "hidden"
       }`}
       onMouseLeave={() => setIsDropdownOpen(false)}

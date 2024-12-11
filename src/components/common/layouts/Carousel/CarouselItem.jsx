@@ -13,7 +13,7 @@ const CarouselItem = ({ src, alt, className, onClick }) => {
         alt={alt}
         fill
         style={{ objectFit: "contain" }}
-        className="rounded-md"
+        className="rounded-xl sm:rounded-2xl"
         priority
       />
     </div>

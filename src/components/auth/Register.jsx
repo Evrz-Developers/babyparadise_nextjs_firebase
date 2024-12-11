@@ -69,7 +69,7 @@ const Register = ({ setActiveTab }) => {
 
   return (
     <ContentWrapper className="h-90 mt-1 sm:mt-4">
-      <div className="w-full max-w-[400px]g h-full rounded-xl md:shadow-md p-4 m-auto border">
+      <div className="w-full max-w-[400px]g h-full rounded-2xl md:shadow-md p-4 m-auto border">
         <h3 className="text-xl mb-4 text-center"> Create account </h3>
 
         <Form onSubmit={handleSubmit}>

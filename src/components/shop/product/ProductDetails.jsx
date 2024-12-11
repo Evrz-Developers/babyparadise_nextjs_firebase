@@ -15,8 +15,8 @@ const ProductDetails = ({ product }) => {
       ) : product &&
         typeof product === "object" &&
         Object.keys(product).length > 0 ? (
-        <ContentWrapper className="md:flex-row justify-centerd md:justify-between items-center bg-color-primary-p40 rounded-md">
-          <div className="flex flex-col justify-center items-center bg-color-primary-p80 rounded-md">
+        <ContentWrapper className="md:flex-row justify-centerd md:justify-between items-center bg-color-primary-p40 rounded-xl">
+          <div className="flex flex-col justify-center items-center bg-color-primary-p80 rounded-xl">
             <Image
               src={product?.imageURL}
               alt={product?.name}
@@ -25,7 +25,7 @@ const ProductDetails = ({ product }) => {
             />
             <p>{product?.id}</p>
           </div>
-          <div className="flex flex-col justify-center items-center bg-color-primary-p60 rounded-md">
+          <div className="flex flex-col justify-center items-center bg-color-primary-p60 rounded-xl">
             <h2 className="title flex justify-center text-heading-4 pb-2">
               {product?.name}
             </h2>

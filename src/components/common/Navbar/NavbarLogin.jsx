@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
-import Link from "next/link";
-import { FiLogIn, FiUser } from "react-icons/fi";
+import { FiUser } from "react-icons/fi";
 import { AiOutlineLogin } from "react-icons/ai";
-
 import { Button } from "@nextui-org/button";
 
 const NavbarLogin = ({ user, isLoggedIn, onOpen }) => {
@@ -18,9 +16,7 @@ const NavbarLogin = ({ user, isLoggedIn, onOpen }) => {
     >
       {mounted && (
         <div className="flex items-center cursor-pointer">
-          <p className="font-medium">
-            {isLoggedIn ? user?.displayName.split(" ")[0] : "Login"}
-          </p>
+          <p className="font-medium">{isLoggedIn ? user?.name : "Login"}</p>
           {isLoggedIn ? (
             <FiUser className="h-5 w-5 ml-1" />
           ) : (

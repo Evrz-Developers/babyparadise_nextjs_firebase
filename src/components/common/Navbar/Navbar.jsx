@@ -1,30 +1,28 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { InstallAppManager } from "@/app/PWAManager";
-import useLoggedUserStore from "@/store/loggedUserStore";
-import NavbarLogo from "@/components/common/Navbar/NavbarLogo";
-import NavbarDeliveryAddress from "@/components/common/Navbar/NavbarDeliveryAddress";
-import NavSearchBar from "@/components/common/Navbar/NavSearchBar";
+import Profile from "@/components/shop/user/Profile";
+import NextDrawer from "@/components/ui/next-drawer";
+import { useDisclosure } from "@nextui-org/use-disclosure";
+import useLoggedUserStore from "@/store/useLoggedUserStore";
 import NavbarCart from "@/components/common/Navbar/NavbarCart";
+import NavbarLogo from "@/components/common/Navbar/NavbarLogo";
+import NavbarLogin from "@/components/common/Navbar/NavbarLogin";
+import NavSearchBar from "@/components/common/Navbar/NavSearchBar";
+import NavbarDeliveryAddress from "@/components/common/Navbar/NavbarDeliveryAddress";
+
 import {
   Navbar as NextNavbar,
   NavbarContent,
   NavbarItem,
 } from "@nextui-org/navbar";
-import NextDrawer from "@/components/ui/next-drawer";
-import { useDisclosure } from "@nextui-org/use-disclosure";
-import Login from "@/components/auth/Login";
-import Profile from "@/components/shop/user/Profile";
-import NavbarLogin from "./NavbarLogin";
-import Register from "@/components/auth/Register";
-import { Tabs, Tab } from "@nextui-org/tabs";
+import SigninSignup from "@/components/auth/SigninSignup";
 
 const Navbar = ({ title }) => {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState("login");
   const { user, isLoggedIn, logout } = useLoggedUserStore();
   const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
 
@@ -83,29 +81,14 @@ const Navbar = ({ title }) => {
 
       {/* Drawer Content*/}
       <NextDrawer
-        title={isLoggedIn ? user?.displayName.split(" ")[0] : ""}
+        title={isLoggedIn ? user?.name : "Guest"}
         isOpen={isOpen}
         onOpenChange={onOpenChange}
       >
         {isLoggedIn ? (
           <Profile handleLogout={handleLogout} />
         ) : (
-          <>
-            <Tabs
-              aria-label="Sign in options"
-              variant="ghost"
-              // color="primary"
-              selectedKey={activeTab}
-              onSelectionChange={setActiveTab}
-            >
-              <Tab key="login" title="Login">
-                <Login onClose={onClose} setActiveTab={setActiveTab} />
-              </Tab>
-              <Tab key="register" title="Register">
-                <Register onClose={onClose} setActiveTab={setActiveTab} />
-              </Tab>
-            </Tabs>
-          </>
+          <SigninSignup onClose={onClose} />
         )}
       </NextDrawer>
     </NextNavbar>

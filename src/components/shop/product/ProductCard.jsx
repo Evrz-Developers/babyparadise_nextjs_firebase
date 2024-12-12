@@ -22,7 +22,7 @@ const ProductCard = ({ product, index }) => {
         shadow="sm"
         key={index}
         isPressable
-        className="rounded-none rounded-t-lg"
+        className="rounded-none rounded-t-md"
         onPress={handleProductClick}
       >
         <CardBody className="overflow-visible p-0">
@@ -32,23 +32,23 @@ const ProductCard = ({ product, index }) => {
             width="100"
             height={200}
             alt={product?.name}
-            className="w-full object-cover h-[140px] rounded-none rounded-t-lg"
+            className="w-full object-cover h-[140px] rounded-none rounded-t-md"
             src={product?.imageURL}
             layout="fixed"
           />
         </CardBody>
         <CardFooter className="text-small justify-between">
-          <p className="text-tiny uppercase font-bold">{product?.price}</p>
+          {/* <p className="text-tiny uppercase font-bold">{product?.price}</p> */}
           <h4 className="font-bold text-large">{product?.name}</h4>
         </CardFooter>
       </Card>
       <Button
         size="sm"
-        className=" flex bg-warning rounded-none rounded-b-lg"
-        variant="solid"
+        className=" flex bg-orange-50 rounded-none rounded-b-xl"
+        variant="ghost"
         color="warning"
         // radius="md"
-        onClick={() => console.log("button pressed")}
+        onPress={() => console.log("button pressed")}
       >
         Add to Cart
       </Button>

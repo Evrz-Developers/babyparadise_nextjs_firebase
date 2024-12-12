@@ -65,8 +65,8 @@ const Navbar = ({ title }) => {
         <NavbarItem>
           <InstallAppManager />
         </NavbarItem>
-        {/* Cart Icon */}
-        <NavbarItem>
+        {/* Cart Button */}
+        <NavbarItem className="hidden sm:flex">
           <NavbarCart />
         </NavbarItem>
         {/* Login Button/ Dropdown Menu/ Drawer */}

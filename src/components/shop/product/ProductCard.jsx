@@ -40,10 +40,15 @@ const ProductCard = ({ product, index }) => {
         </CardBody>
         <CardFooter className="flex flex-col text-small items-start justify-between">
           <h6 className="text-small uppercase font-bold">
-            {product?.price
-              ? `${CONSTANTS.SYMBOLS.CURRENCY}${product?.price}`
-              : CONSTANTS.PLACEHOLDER.CURRENCY}
-          </h6> 
+            {product?.price ? (
+              <span className="text-tiny">
+                {CONSTANTS.SYMBOLS.CURRENCY}
+                {product?.price}
+              </span>
+            ) : (
+              CONSTANTS.PLACEHOLDER.CURRENCY
+            )}
+          </h6>
           <h4 className="font-bold text-large">{product?.name}</h4>
         </CardFooter>
       </Card>

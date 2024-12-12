@@ -8,8 +8,8 @@ const NavbarLogo = ({ title }) => {
         src="/logo-temp.svg"
         alt="Logo"
         className="rounded-xl"
-        width={134}
-        height={36}
+        width={135}
+        height={40}
         priority
       />
       {/* <span className="font-bold text-inherit mr-2 text-color-primary-p40">{title}</span> */}

@@ -4,6 +4,7 @@ import { Button } from "@nextui-org/button";
 import { useRouter } from "next/navigation";
 import { Card, CardHeader, CardBody, CardFooter } from "@nextui-org/card";
 import { Image } from "@nextui-org/image";
+import CONSTANTS from "@/utilities/constants";
 
 const ProductCard = ({ product, index }) => {
   const router = useRouter();
@@ -37,8 +38,12 @@ const ProductCard = ({ product, index }) => {
             layout="fixed"
           />
         </CardBody>
-        <CardFooter className="text-small justify-between">
-          {/* <p className="text-tiny uppercase font-bold">{product?.price}</p> */}
+        <CardFooter className="flex flex-col text-small items-start justify-between">
+          <h6 className="text-small uppercase font-bold">
+            {product?.price
+              ? `${CONSTANTS.SYMBOLS.CURRENCY}${product?.price}`
+              : CONSTANTS.PLACEHOLDER.CURRENCY}
+          </h6> 
           <h4 className="font-bold text-large">{product?.name}</h4>
         </CardFooter>
       </Card>

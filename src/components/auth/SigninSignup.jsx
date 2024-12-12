@@ -91,7 +91,11 @@ export default function SigninSignup({ onClose }) {
                   />
                   <p className="text-center text-small">
                     Need to create an account?{" "}
-                    <Link size="sm" onPress={() => setSelected("sign-up")}>
+                    <Link
+                      size="sm"
+                      onPress={() => setSelected("sign-up")}
+                      className="cursor-pointer"
+                    >
                       Sign up
                     </Link>
                   </p>
@@ -153,7 +157,11 @@ export default function SigninSignup({ onClose }) {
                   />
                   <p className="text-center text-small">
                     Already have an account?{" "}
-                    <Link size="sm" onPress={() => setSelected("login")}>
+                    <Link
+                      size="sm"
+                      onPress={() => setSelected("login")}
+                      className="cursor-pointer"
+                    >
                       Login
                     </Link>
                   </p>

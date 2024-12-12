@@ -80,10 +80,12 @@ const loginWithGoogle = async () => {
 
     let userData;
 
+    const firstName = user.displayName?.split(" ")[0] || "";
+
     if (!userDoc.exists()) {
       // If user doesn't exist, create new user document
       userData = {
-        name: user.displayName,
+        name: firstName,
         email: user.email,
         role: "user",
         createdAt: Date.now(),
@@ -91,7 +93,6 @@ const loginWithGoogle = async () => {
       };
       await setDoc(userDocRef, userData);
     } else {
-      // If user exists, get their data
       userData = userDoc.data();
       // Update last login
       await setDoc(userDocRef, { lastLoginAt: Date.now() }, { merge: true });
@@ -125,14 +126,15 @@ const registerWithEmailPassword = async (name, email, password) => {
     const user = userCredential.user;
 
     // Create user document in Firestore
+    const firstName = name?.split(" ")[0] || "";
     const db = getFirestore();
     const userDocRef = doc(db, "users", user.uid);
 
     // Prepare user data
     const userData = {
-      name,
+      name: firstName,
       email,
-      role: "user", // Default role for new users
+      role: "user",
       createdAt: Date.now(),
       lastLoginAt: Date.now(),
     };

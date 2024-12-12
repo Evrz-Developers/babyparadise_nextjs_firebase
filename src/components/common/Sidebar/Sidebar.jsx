@@ -4,7 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { FiX } from "react-icons/fi";
 import { useRouter } from "next/navigation";
-import useLoggedUserStore from "@/store/loggedUserStore";
+import useLoggedUserStore from "@/store/useLoggedUserStore";
 import ContentWrapper from "@/components/common/layouts/ContentWrapper";
 import NavbarLogo from "../Navbar/NavbarLogo";
 

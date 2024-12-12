@@ -1,27 +1,29 @@
 import { create } from "zustand";
 import AUTH from "@/app/firebase/auth";
 import { toast } from "react-toastify";
+import Cookies from "js-cookie";
 
 const useLoggedUserStore = create((set) => {
-  // Retrieve user data from local storage
+  // Retrieve user data from cookies
   const storedUser =
     typeof window !== "undefined"
-      ? JSON.parse(localStorage.getItem("user"))
+      ? JSON.parse(Cookies.get("user") || "null")
       : null;
 
-  // Check if the user exists and if lastLoginAt is within the last 7 days
   const isLoggedIn =
     storedUser &&
     storedUser.lastLoginAt &&
     Date.now() - storedUser.lastLoginAt < 7 * 24 * 60 * 60 * 1000;
 
   return {
-    user: storedUser || null, // Initialize user to stored user or null
-    isLoggedIn: isLoggedIn, // Set isLoggedIn based on the check
+    user: storedUser || null,
+    isLoggedIn: isLoggedIn,
     setUser: (user) => {
       set({ user, isLoggedIn: true });
       if (typeof window !== "undefined") {
-        localStorage.setItem("user", JSON.stringify(user)); // Save user data to local storage
+        // Store in both localStorage and cookies
+        localStorage.setItem("user", JSON.stringify(user));
+        Cookies.set("user", JSON.stringify(user), { expires: 7 }); // Expires in 7 days
       }
     },
     logout: async () => {
@@ -29,7 +31,8 @@ const useLoggedUserStore = create((set) => {
         await AUTH.LOGOUT();
         set({ user: null, isLoggedIn: false });
         if (typeof window !== "undefined") {
-          localStorage.removeItem("user"); // Remove user from localStorage
+          localStorage.removeItem("user");
+          Cookies.remove("user");
         }
       } catch (error) {
         toast.error("Error logging out: " + error.message, {

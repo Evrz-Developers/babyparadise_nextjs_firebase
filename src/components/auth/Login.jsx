@@ -91,7 +91,7 @@ const Login = ({ onClose, setActiveTab }) => {
             className="text-color-primary-p50 hover:text-color-primary-p40 text-sm"
             onClick={() => setActiveTab("register")}
           >
-            👶New here? Sign up!
+            New here? Sign up!
           </button>
         </div>
       </div>

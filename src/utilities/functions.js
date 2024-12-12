@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 
 export const handleLoginResult = (result, onClose, setUser, router) => {
   if (result.error) {
-    toast.error("Oops! " + result.error);
+    toast.error("Uh-oh! " + result.error);
   } else {
     onClose();
     setUser(result.user);
@@ -17,7 +17,7 @@ export const handleLoginResult = (result, onClose, setUser, router) => {
 
 const handleRegisterResult = (result, onClose, setUser, router) => {
   if (result.error) {
-    toast.error("Oops! " + result.error);
+    toast.error("Uh- " + result.error);
   } else {
     setUser(result.user);
     toast.success("Registration successful!");

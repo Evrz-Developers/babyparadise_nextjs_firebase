@@ -11,6 +11,7 @@ import { Card, CardBody } from "@nextui-org/card";
 import useLoggedUserStore from "@/store/useLoggedUserStore";
 import FUNCTIONS from "@/utilities/functions";
 import { FcGoogle } from "react-icons/fc";
+import BlurFade from "@/components/ui/blur-fade";
 
 export default function SigninSignup({ onClose }) {
   const [selected, setSelected] = React.useState("login");
@@ -49,22 +50,9 @@ export default function SigninSignup({ onClose }) {
   const handleGoogleLogin = async () => {
     try {
       const result = await AUTH.LOGIN_WITH_GOOGLE();
-      if (result.error) {
-        toast.error("Oops! " + result.error, {
-          autoClose: 1500,
-        });
-      } else {
-        setUser(result.user);
-        toast.success("Login successful!", {
-          autoClose: 1500,
-        });
-        router.push("/");
-        onClose();
-      }
+      FUNCTIONS.AUTH.HANDLE_LOGIN_RESULT(result, onClose, setUser, router);
     } catch (error) {
-      toast.error("Google login failed", {
-        autoClose: 1500,
-      });
+      toast.error("Google login failed");
     }
   };
 
@@ -82,98 +70,121 @@ export default function SigninSignup({ onClose }) {
             onSelectionChange={setSelected}
           >
             <Tab key="login" title="Login">
-              <Form
-                className="flex flex-col gap-4"
-                onSubmit={handleLoginWithEmail}
-              >
-                <Input
-                  type="email"
-                  name="email"
-                  label="Email"
-                  placeholder="Enter your email"
-                  isRequired
-                />
-                <Input
-                  type="password"
-                  name="password"
-                  label="Password"
-                  placeholder="Enter your password"
-                  isRequired
-                />
-                <p className="text-center text-small">
-                  Need to create an account?{" "}
-                  <Link size="sm" onPress={() => setSelected("sign-up")}>
-                    Sign up
-                  </Link>
-                </p>
-                <div className="flex flex-col gap-2">
-                  <Button
-                    type="submit"
-                    color="primary"
-                    variant="ghost"
-                    fullWidth
-                  >
-                    Login
-                  </Button>
-                  <div className="flex items-center gap-2">
-                    <div className="h-[1px] flex-1 bg-gray-200"></div>
-                    <p className="text-small text-gray-500">or</p>
-                    <div className="h-[1px] flex-1 bg-gray-200"></div>
+              <BlurFade key="login-form">
+                <Form
+                  className="flex flex-col gap-4"
+                  onSubmit={handleLoginWithEmail}
+                >
+                  <Input
+                    type="email"
+                    name="email"
+                    label="Email"
+                    placeholder="Enter your email"
+                    isRequired
+                  />
+                  <Input
+                    type="password"
+                    name="password"
+                    label="Password"
+                    placeholder="Enter your password"
+                    isRequired
+                  />
+                  <p className="text-center text-small">
+                    Need to create an account?{" "}
+                    <Link size="sm" onPress={() => setSelected("sign-up")}>
+                      Sign up
+                    </Link>
+                  </p>
+                  <div className="flex gap-2">
+                    <Button
+                      type="submit"
+                      color="primary"
+                      variant="shadow"
+                      fullWidth
+                      className="text-neutral-900 bg-color-primary-p80/15 hover:bg-color-primary-p60/15"
+                    >
+                      Login
+                    </Button>
+                    <div className="flex items-center gap-2">
+                      <div className="h-[1px] flex-1 bg-gray-200"></div>
+                      <p className="text-small text-gray-500">|</p>
+                      <div className="h-[1px] flex-1 bg-gray-200"></div>
+                    </div>
+                    <Button
+                      isIconOnly
+                      color="primary"
+                      variant="shadow"
+                      fullWidth
+                      onPress={handleGoogleLogin}
+                      className="text-neutral-900 bg-color-primary-p80/15 hover:bg-color-primary-p60/15"
+                    >
+                      <FcGoogle className="text-xl" />
+                    </Button>
                   </div>
-                  <Button
-                    startContent={<FcGoogle className="text-xl" />}
-                    variant="bordered"
-                    fullWidth
-                    onClick={handleGoogleLogin}
-                  >
-                    Continue with Google
-                  </Button>
-                </div>
-              </Form>
+                </Form>
+              </BlurFade>
             </Tab>
             <Tab key="sign-up" title="Sign up">
-              <Form
-                className="flex flex-col gap-4 h-[300px]"
-                onSubmit={handleRegisterWithEmail}
-              >
-                <Input
-                  type="text"
-                  name="name"
-                  label="Name"
-                  placeholder="Enter your name"
-                  isRequired
-                />
-                <Input
-                  type="email"
-                  name="email"
-                  label="Email"
-                  placeholder="Enter your email"
-                  isRequired
-                />
-                <Input
-                  type="password"
-                  name="password"
-                  label="Password"
-                  placeholder="Enter your password"
-                  isRequired
-                />
-                <p className="text-center text-small">
-                  Already have an account?{" "}
-                  <Link size="sm" onPress={() => setSelected("login")}>
-                    Login
-                  </Link>
-                </p>
-                <div className="flex gap-2 justify-end">
-                  <Button
-                    fullWidth
-                    color="primary"
-                    type="submit"
-                    variant="ghost"
-                  >
-                    Sign up
-                  </Button>
-                </div>
-              </Form>
+              <BlurFade key="signup-form">
+                <Form
+                  className="flex flex-col gap-4 h-[300px]"
+                  onSubmit={handleRegisterWithEmail}
+                >
+                  <Input
+                    type="text"
+                    name="name"
+                    label="Name"
+                    placeholder="Enter your name"
+                    isRequired
+                  />
+                  <Input
+                    type="email"
+                    name="email"
+                    label="Email"
+                    placeholder="Enter your email"
+                    isRequired
+                  />
+                  <Input
+                    type="password"
+                    name="password"
+                    label="Password"
+                    placeholder="Enter your password"
+                    isRequired
+                  />
+                  <p className="text-center text-small">
+                    Already have an account?{" "}
+                    <Link size="sm" onPress={() => setSelected("login")}>
+                      Login
+                    </Link>
+                  </p>
+                  <div className="flex gap-2">
+                    <Button
+                      type="submit"
+                      color="primary"
+                      variant="shadow"
+                      fullWidth
+                      className="text-neutral-900 bg-color-primary-p80/15 hover:bg-color-primary-p60/15"
+                    >
+                      Sign up
+                    </Button>
+                    <div className="flex items-center gap-2">
+                      <div className="h-[1px] flex-1 bg-gray-200"></div>
+                      <p className="text-small text-gray-500">|</p>
+                      <div className="h-[1px] flex-1 bg-gray-200"></div>
+                    </div>
+                    <Button
+                      isIconOnly
+                      color="primary"
+                      variant="shadow"
+                      fullWidth
+                      onPress={handleGoogleLogin}
+                      className="text-neutral-900 bg-color-primary-p80/15 hover:bg-color-primary-p60/15"
+                    >
+                      <FcGoogle className="text-xl" />
+                    </Button>
+                  </div>
+                </Form>
+              </BlurFade>
             </Tab>
           </Tabs>
         </CardBody>

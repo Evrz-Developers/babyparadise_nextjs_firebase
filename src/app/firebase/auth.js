@@ -14,21 +14,23 @@ const getErrorMessage = (errorCode) => {
     case "auth/invalid-email":
       return "Please enter a valid email address.";
     case "auth/user-disabled":
-      return "The user corresponding to the given email has been disabled.";
+      return "Account has been disabled.";
     case "auth/user-not-found":
-      return "No user found with this email address.";
+      return "No account found with this email address.";
     case "auth/invalid-credential":
       return "Check your email and password.";
     case "auth/weak-password":
       return "Password must be at least 6 characters long.";
     case "auth/email-already-in-use":
-      return "Email already in use.";
+      return "Account already exists.";
     case "auth/unauthorized-domain":
-      return "Service temporary unavailable for this domain.";
+      return "Service temporary unavailable.";
+    case "auth/cancelled-popup-request":
+      return "Popup was cancelled.";
     case "auth/too-many-requests":
       return "Too many login attempts. Please try again later.";
     default:
-      return "Oops! An Error occurred." + errorCode;
+      return "An Error occurred." + errorCode;
   }
 };
 

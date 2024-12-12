@@ -5,9 +5,11 @@ import AUTH from "@/app/firebase/auth";
 import { toast } from "react-toastify";
 import { Form } from "@nextui-org/form";
 import { Input } from "@nextui-org/input";
+import { Link } from "@nextui-org/link";
+import { Card, CardBody } from "@nextui-org/card";
 import { Button } from "@nextui-org/button";
 import { useRouter } from "next/navigation";
-import useLoggedUserStore from "@/store/loggedUserStore";
+import useLoggedUserStore from "@/store/useLoggedUserStore";
 import ContentWrapper from "@/components/common/layouts/ContentWrapper";
 
 const Login = ({ onClose, setActiveTab }) => {
@@ -26,15 +28,17 @@ const Login = ({ onClose, setActiveTab }) => {
           autoClose: 1500,
         });
       } else {
-        const userWithLoginTime = {
-          ...result.user,
-          lastLoginAt: Date.now(),
-        };
-        setUser(userWithLoginTime);
-        toast.success("Logged in successfully", {
+        console.log(result.user);
+        setUser(result.user);
+        toast.success("Login successful!", {
           autoClose: 1500,
         });
-        router.push("/");
+
+        if (result.user.role === "admin") {
+          router.push("/dashboard");
+        } else {
+          router.push("/");
+        }
         onClose();
       }
     } catch (error) {
@@ -43,16 +47,6 @@ const Login = ({ onClose, setActiveTab }) => {
       });
     }
   };
-
-  // const handleClick = () => {
-  //   const activeElement = document.activeElement;
-  //   if (
-  //     activeElement &&
-  //     (activeElement.tagName === "INPUT" || activeElement.tagName === "BUTTON")
-  //   ) {
-  //     activeElement.blur();
-  //   }
-  // };
 
   return (
     <ContentWrapper className="h-90 mt-1 sm:mt-4">
@@ -81,7 +75,6 @@ const Login = ({ onClose, setActiveTab }) => {
             variant="ghost"
             color="primary"
             className="w-full"
-            // onPress={handleClick}
           >
             Login
           </Button>

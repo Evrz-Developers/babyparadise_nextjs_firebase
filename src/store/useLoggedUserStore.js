@@ -26,7 +26,7 @@ const useLoggedUserStore = create((set) => {
     },
     logout: async () => {
       try {
-        await AUTH.logout();
+        await AUTH.LOGOUT();
         set({ user: null, isLoggedIn: false });
         if (typeof window !== "undefined") {
           localStorage.removeItem("user"); // Remove user from localStorage

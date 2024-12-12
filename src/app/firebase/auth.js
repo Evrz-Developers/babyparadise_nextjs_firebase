@@ -1,21 +1,34 @@
 import { auth } from "@/app/firebase/firebaseConfig";
-import { signInWithEmailAndPassword, signOut } from "firebase/auth";
+import {
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  signOut,
+  GoogleAuthProvider,
+  signInWithPopup,
+} from "firebase/auth";
 import { toast } from "react-toastify";
+import { doc, getDoc, setDoc, getFirestore } from "firebase/firestore";
 
 const getErrorMessage = (errorCode) => {
   switch (errorCode) {
     case "auth/invalid-email":
-      return "Check your email and password.";
+      return "Please enter a valid email address.";
     case "auth/user-disabled":
       return "The user corresponding to the given email has been disabled.";
     case "auth/user-not-found":
       return "No user found with this email address.";
     case "auth/invalid-credential":
       return "Check your email and password.";
+    case "auth/weak-password":
+      return "Password must be at least 6 characters long.";
+    case "auth/email-already-in-use":
+      return "Email already in use.";
+    case "auth/unauthorized-domain":
+      return "Service temporary unavailable for this domain.";
     case "auth/too-many-requests":
       return "Too many login attempts. Please try again later.";
     default:
-      return "An unknown error occurred. Please try again.";
+      return "Oops! An Error occurred." + errorCode;
   }
 };
 
@@ -26,7 +39,117 @@ const loginWithEmailPassword = async (email, password) => {
       email,
       password
     );
-    return { user: userCredential.user };
+    const user = userCredential.user;
+    const db = getFirestore();
+    const userDocRef = doc(db, "users", user.uid);
+    const userDoc = await getDoc(userDocRef);
+
+    if (!userDoc.exists()) {
+      throw new Error("User document not found");
+    }
+
+    const userData = {
+      uid: user.uid,
+      email: user.email,
+      name: userDoc.data().name || "",
+      role: userDoc.data().role || "user",
+      photoURL: user.photoURL,
+      accessToken: user.accessToken,
+      lastLoginAt: Date.now(),
+    };
+
+    return { user: userData };
+  } catch (error) {
+    const formattedError = getErrorMessage(error.code);
+    return { error: formattedError };
+  }
+};
+
+const loginWithGoogle = async () => {
+  try {
+    const provider = new GoogleAuthProvider();
+    const userCredential = await signInWithPopup(auth, provider);
+    const user = userCredential.user;
+
+    // Check if user exists in Firestore
+    const db = getFirestore();
+    const userDocRef = doc(db, "users", user.uid);
+    const userDoc = await getDoc(userDocRef);
+
+    let userData;
+
+    if (!userDoc.exists()) {
+      // If user doesn't exist, create new user document
+      userData = {
+        name: user.displayName,
+        email: user.email,
+        role: "user",
+        createdAt: Date.now(),
+        lastLoginAt: Date.now(),
+      };
+      await setDoc(userDocRef, userData);
+    } else {
+      // If user exists, get their data
+      userData = userDoc.data();
+      // Update last login
+      await setDoc(userDocRef, { lastLoginAt: Date.now() }, { merge: true });
+    }
+
+    return {
+      user: {
+        uid: user.uid,
+        email: user.email,
+        name: userData.name,
+        role: userData.role,
+        photoURL: user.photoURL,
+        accessToken: user.accessToken,
+        lastLoginAt: Date.now(),
+      },
+    };
+  } catch (error) {
+    const formattedError = getErrorMessage(error.code);
+    return { error: formattedError };
+  }
+};
+
+const registerWithEmailPassword = async (name, email, password) => {
+  try {
+    // Create the user in Firebase Auth
+    const userCredential = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+    const user = userCredential.user;
+
+    // Create user document in Firestore
+    const db = getFirestore();
+    const userDocRef = doc(db, "users", user.uid);
+
+    // Prepare user data
+    const userData = {
+      name,
+      email,
+      role: "user", // Default role for new users
+      createdAt: Date.now(),
+      lastLoginAt: Date.now(),
+    };
+
+    // Save to Firestore
+    await setDoc(userDocRef, userData);
+
+    // Return complete user object
+    return {
+      user: {
+        uid: user.uid,
+        email: user.email,
+        name: userData.name,
+        role: userData.role,
+        photoURL: user.photoURL,
+        accessToken: user.accessToken,
+        lastLoginAt: userData.lastLoginAt,
+      },
+    };
   } catch (error) {
     const formattedError = getErrorMessage(error.code);
     return { error: formattedError };
@@ -45,8 +168,10 @@ const logout = async () => {
 };
 
 const AUTH = {
-  login: loginWithEmailPassword,
-  logout: logout,
+  LOGIN_WITH_EMAIL_PASSWORD: loginWithEmailPassword,
+  REGISTER_WITH_EMAIL_PASSWORD: registerWithEmailPassword,
+  LOGIN_WITH_GOOGLE: loginWithGoogle,
+  LOGOUT: logout,
 };
 
 export default AUTH;

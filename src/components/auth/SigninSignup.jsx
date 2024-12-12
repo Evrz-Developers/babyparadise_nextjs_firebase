@@ -49,7 +49,7 @@ export default function SigninSignup({ onClose }) {
 
   const handleGoogleLogin = async () => {
     try {
-      const result = await AUTH.LOGIN_WITH_GOOGLE();
+      const result = await AUTH.SIGNIN_WITH_GOOGLE();
       FUNCTIONS.AUTH.HANDLE_LOGIN_RESULT(result, onClose, setUser, router);
     } catch (error) {
       toast.error("Google login failed");

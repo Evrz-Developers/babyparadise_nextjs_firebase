@@ -67,7 +67,7 @@ const loginWithEmailPassword = async (email, password) => {
   }
 };
 
-const loginWithGoogle = async () => {
+const SignInWithGoogle = async () => {
   try {
     const provider = new GoogleAuthProvider();
     const userCredential = await signInWithPopup(auth, provider);
@@ -174,7 +174,7 @@ const logout = async () => {
 const AUTH = {
   LOGIN_WITH_EMAIL_PASSWORD: loginWithEmailPassword,
   REGISTER_WITH_EMAIL_PASSWORD: registerWithEmailPassword,
-  LOGIN_WITH_GOOGLE: loginWithGoogle,
+  SIGNIN_WITH_GOOGLE: SignInWithGoogle,
   LOGOUT: logout,
 };
 

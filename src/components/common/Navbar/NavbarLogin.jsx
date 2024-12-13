@@ -10,18 +10,23 @@ const NavbarLogin = ({ user, isLoggedIn, onOpen }) => {
 
   return (
     <Button
+      fullWidth
       variant="light"
       onPress={onOpen}
-      className="bg-color-primary-p100/35 text-color-secondary-s30 hover:bg-color-primary-p90 hover:text-color-secondary-s05"
+      endContent={
+        mounted && isLoggedIn ? (
+          <FiUser className="h-4 w-4" />
+        ) : (
+          mounted && <AiOutlineLogin className="h-4 w-4" />
+        )
+      }
+      className=" bg-color-primary-p100/35 text-color-secondary-s30 hover:bg-color-primary-p90 hover:text-color-secondary-s05"
     >
       {mounted && (
-        <div className="flex items-center cursor-pointer">
-          <p className="font-medium">{isLoggedIn ? user?.name : "Login"}</p>
-          {isLoggedIn ? (
-            <FiUser className="h-5 w-5 ml-1" />
-          ) : (
-            <AiOutlineLogin className="h-5 w-5 ml-1" />
-          )}
+        <div className="flex items-center">
+          <p className="font-medium text-xs">
+            {isLoggedIn ? user?.name : "Login"}
+          </p>
         </div>
       )}
     </Button>

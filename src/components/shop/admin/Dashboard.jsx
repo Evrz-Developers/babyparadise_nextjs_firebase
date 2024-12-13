@@ -1,26 +1,10 @@
 "use client";
-import React, { useEffect } from "react";
-import { useRouter } from "next/navigation";
+import React from "react";
 import useCategoryStore from "@/store/useCategoryStore";
-import useLoggedUserStore from "@/store/useLoggedUserStore";
 import Product from "@/components/shop/product/Product";
 
 const Dashboard = () => {
   const { categories } = useCategoryStore();
-  const { user, isLoggedIn } = useLoggedUserStore();
-  const router = useRouter();
-
-  useEffect(() => {
-    // Client-side protection
-    if (!isLoggedIn || !user || user.role !== "admin") {
-      router.push("/");
-    }
-  }, [isLoggedIn, user, router]);
-
-  // Show loading or nothing while checking authentication
-  if (!isLoggedIn || !user || user.role !== "admin") {
-    return null;
-  }
 
   return (
     <div>

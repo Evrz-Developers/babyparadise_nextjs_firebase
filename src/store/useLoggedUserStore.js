@@ -29,7 +29,6 @@ const getInitialState = () => {
     }
 
     const user = JSON.parse(storedUser);
-    console.log("user", user);
     // Check if login is within last 7 days
     const isLoggedIn =
       user &&

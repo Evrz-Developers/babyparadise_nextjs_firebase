@@ -68,8 +68,10 @@ export default function SigninSignup({ onClose }) {
           {isLoading ? (
             <LoadingSpinner
               initialMessage="Connecting to Google..."
-              delayedMessage="Hold on..."
-              delay={5000}
+              delayMessage="Fetching user data"
+              secondaryMessage="Almost there..."
+              delay={4000}
+              secondaryDelay={10000}
             />
           ) : (
             <Tabs

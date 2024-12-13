@@ -1,12 +1,13 @@
-'use client';
-import React, { useState, useEffect } from 'react';
-import { FaArrowUp } from 'react-icons/fa';
+"use client";
+import { Button } from "@nextui-org/button";
+import { FaArrowUp } from "react-icons/fa";
+import React, { useState, useEffect } from "react";
 
 const ScrollToTop = () => {
   const [isVisible, setIsVisible] = useState(false);
 
   const toggleVisibility = () => {
-    if (window.pageYOffset > 300) {
+    if (window.scrollY > 500) {
       setIsVisible(true);
     } else {
       setIsVisible(false);
@@ -16,22 +17,28 @@ const ScrollToTop = () => {
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
-      behavior: 'smooth'
+      behavior: "smooth",
     });
   };
 
   useEffect(() => {
-    window.addEventListener('scroll', toggleVisibility);
-    return () => window.removeEventListener('scroll', toggleVisibility);
+    window.addEventListener("scroll", toggleVisibility);
+    return () => window.removeEventListener("scroll", toggleVisibility);
   }, []);
 
   return (
-    <button
-      className={`fixed bottom-20 right-10 bg-secondary text-primary p-4 rounded-full shadow-md ${isVisible ? 'opacity-100' : 'opacity-0'}`}
-      onClick={scrollToTop}
+    <Button
+      isIconOnly
+      size="lg"
+      className={`fixed bottom-8 right-3 bg-color-primary-p100/45 hover:bg-primary-200 text-color-primary-p40 p-4 rounded-full shadow-md ${
+        isVisible ? "opacity-100" : "opacity-0"
+      }`}
+      variant="shadow"
+      color="primary"
+      onPress={scrollToTop}
     >
       <FaArrowUp />
-    </button>
+    </Button>
   );
 };
 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import ProductGrid from "./ProductGrid";
-import Loader from "@/components/common/Loader";
+import LoadingSpinner from "@/components/common/LoadingSpinner";
 import PRODUCT_API from "@/utilities/api/product.api";
 
 const Product = () => {
@@ -23,7 +23,7 @@ const Product = () => {
         // TODO: Remove log
         console.error("Error fetching products:", error);
       } finally {
-        setLoading(false); 
+        setLoading(false);
       }
     };
     fetchData();
@@ -34,7 +34,7 @@ const Product = () => {
       {loading ? (
         // TODO: Show loader if needed
         <div className="flex justify-center items-center h-full pb-60">
-          {/* <Loader className="bg-opacity-30" /> */}
+          {/* <LoadingSpinner className="bg-opacity-30" /> */}
         </div>
       ) : (
         <div className="px-4 overflow-y-auto overscroll-y-none">
@@ -43,7 +43,8 @@ const Product = () => {
             handleListItemClick={handleClick}
             clickable={true}
             showImage={true}
-            className={""} />
+            className={""}
+          />
         </div>
       )}
     </>

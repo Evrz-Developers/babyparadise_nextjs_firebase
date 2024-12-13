@@ -7,7 +7,7 @@ import useProductStore from "@/store/useProductStore";
 import useCarouselStore from "@/store/useCarouselStore";
 import CarouselLayout from "@/components/common/layouts/Carousel/CarouselLayout";
 import CarouselItem from "@/components/common/layouts/Carousel/CarouselItem";
-import Loader from "@/components/common/Loader";
+import LoadingSpinner from "@/components/common/LoadingSpinner";
 import ContentWrapper from "@/components/common/layouts/ContentWrapper";
 
 const Home = ({ initialData }) => {
@@ -46,13 +46,13 @@ const Home = ({ initialData }) => {
       {/* Products */}
       <Gridlayout>
         {loading ? (
-          <Loader />
+          <LoadingSpinner />
         ) : products && products.length > 0 ? (
           products.map((product, index) => (
             <ProductCard key={product?.id} product={product} index={index} />
           ))
         ) : (
-          <Loader />
+          <LoadingSpinner />
         )}
       </Gridlayout>
     </ContentWrapper>

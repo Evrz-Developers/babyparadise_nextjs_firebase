@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import Loader from "@/components/common/Loader";
+import LoadingSpinner from "@/components/common/LoadingSpinner";
 import { Image } from "@nextui-org/image";
 import ContentWrapper from "@/components/common/layouts/ContentWrapper";
 import { Button } from "@nextui-org/button";
@@ -11,7 +11,7 @@ const ProductDetails = ({ product }) => {
   return (
     <>
       {!product ? ( // Check if product data is available
-        <Loader className="bg-opacity-30" />
+        <LoadingSpinner className="bg-opacity-30" />
       ) : product &&
         typeof product === "object" &&
         Object.keys(product).length > 0 ? (

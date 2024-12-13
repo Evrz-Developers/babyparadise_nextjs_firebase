@@ -19,17 +19,19 @@ const ProductDetails = ({ product }) => {
       ) : product &&
         typeof product === "object" &&
         Object.keys(product).length > 0 ? (
-        <ContentWrapper className="max-w-7xl mx-auto px-4 sm:py-8">
+        <ContentWrapper className=" mx-auto pt-4 sm:py-8">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {/* Image Section */}
-            <div className="flex justify-center items-start sticky top-0 rounded-xl">
-              <Image
-                src={product?.imageURL}
-                alt={product?.name}
-                width={400}
-                height={400}
-                className="object-contain hover:scale-105 transition-transform duration-300 rounded-xl"
-              />
+            <div className="md:sticky md:top-24 h-fit">
+              <div className="w-full max-w-full sm:max-w-[98%] h-[400px] mx-auto relative">
+                <Image
+                  src={product?.imageURL}
+                  alt={product?.name}
+                  className="object-cover w-full h-full hover:scale-105 transition-transform duration-300"
+                  radius="lg"
+                  removeWrapper
+                />
+              </div>
             </div>
 
             {/* Product Info Section */}

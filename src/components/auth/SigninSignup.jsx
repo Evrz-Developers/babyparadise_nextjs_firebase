@@ -66,7 +66,11 @@ export default function SigninSignup({ onClose }) {
       <Card className="max-w-full w-[340px]s h-[400px]">
         <CardBody className="overflow-hidden">
           {isLoading ? (
-            <LoadingSpinner />
+            <LoadingSpinner
+              initialMessage="Connecting to Google..."
+              delayedMessage="Hold on..."
+              delay={5000}
+            />
           ) : (
             <Tabs
               fullWidth

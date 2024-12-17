@@ -1,69 +1,35 @@
 import React, { useState, useEffect } from "react";
-import Link from "next/link";
-import { FiLogIn, FiUser } from "react-icons/fi";
-import { LOGGED_IN_MENU_ITEMS } from "@/utilities/constants";
+import { FiUser } from "react-icons/fi";
+import { AiOutlineLogin } from "react-icons/ai";
 import { Button } from "@nextui-org/button";
-import CustomDropdown from "@/components/common/CustomDropdown";
 
-const NavbarLogin = ({ user, isLoggedIn, handleLogout, onOpen }) => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
-  useEffect(() => {
-    const timer = setTimeout(() => setIsLoading(false), 50);
-    return () => clearTimeout(timer);
-  }, []);
-
-  if (isLoading) {
-    return null;
-  }
-
-  const renderMenuItems = (items) => {
-    return items.map((item) => {
-      const Component = item.href ? Link : "button";
-      return (
-        <Component key={item.label} href={item?.href} onClick={item?.onClick}>
-          {item.label}
-        </Component>
-      );
-    });
-  };
+const NavbarLogin = ({ user, isLoggedIn, onOpen }) => {
+  // This is to prevent hydration mismatch because the server and client might have different value
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
 
   return (
-    <>
-      {isLoggedIn ? (
-        <div className="relative">
-          <Button
-            variant="light"
-            onPress={onOpen}
-            onMouseEnter={() => setIsDropdownOpen(true)}
-          >
-            <div className="flex items-center cursor-pointer">
-              <p className="font-normal">{user?.displayName.split(" ")[0]}</p>
-              <FiUser className="h-5 w-5 ml-2" />
-            </div>
-          </Button>
-          <CustomDropdown
-            isOpen={isDropdownOpen}
-            setIsDropdownOpen={setIsDropdownOpen}
-          >
-            <div className="flex flex-col gap-2">
-              {renderMenuItems(LOGGED_IN_MENU_ITEMS)}
-              <button onClick={handleLogout}>Logout</button>
-            </div>
-          </CustomDropdown>
-        </div>
-      ) : (
-        <div className="relative">
-          <Button variant="light" onPress={onOpen}>
-            <div className="flex items-center cursor-pointer">
-              <p className="font-normal">Login</p>
-              <FiLogIn className="h-5 w-5 ml-2" />
-            </div>
-          </Button>
+    <Button
+      fullWidth
+      variant="light"
+      onPress={onOpen}
+      endContent={
+        mounted && isLoggedIn ? (
+          <FiUser className="h-4 w-4" />
+        ) : (
+          mounted && <AiOutlineLogin className="h-4 w-4" />
+        )
+      }
+      className=" bg-color-primary-p100/35 text-color-secondary-s30 hover:bg-color-primary-p90 hover:text-color-secondary-s05"
+    >
+      {mounted && (
+        <div className="flex items-center">
+          <p className="font-medium text-xs">
+            {isLoggedIn ? user?.name : "Login"}
+          </p>
         </div>
       )}
-    </>
+    </Button>
   );
 };
 

@@ -4,7 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { FiX } from "react-icons/fi";
 import { useRouter } from "next/navigation";
-import useLoggedUserStore from "@/store/loggedUserStore";
+import useLoggedUserStore from "@/store/useLoggedUserStore";
 import ContentWrapper from "@/components/common/layouts/ContentWrapper";
 import NavbarLogo from "../Navbar/NavbarLogo";
 
@@ -104,7 +104,7 @@ const Sidebar = ({ isOpen, onClose }) => {
                 <Link
                   key={index}
                   href={item?.href}
-                  className="block hover:bg-gray-100 p-2 rounded-md w-full"
+                  className="block hover:bg-gray-100 p-2 rounded-xl w-full"
                   size="lg"
                 >
                   {item.label}
@@ -120,7 +120,7 @@ const Sidebar = ({ isOpen, onClose }) => {
                 <Link
                   key={index}
                   href={item?.href}
-                  className="block hover:bg-gray-100 p-2 rounded-md w-full"
+                  className="block hover:bg-gray-100 p-2 rounded-xl w-full"
                   size="lg"
                 >
                   <li>{item.label}</li>

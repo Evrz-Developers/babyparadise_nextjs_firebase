@@ -133,7 +133,9 @@ function useInstallApp() {
       deferredPrompt.prompt();
       deferredPrompt.userChoice.then((choiceResult) => {
         if (choiceResult.outcome === "accepted") {
-          toast.success("Installing app...");
+          toast.success("Installing app...", {
+            autoClose: 6000,
+          });
         }
         setDeferredPrompt(null);
       });

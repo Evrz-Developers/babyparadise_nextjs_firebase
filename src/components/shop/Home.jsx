@@ -7,54 +7,54 @@ import useProductStore from "@/store/useProductStore";
 import useCarouselStore from "@/store/useCarouselStore";
 import CarouselLayout from "@/components/common/layouts/Carousel/CarouselLayout";
 import CarouselItem from "@/components/common/layouts/Carousel/CarouselItem";
-import Loader from "@/components/common/Loader";
 import ContentWrapper from "@/components/common/layouts/ContentWrapper";
+import { Skeleton } from "@nextui-org/skeleton";
 
 const Home = ({ initialData }) => {
   const { products, setProducts } = useProductStore();
   const { carousel, setCarousel } = useCarouselStore();
-  const [loading, setLoading] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     setProducts(initialData.PRODUCTS);
     setCarousel(initialData.CAROUSEL);
-    setLoading(false);
+    setIsLoaded(true);
   }, [initialData.CAROUSEL, initialData.PRODUCTS, setCarousel, setProducts]);
 
   return (
     <ContentWrapper className="gap-4">
       {/* Carousel */}
       {carousel.length > 0 && (
-        <CarouselLayout
-          items={carousel.map((item, index) => (
-            <CarouselItem
-              key={index}
-              src={item?.imageURL}
-              alt={`slide ${index + 1}`}
-              className="h-64 md:h-80"
-              // TODO: Add link once ready
-              // href={item?.link}
-              href="#"
-            />
-          ))}
-        />
+        <Skeleton isLoaded={true}>
+          <CarouselLayout
+            items={carousel.map((item, index) => (
+              <CarouselItem
+                key={index}
+                src={item?.imageURL}
+                alt={`slide ${index + 1}`}
+                className="h-64 md:h-80"
+                // TODO: Add link once ready
+                // href={item?.link}
+                href="#"
+              />
+            ))}
+          />
+        </Skeleton>
       )}
       {/* Offers */}
       {/* <div className="mb-4">
         <h2 className="text-lg md:text-xl font-bold">Offers here</h2>
-      </div> */}
+        </div> */}
       {/* Products */}
-      <Gridlayout>
-        {loading ? (
-          <Loader />
-        ) : products && products.length > 0 ? (
-          products.map((product, index) => (
-            <ProductCard key={product?.id} product={product} index={index} />
-          ))
-        ) : (
-          <Loader />
-        )}
-      </Gridlayout>
+      <Skeleton isLoaded={isLoaded}>
+        <Gridlayout>
+          {products.map((product, index) => (
+            <Skeleton key={product?.id} isLoaded={true}>
+              <ProductCard key={product?.id} product={product} index={index} />
+            </Skeleton>
+          ))}
+        </Gridlayout>
+      </Skeleton>
     </ContentWrapper>
   );
 };

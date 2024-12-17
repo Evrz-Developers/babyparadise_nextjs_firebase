@@ -4,6 +4,7 @@ import { Button } from "@nextui-org/button";
 import { useRouter } from "next/navigation";
 import { Card, CardHeader, CardBody, CardFooter } from "@nextui-org/card";
 import { Image } from "@nextui-org/image";
+import CONSTANTS from "@/utilities/constants";
 
 const ProductCard = ({ product, index }) => {
   const router = useRouter();
@@ -22,7 +23,7 @@ const ProductCard = ({ product, index }) => {
         shadow="sm"
         key={index}
         isPressable
-        className="rounded-none rounded-t-lg"
+        className="rounded-none rounded-t-md"
         onPress={handleProductClick}
       >
         <CardBody className="overflow-visible p-0">
@@ -32,23 +33,32 @@ const ProductCard = ({ product, index }) => {
             width="100"
             height={200}
             alt={product?.name}
-            className="w-full object-cover h-[140px] rounded-none rounded-t-lg"
+            className="w-full object-cover h-[140px] rounded-none rounded-t-md"
             src={product?.imageURL}
             layout="fixed"
           />
         </CardBody>
-        <CardFooter className="text-small justify-between">
-          <p className="text-tiny uppercase font-bold">{product?.price}</p>
+        <CardFooter className="flex flex-col text-small items-start justify-between">
+          <h6 className="text-small uppercase font-bold">
+            {product?.price ? (
+              <span className="text-tiny">
+                {CONSTANTS.SYMBOLS.CURRENCY}
+                {product?.price}
+              </span>
+            ) : (
+              CONSTANTS.PLACEHOLDER.CURRENCY
+            )}
+          </h6>
           <h4 className="font-bold text-large">{product?.name}</h4>
         </CardFooter>
       </Card>
       <Button
         size="sm"
-        className=" flex bg-warning rounded-none rounded-b-lg"
-        variant="solid"
+        className=" flex bg-orange-50 rounded-none rounded-b-xl"
+        variant="ghost"
         color="warning"
         // radius="md"
-        onClick={() => console.log("button pressed")}
+        onPress={() => console.log("button pressed")}
       >
         Add to Cart
       </Button>

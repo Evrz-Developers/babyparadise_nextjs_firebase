@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Image from "next/image";
 import { CustomimageLoader } from '@/components/common/CustomImageLoader';
-import Loader from '@/components/common/Loader';
+import LoadingSpinner from '@/components/common/LoadingSpinner';
 
 const ProductGrid = ({ items, handleListItemClick, title, className }) => {
     const [loadingId, setLoadingId] = useState(null);
@@ -18,7 +18,7 @@ const ProductGrid = ({ items, handleListItemClick, title, className }) => {
                 {items.map((product) => (
                     <div key={product.id} className="flex flex-col bg-white items-start rounded-[4px] cursor-pointer" onClick={() => handleClick(product.id)}>
                         <div className='relative w-48 md:w-full h-60'>
-                            {loadingId === product.id && <Loader className="bg-opacity-30" />}
+                            {loadingId === product.id && <LoadingSpinner className="bg-opacity-30" />}
                             <Image
                                 src={product.product_image ?? "/images/shop/noImageplacholder.jpg"}
                                 alt="product image"

@@ -137,7 +137,8 @@ export default function RootLayout({ children }) {
           </NextUIProvider>
           <ToastContainer
             position="bottom-right"
-            autoClose={5000}
+            autoClose={1500}
+            style={{ fontSize: "14px" }}
             hideProgressBar={false}
             closeOnClick
             draggable

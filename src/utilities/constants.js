@@ -11,10 +11,14 @@ const HTTP_METHODS = {
   DELETE: "DELETE",
 };
 
+const SYMBOLS = {
+  CURRENCY: "₹",
+};
+
 const PLACEHOLDER = {
   DATA: "--",
   DATE: "----/----/----",
-  MONEY: "₹__",
+  CURRENCY: "₹__",
 };
 
 const menuItems = [
@@ -38,7 +42,8 @@ const LOGGED_IN_MENU_ITEMS = [
 const CONSTANTS = {
   PLACEHOLDER,
   LOGGED_IN_MENU_ITEMS,
+  SYMBOLS,
 };
 
-export { HTTP_METHODS, LOGGED_IN_MENU_ITEMS };
+export { HTTP_METHODS, LOGGED_IN_MENU_ITEMS, SYMBOLS };
 export default CONSTANTS;

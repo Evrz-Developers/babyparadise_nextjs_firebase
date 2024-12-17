@@ -16,9 +16,21 @@ export default function NextDrawer({
   onOpenChange,
   title,
   children,
+  size,
+  radius,
+  placement,
+  shouldBlockScroll,
 }) {
   return (
-    <Drawer isOpen={isOpen} onClose={onClose} onOpenChange={onOpenChange}>
+    <Drawer
+      isOpen={isOpen}
+      onClose={onClose}
+      onOpenChange={onOpenChange}
+      size={size}
+      radius={radius}
+      shouldBlockScroll={shouldBlockScroll}
+      placement={placement}
+    >
       <DrawerContent>
         {(onClose) => (
           <>

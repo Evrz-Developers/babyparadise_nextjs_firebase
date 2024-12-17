@@ -17,8 +17,8 @@ export default function NextDrawer({
   title,
   children,
   size,
-  radius,
-  placement,
+  radius = "none",
+  placement = "right",
   shouldBlockScroll,
 }) {
   return (

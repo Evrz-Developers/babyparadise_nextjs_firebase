@@ -5,11 +5,9 @@ import {
   doc,
   deleteDoc,
   updateDoc,
-  writeBatch,
   serverTimestamp,
   query,
   where,
-  getDoc,
 } from "firebase/firestore";
 import { db } from "@/app/firebase/firebaseConfig";
 
@@ -37,12 +35,15 @@ export async function addProductToCart(product, userId) {
         quantity: currentQuantity + (product.quantity || 1),
       });
     } else {
-      // Product doesn't exist, add new item
+      // Product doesn't exist, add new item with product details
       const cartItem = {
         userId: userId,
         productRef: productRef,
         quantity: product.quantity || 1,
         addedAt: serverTimestamp(),
+        productName: product.name,
+        productPrice: product.price,
+        productImageURL: product.imageURL,
       };
       await addDoc(cartRef, cartItem);
     }
@@ -54,28 +55,6 @@ export async function addProductToCart(product, userId) {
   }
 }
 
-const addProductsToCart = async (
-  products,
-  host = DEFAULT_HOST,
-  isLoggedIn = false
-) => {
-  try {
-    const cartCollection = collection(db, "cart");
-    const batch = writeBatch(db);
-
-    products.forEach((product) => {
-      const docRef = doc(cartCollection);
-      batch.set(docRef, product);
-    });
-
-    await batch.commit();
-    return { message: "Products added to cart successfully" };
-  } catch (error) {
-    console.error("Error adding products to cart:", error);
-    throw error;
-  }
-};
-
 const getProductsInCart = async (userId) => {
   try {
     const cartRef = collection(db, "cart");
@@ -83,20 +62,17 @@ const getProductsInCart = async (userId) => {
       query(cartRef, where("userId", "==", userId))
     );
 
-    const cartItems = await Promise.all(
-      cartSnapshot.docs.map(async (doc) => {
-        const cartData = doc.data();
-        const productDoc = await getDoc(cartData.productRef);
-        const productData = productDoc.data();
-
-        return {
-          id: doc.id,
-          quantity: cartData.quantity,
-          addedAt: cartData.addedAt,
-          ...productData,
-        };
-      })
-    );
+    const cartItems = cartSnapshot.docs.map((doc) => {
+      const cartData = doc.data();
+      return {
+        id: doc.id,
+        quantity: cartData.quantity,
+        addedAt: cartData.addedAt,
+        name: cartData.productName,
+        price: cartData.productPrice,
+        imageURL: cartData.productImageURL,
+      };
+    });
 
     return { data: cartItems };
   } catch (error) {
@@ -129,7 +105,6 @@ const updateProductQuantityInCart = async (cartItemId, quantity, userId) => {
 
 const CART_API = {
   getProductsInCart,
-  addProductsToCart,
   deleteProductFromCart,
   updateProductQuantityInCart,
   addProductToCart,

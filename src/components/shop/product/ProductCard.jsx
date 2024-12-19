@@ -2,13 +2,23 @@ import { CustomimageLoader } from "@/components/common/CustomImageLoader";
 import ContentWrapper from "@/components/common/layouts/ContentWrapper";
 import { Button } from "@nextui-org/button";
 import { useRouter } from "next/navigation";
-import { Card, CardHeader, CardBody, CardFooter } from "@nextui-org/card";
+import { Card, CardBody, CardFooter } from "@nextui-org/card";
 import { Image } from "@nextui-org/image";
 import CONSTANTS from "@/utilities/constants";
+import useCartStore from "@/store/useCartStore";
+import useLoggedUserStore from "@/store/useLoggedUserStore";
+import { toast } from "react-toastify";
+import useDrawerStore from "@/store/useDrawerStore";
 
 const ProductCard = ({ product, index }) => {
+  const { addProduct } = useCartStore();
+  const {
+    onCartOpen,
+    setCartDrawerContent,
+  } = useDrawerStore();
+
   const router = useRouter();
-  // PUSH TO DETAILS PAGE, WITH PRODUCT DATA IN QUERY PARAMS
+
   const handleProductClick = () => {
     const productData = JSON.stringify(product);
     router.push(
@@ -16,8 +26,44 @@ const ProductCard = ({ product, index }) => {
     );
   };
 
+  const handleAddToCart = async () => {
+    try {
+      const productToAdd = {
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        imageURL: product.imageURL,
+        quantity: 1,
+        discount: product.discount || 0,
+      };
+
+      await addProduct(productToAdd);
+
+      toast.success(
+        <div className="flex flex-col">
+          <span>{product?.name} added to cart!</span>
+          <button
+            onClick={() => {
+              setCartDrawerContent("cart");
+              onCartOpen();
+            }}
+            className="mt-2 text-sm bg-orange-100 text-orange-600 px-2 py-1 rounded hover:bg-orange-200"
+          >
+            Go to Cart
+          </button>
+        </div>,
+        {
+          autoClose: 5000,
+          closeOnClick: false,
+        }
+      );
+    } catch (error) {
+      console.error("Error adding to cart:", error);
+      toast.error("Failed to add product to cart. Please try again.");
+    }
+  };
+
   return (
-    // TODO: Remove log
     <ContentWrapper>
       <Card
         shadow="sm"
@@ -29,7 +75,6 @@ const ProductCard = ({ product, index }) => {
         <CardBody className="overflow-visible p-0">
           <Image
             shadow="sm"
-            // radius="lg"
             width="100"
             height={200}
             alt={product?.name}
@@ -54,11 +99,10 @@ const ProductCard = ({ product, index }) => {
       </Card>
       <Button
         size="sm"
-        className=" flex bg-orange-50 rounded-none rounded-b-xl"
+        className="flex bg-orange-50 rounded-none rounded-b-xl"
         variant="ghost"
         color="warning"
-        // radius="md"
-        onPress={() => console.log("button pressed")}
+        onPress={handleAddToCart}
       >
         Add to Cart
       </Button>

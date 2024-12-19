@@ -1,102 +1,144 @@
-import React from "react";
-import ListLayout from "@/components/common/layouts/ListLayout";
-import ProductListItem from "@/components/shop/product/ProductListItem";
-import EmptyCart from "@/components/shop/user/EmptyCart";
-import ContentWrapper from "@/components/common/layouts/ContentWrapper";
+import React, { useEffect, useState } from "react";
 import useCartStore from "@/store/useCartStore";
+import useLoggedUserStore from "@/store/useLoggedUserStore";
 import CART_API from "@/utilities/api/cart.api";
-import LoadingSpinner from "@/components/common/LoadingSpinner";
+import { toast } from "react-toastify";
 
-const Cart = ({ onClose, isLoggedIn }) => {
-  const {
-    products,
-    removeProduct,
-    updateQuantity,
-    totalPrice,
-    totalDiscount,
-    isLoading,
-  } = useCartStore();
-  const deliveryCharges = 0;
+const Cart = () => {
+  const [cartItems, setCartItems] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const { user } = useLoggedUserStore();
 
-  const handleRemoveProduct = async (id) => {
-    if (isLoggedIn) {
-      await CART_API.deleteProductFromCart(id);
+  // Fetch cart items
+  useEffect(() => {
+    const fetchCartItems = async () => {
+      try {
+        if (user?.uid) {
+          const { data } = await CART_API.getProductsInCart(user.uid);
+          setCartItems(data);
+        }
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching cart:", error);
+        toast.error("Failed to load cart items");
+        setLoading(false);
+      }
+    };
+
+    fetchCartItems();
+  }, [user]);
+
+  // Handle quantity update
+  const handleUpdateQuantity = async (
+    cartItemId,
+    currentQuantity,
+    increment
+  ) => {
+    try {
+      const newQuantity = increment ? currentQuantity + 1 : currentQuantity - 1;
+
+      if (newQuantity < 1) {
+        return; // Don't allow quantity less than 1
+      }
+
+      await CART_API.updateProductQuantityInCart(
+        cartItemId,
+        newQuantity,
+        user.uid
+      );
+
+      // Update local state
+      setCartItems((prevItems) =>
+        prevItems.map((item) =>
+          item.id === cartItemId ? { ...item, quantity: newQuantity } : item
+        )
+      );
+    } catch (error) {
+      console.error("Error updating quantity:", error);
     }
-    removeProduct(id);
   };
 
-  const handleUpdateQuantity = async (id, quantity) => {
-    if (isLoggedIn) {
-      await CART_API.updateProductQuantityInCart(id, quantity);
+  // Handle remove item
+  const handleRemoveItem = async (cartItemId) => {
+    try {
+      await CART_API.deleteProductFromCart(cartItemId, user.uid);
+
+      // Update local state
+      setCartItems((prevItems) =>
+        prevItems.filter((item) => item.id !== cartItemId)
+      );
+    } catch (error) {
+      console.error("Error removing item:", error);
     }
-    updateQuantity(id, quantity);
   };
 
-  const handlePlaceOrder = () => {
-    onClose();
-  };
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
-  if (isLoading) {
-    return (
-      <ContentWrapper className="flex justify-center items-center h-64">
-        <LoadingSpinner />
-      </ContentWrapper>
-    );
+  if (cartItems.length === 0) {
+    return <div>Your cart is empty</div>;
   }
 
   return (
-    <ContentWrapper
-      className={`pt-2 ${
-        products.length === 0 ? "my-10 justify-center items-center" : ""
-      }`}
-    >
-      {products.length === 0 ? (
-        <EmptyCart />
-      ) : (
-        <main className="flex flex-col md:flex-row w-full">
-          <section className="flex flex-col w-full md:w-3/4 overflow-hidden overflow-y-scroll scrollbar-hide md:order-1 order-2">
-            <header className="flex text-lg font-semibold border p-4 gap-2">
-              Deliver to: Thrissur - 680311
-              <button className="text-blue-500">Change</button>
-            </header>
-            <ListLayout>
-              {products.map((item) => (
-                <ProductListItem
-                  key={item.id}
-                  productName={item.name}
-                  productDescription={item.description}
-                  seller={item.seller}
-                  price={item.price}
-                  discount={item.discount}
-                  quantity={item.quantity}
-                  onQuantityChange={(quantity) =>
-                    handleUpdateQuantity(item.id, quantity)
+    <div className="p-4">
+      <h2 className="text-xl font-bold mb-4">Shopping Cart</h2>
+      <div className="space-y-4">
+        {cartItems.map((item) => (
+          <div
+            key={item.id}
+            className="border p-4 rounded-lg flex justify-between items-center"
+          >
+            <div>
+              <h3 className="font-semibold">{item.name}</h3>
+              <p className="text-gray-600">₹{item.price}</p>
+            </div>
+
+            <div className="flex items-center gap-4">
+              {/* Quantity controls */}
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() =>
+                    handleUpdateQuantity(item.id, item.quantity, false)
                   }
-                  onRemove={() => handleRemoveProduct(item.id)}
-                />
-              ))}
-            </ListLayout>
-          </section>
-          <section className="flex flex-col w-full md:w-1/4 p-4 border bg-background sticky top-4 md:order-2 order-1">
-            <h2 className="text-lg font-bold">PRICE DETAILS</h2>
-            <p>
-              Price ({products.length} items): ₹{totalPrice()}
-            </p>
-            <p>Discount: -₹{totalDiscount()}</p>
-            <p>Delivery Charges: ₹{deliveryCharges}</p>
-            <h3 className="text-xl font-bold">
-              Total Amount: ₹{totalPrice() - totalDiscount() + deliveryCharges}
-            </h3>
-            <p className="text-green-500">
-              You will save ₹{totalDiscount()} on this order
-            </p>
-            <button className="mt-4 w-full bg-color-primary-p60 text-white py-2 rounded">
-              PLACE ORDER
-            </button>
-          </section>
-        </main>
-      )}
-    </ContentWrapper>
+                  className="px-2 py-1 bg-gray-200 rounded"
+                >
+                  -
+                </button>
+                <span>{item.quantity}</span>
+                <button
+                  onClick={() =>
+                    handleUpdateQuantity(item.id, item.quantity, true)
+                  }
+                  className="px-2 py-1 bg-gray-200 rounded"
+                >
+                  +
+                </button>
+              </div>
+
+              {/* Remove button */}
+              <button
+                onClick={() => handleRemoveItem(item.id)}
+                className="text-red-500 hover:text-red-700"
+              >
+                Remove
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Cart total */}
+      <div className="mt-6 text-right">
+        <p className="text-lg font-bold">
+          Total: ₹
+          {cartItems.reduce(
+            (total, item) => total + item.price * item.quantity,
+            0
+          )}
+        </p>
+      </div>
+    </div>
   );
 };
 

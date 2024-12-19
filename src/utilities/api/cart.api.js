@@ -105,9 +105,9 @@ const getProductsInCart = async (userId) => {
   }
 };
 
-const deleteProductFromCart = async (productId, userId) => {
+const deleteProductFromCart = async (cartItemId, userId) => {
   try {
-    const cartRef = doc(db, `users/${userId}/cart`, productId);
+    const cartRef = doc(db, "cart", cartItemId);
     await deleteDoc(cartRef);
     return { message: "Product removed from cart successfully" };
   } catch (error) {
@@ -116,9 +116,9 @@ const deleteProductFromCart = async (productId, userId) => {
   }
 };
 
-const updateProductQuantityInCart = async (productId, quantity, userId) => {
+const updateProductQuantityInCart = async (cartItemId, quantity, userId) => {
   try {
-    const cartRef = doc(db, `users/${userId}/cart`, productId);
+    const cartRef = doc(db, "cart", cartItemId);
     await updateDoc(cartRef, { quantity });
     return { message: "Quantity updated successfully" };
   } catch (error) {

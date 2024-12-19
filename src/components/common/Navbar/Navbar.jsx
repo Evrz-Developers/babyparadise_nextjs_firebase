@@ -13,6 +13,8 @@ import NavbarLogo from "@/components/common/Navbar/NavbarLogo";
 import NavbarLogin from "@/components/common/Navbar/NavbarLogin";
 import NavSearchBar from "@/components/common/Navbar/NavSearchBar";
 import NavbarDeliveryAddress from "@/components/common/Navbar/NavbarDeliveryAddress";
+import useDrawerStore from "@/store/useDrawerStore";
+import Cart from "@/components/shop/user/Cart";
 
 import {
   Navbar as NextNavbar,
@@ -20,21 +22,41 @@ import {
   NavbarItem,
 } from "@nextui-org/navbar";
 import SigninSignup from "@/components/auth/SigninSignup";
+import EmptyCart from "@/components/shop/user/EmptyCart";
 
 const Navbar = ({ title }) => {
   const router = useRouter();
   const { user, isLoggedIn, logout } = useLoggedUserStore();
-  const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
+  const { cartDrawerContent, setCartDrawerContent } = useDrawerStore();
+
+  const {
+    isOpen: isLoginOpen,
+    onOpen: onLoginOpen,
+    onClose: onLoginClose,
+    onOpenChange: onLoginOpenChange,
+  } = useDisclosure();
+
+  const {
+    isOpen: isCartOpen,
+    onOpen: onCartOpen,
+    onClose: onCartClose,
+    onOpenChange: onCartOpenChange,
+  } = useDisclosure();
 
   const handleLogout = async () => {
     await logout();
     router.push("/");
   };
 
+  const handleCartClose = () => {
+    onCartClose();
+    setCartDrawerContent("cart");
+  };
+
   return (
     <NextNavbar
       maxWidth="2xl"
-      className="shadow-sm "
+      className="shadow-sm"
       classNames={{
         base: "bg-white/50",
         wrapper: "px-4",
@@ -65,15 +87,15 @@ const Navbar = ({ title }) => {
         </NavbarItem>
         {/* Cart Button */}
         <NavbarItem className="hidden sm:flex">
-          <NavbarCart />
+          <NavbarCart onOpen={onCartOpen} onClose={handleCartClose} />
         </NavbarItem>
         {/* Login Button/ Dropdown Menu/ Drawer */}
         <NavbarItem>
           <NavbarLogin
             isLoggedIn={isLoggedIn}
             user={user}
-            onOpen={onOpen}
-            onClose={onClose}
+            onOpen={onLoginOpen}
+            onClose={onLoginClose}
             handleLogout={handleLogout}
           />
         </NavbarItem>
@@ -82,13 +104,35 @@ const Navbar = ({ title }) => {
       {/* Drawer Content*/}
       <NextDrawer
         title={isLoggedIn ? user?.name : "Guest"}
-        isOpen={isOpen}
-        onOpenChange={onOpenChange}
+        isOpen={isLoginOpen}
+        onOpenChange={onLoginOpenChange}
       >
         {isLoggedIn ? (
           <Profile handleLogout={handleLogout} />
         ) : (
-          <SigninSignup onClose={onClose} />
+          <SigninSignup onClose={onLoginClose} />
+        )}
+      </NextDrawer>
+
+      {/* Cart Drawer */}
+      <NextDrawer
+        title={cartDrawerContent === "cart" ? "Cart" : "Login"}
+        isOpen={isCartOpen}
+        onOpenChange={onCartOpenChange}
+        size="xl"
+      >
+        {cartDrawerContent === "cart" ? (
+          isLoggedIn ? (
+            <Cart onClose={handleCartClose} isLoggedIn={isLoggedIn} />
+          ) : (
+            <EmptyCart className="h-full" />
+          )
+        ) : (
+          <SigninSignup
+            onClose={() => {
+              handleCartClose();
+            }}
+          />
         )}
       </NextDrawer>
     </NextNavbar>

@@ -6,7 +6,6 @@ import { Card, CardBody, CardFooter } from "@nextui-org/card";
 import { Image } from "@nextui-org/image";
 import CONSTANTS from "@/utilities/constants";
 import useCartStore from "@/store/useCartStore";
-import useLoggedUserStore from "@/store/useLoggedUserStore";
 import { toast } from "react-toastify";
 import useDrawerStore from "@/store/useDrawerStore";
 

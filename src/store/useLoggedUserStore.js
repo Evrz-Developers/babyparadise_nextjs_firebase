@@ -70,7 +70,7 @@ const useLoggedUserStore = create((set, get) => ({
           role: user.role,
           email: user.email,
           lastLoginAt: Date.now(),
-          photoURL: user.photoURL,
+          imageURL: user.imageURL || null,
         }
       : null;
 

@@ -7,7 +7,7 @@ import useProductStore from "@/store/useProductStore";
 import useCarouselStore from "@/store/useCarouselStore";
 import ContentWrapper from "@/components/common/layouts/ContentWrapper";
 import { Skeleton } from "@nextui-org/skeleton";
-import AutoplayCarousel from "@/components/common/layouts/Carousel/AutoplayCarousel";
+import AutoplayCarousel from "@/components/common/Carousel/AutoplayCarousel";
 
 const Home = ({ initialData }) => {
   const { products, setProducts } = useProductStore();
@@ -19,16 +19,18 @@ const Home = ({ initialData }) => {
     setCarousel(initialData.CAROUSEL);
     setIsLoaded(true);
   }, [initialData.CAROUSEL, initialData.PRODUCTS, setCarousel, setProducts]);
-  
+
   return (
     <ContentWrapper className="gap-4">
-      {/* Carousel */}
+      {/* CAROUSEL SECTION */}
       {carousel.length > 0 && <AutoplayCarousel items={carousel} />}
-      {/* Offers */}
-      {/* <div className="mb-4">
+
+      {/* OFFERS SECTION */}
+      <Gridlayout>
         <h2 className="text-lg md:text-xl font-bold">Offers here</h2>
-        </div> */}
-      {/* Products */}
+      </Gridlayout>
+
+      {/* PRODUCTS SECTION */}
       <Skeleton isLoaded={isLoaded}>
         <Gridlayout>
           {products.map((product, index) => (

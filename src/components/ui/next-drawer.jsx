@@ -3,7 +3,6 @@ import {
   DrawerContent,
   DrawerHeader,
   DrawerBody,
-  DrawerFooter,
 } from "@nextui-org/drawer";
 
 // INFO: Use the following to handle the drawer state.

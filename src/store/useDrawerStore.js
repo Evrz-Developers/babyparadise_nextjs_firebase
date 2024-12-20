@@ -13,15 +13,29 @@ const useDrawerStore = create((set) => ({
   onCartClose: () => set({ isCartOpen: false }),
   onCartOpenChange: (isOpen) => set({ isCartOpen: isOpen }),
 
-  // Content state
-  cartDrawerContent: "cart",
-  setCartDrawerContent: (content) => set({ cartDrawerContent: content }),
+  // Menu drawer state
+  isMenuOpen: false,
+  onMenuOpen: () => set({ isMenuOpen: true }),
+  onMenuClose: () => set({ isMenuOpen: false }),
+  onMenuOpenChange: (isOpen) => set({ isMenuOpen: isOpen }),
 
   // Combined handlers
   openLoginDrawer: () =>
-    set({ isCartOpen: false, isLoginOpen: true, cartDrawerContent: "login" }),
+    set({
+      isCartOpen: false,
+      isLoginOpen: true,
+    }),
   openCartDrawer: () =>
-    set({ isCartOpen: true, isLoginOpen: false, cartDrawerContent: "cart" }),
+    set({
+      isCartOpen: true,
+      isLoginOpen: false,
+    }),
+  openMenuDrawer: () =>
+    set({
+      isMenuOpen: true,
+      isCartOpen: false,
+      isLoginOpen: false,
+    }),
 }));
 
 export default useDrawerStore;

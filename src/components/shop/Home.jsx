@@ -19,7 +19,7 @@ const Home = ({ initialData }) => {
     setCarousel(initialData.CAROUSEL);
     setIsLoaded(true);
   }, [initialData.CAROUSEL, initialData.PRODUCTS, setCarousel, setProducts]);
-  console.log(carousel);
+  
   return (
     <ContentWrapper className="gap-4">
       {/* Carousel */}

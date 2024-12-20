@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import Image from "next/image";
+import NextImage from "next/image";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import { Skeleton } from "@nextui-org/skeleton";
 
@@ -25,6 +25,8 @@ export default function AutoplayCarousel({ items }) {
   const [isDragging, setIsDragging] = useState(false);
   const autoPlayRef = useRef();
   const [direction, setDirection] = useState(1);
+  const [isLoading, setIsLoading] = useState(true);
+  const [loadedImages, setLoadedImages] = useState(new Set());
 
   const handleNext = () => {
     setDirection(1);
@@ -51,6 +53,37 @@ export default function AutoplayCarousel({ items }) {
     startAutoPlay();
     return () => stopAutoPlay();
   });
+
+  useEffect(() => {
+    if (!items?.length) return;
+
+    const preloadImages = async () => {
+      setIsLoading(true);
+
+      try {
+        await Promise.all(
+          items.map(
+            (item) =>
+              new Promise((resolve, reject) => {
+                const img = new window.Image();
+                img.src = item.imageURL;
+                img.onload = () => {
+                  setLoadedImages((prev) => new Set([...prev, item.imageURL]));
+                  resolve();
+                };
+                img.onerror = reject;
+              })
+          )
+        );
+      } catch (error) {
+        console.error("Error preloading images:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    preloadImages();
+  }, [items]);
 
   const handleDragEnd = (_, info) => {
     const threshold = 50;
@@ -160,11 +193,15 @@ export default function AutoplayCarousel({ items }) {
                   onClick={() => handleClick(items[currentIndex].id)}
                   className="relative w-full h-full cursor-pointer"
                 >
-                  <Image
+                  <NextImage
                     src={items[currentIndex].imageURL}
                     alt={`Slide ${items[currentIndex].id}`}
                     fill
-                    className="rounded-lg"
+                    className={`rounded-lg transition-opacity duration-300 ${
+                      loadedImages.has(items[currentIndex].imageURL)
+                        ? "opacity-100"
+                        : "opacity-0"
+                    }`}
                     style={{ objectFit: "cover" }}
                     priority
                   />

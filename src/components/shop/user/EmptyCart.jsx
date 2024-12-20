@@ -30,7 +30,7 @@ const EmptyCart = ({ className = "", isLoggedIn = false }) => {
       ) : (
         <div className="flex flex-col items-center justify-center">
           <p className="text-gray-600 text-xs mb-2">
-            Login to proceed with checkout.
+            Log in to proceed with checkout
           </p>
           <Button
             onPress={openLoginDrawer}

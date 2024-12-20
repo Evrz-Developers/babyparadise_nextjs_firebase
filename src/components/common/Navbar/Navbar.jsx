@@ -6,7 +6,6 @@ import { useRouter } from "next/navigation";
 import { InstallAppManager } from "@/app/PWAManager";
 import Profile from "@/components/shop/user/Profile";
 import NextDrawer from "@/components/ui/next-drawer";
-import { useDisclosure } from "@nextui-org/use-disclosure";
 import useLoggedUserStore from "@/store/useLoggedUserStore";
 import NavbarCart from "@/components/common/Navbar/NavbarCart";
 import NavbarLogo from "@/components/common/Navbar/NavbarLogo";
@@ -27,30 +26,21 @@ import EmptyCart from "@/components/shop/user/EmptyCart";
 const Navbar = ({ title }) => {
   const router = useRouter();
   const { user, isLoggedIn, logout } = useLoggedUserStore();
-  const { cartDrawerContent, setCartDrawerContent } = useDrawerStore();
-
   const {
-    isOpen: isLoginOpen,
-    onOpen: onLoginOpen,
-    onClose: onLoginClose,
-    onOpenChange: onLoginOpenChange,
-  } = useDisclosure();
-
-  const {
-    isOpen: isCartOpen,
-    onOpen: onCartOpen,
-    onClose: onCartClose,
-    onOpenChange: onCartOpenChange,
-  } = useDisclosure();
+    cartDrawerContent,
+    isCartOpen,
+    onCartOpen,
+    onCartOpenChange,
+    onCartClose,
+    onLoginOpen,
+    onLoginOpenChange,
+    onLoginClose,
+    isLoginOpen,
+  } = useDrawerStore();
 
   const handleLogout = async () => {
     await logout();
     router.push("/");
-  };
-
-  const handleCartClose = () => {
-    onCartClose();
-    setCartDrawerContent("cart");
   };
 
   return (
@@ -62,9 +52,8 @@ const Navbar = ({ title }) => {
         wrapper: "px-4",
       }}
     >
-      {/* Left Section: Hamburger Menu and Shop Logo */}
+      {/* Left Section: Shop Logo */}
       <NavbarContent justify="start">
-        {/* <NavbarMenuToggle /> */}
         <Link href="/" className="flex items-center gap-1">
           <NavbarLogo title={title} />
         </Link>
@@ -87,7 +76,7 @@ const Navbar = ({ title }) => {
         </NavbarItem>
         {/* Cart Button */}
         <NavbarItem className="hidden sm:flex">
-          <NavbarCart onOpen={onCartOpen} onClose={handleCartClose} />
+          <NavbarCart onOpen={onCartOpen} onClose={onCartClose} />
         </NavbarItem>
         {/* Login Button/ Dropdown Menu/ Drawer */}
         <NavbarItem>
@@ -116,23 +105,19 @@ const Navbar = ({ title }) => {
 
       {/* Cart Drawer */}
       <NextDrawer
-        title={cartDrawerContent === "cart" ? "Cart" : "Login"}
+        title="Cart"
         isOpen={isCartOpen}
         onOpenChange={onCartOpenChange}
         size="xl"
       >
         {cartDrawerContent === "cart" ? (
           isLoggedIn ? (
-            <Cart onClose={handleCartClose} isLoggedIn={isLoggedIn} />
+            <Cart onClose={onCartClose} isLoggedIn={isLoggedIn} />
           ) : (
             <EmptyCart className="h-full" />
           )
         ) : (
-          <SigninSignup
-            onClose={() => {
-              handleCartClose();
-            }}
-          />
+          <SigninSignup onClose={onLoginClose} />
         )}
       </NextDrawer>
     </NextNavbar>

@@ -10,14 +10,14 @@ export async function GET(req) {
       ...doc.data(),
     }));
 
-    return new Response(JSON.stringify({ data: carouselList }), {
+    return new Response(JSON.stringify({ data: carouselList || [] }), {
       status: 200,
       headers: { "Content-Type": "application/json" },
     });
   } catch (error) {
     console.error("Error fetching carousel:", error);
-    return new Response(JSON.stringify({ error: "Failed to fetch carousel" }), {
-      status: 500,
+    return new Response(JSON.stringify({ data: [] }), {
+      status: 200,
       headers: { "Content-Type": "application/json" },
     });
   }

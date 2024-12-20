@@ -11,10 +11,7 @@ import useDrawerStore from "@/store/useDrawerStore";
 
 const ProductCard = ({ product, index }) => {
   const { addProduct } = useCartStore();
-  const {
-    onCartOpen,
-    setCartDrawerContent,
-  } = useDrawerStore();
+  const { onCartOpen, setCartDrawerContent } = useDrawerStore();
 
   const router = useRouter();
 
@@ -26,39 +23,45 @@ const ProductCard = ({ product, index }) => {
   };
 
   const handleAddToCart = async () => {
+    const productToAdd = {
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      imageURL: product.imageURL,
+      quantity: 1,
+      discount: product.discount || 0,
+    };
+
+    // Show success toast immediately (optimistic update)
+    const toastId = toast.success(
+      <div className="flex flex-row items-center justify-between gap-2 px-2">
+        <span>Item added!</span>
+        <button
+          onClick={() => {
+            setCartDrawerContent("cart");
+            onCartOpen();
+          }}
+          className="text-sm bg-color-primary-p100 text-color-primary-p40 px-2 py-1 rounded hover:bg-color-primary-p80"
+        >
+          View Cart
+        </button>
+      </div>,
+      {
+        autoClose: 1500,
+        closeOnClick: false,
+      }
+    );
+
     try {
-      const productToAdd = {
-        id: product.id,
-        name: product.name,
-        price: product.price,
-        imageURL: product.imageURL,
-        quantity: 1,
-        discount: product.discount || 0,
-      };
-
       await addProduct(productToAdd);
-
-      toast.success(
-        <div className="flex flex-col">
-          <span>{product?.name} added to cart!</span>
-          <button
-            onClick={() => {
-              setCartDrawerContent("cart");
-              onCartOpen();
-            }}
-            className="mt-2 text-sm bg-orange-100 text-orange-600 px-2 py-1 rounded hover:bg-orange-200"
-          >
-            Go to Cart
-          </button>
-        </div>,
-        {
-          autoClose: 5000,
-          closeOnClick: false,
-        }
-      );
     } catch (error) {
+      // If the operation fails, update the toast to show error
       console.error("Error adding to cart:", error);
-      toast.error("Failed to add product to cart. Please try again.");
+      toast.update(toastId, {
+        render: "Failed to add product to cart. Please try again.",
+        type: toast.TYPE.ERROR,
+        autoClose: 3000,
+      });
     }
   };
 

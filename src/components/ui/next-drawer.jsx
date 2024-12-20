@@ -33,7 +33,9 @@ export default function NextDrawer({
       <DrawerContent>
         {(onClose) => (
           <>
-            <DrawerHeader className="flex flex-col gap-1">{title}</DrawerHeader>
+            <DrawerHeader className="text-lg font-bold flex flex-col gap-1">
+              {title}
+            </DrawerHeader>
             <DrawerBody>{children}</DrawerBody>
             {/* <DrawerFooter>
                 <Button color="danger" variant="light" onPress={onClose}>

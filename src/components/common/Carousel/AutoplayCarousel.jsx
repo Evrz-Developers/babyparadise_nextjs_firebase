@@ -144,21 +144,8 @@ export default function AutoplayCarousel({ items }) {
       >
         <div className="relative h-56 sm:h-96">
           {/* Navigation Buttons */}
-          <button
-            onClick={handlePrevious}
-            className="hidden sm:flex absolute left-2 top-1/2 -translate-y-1/2 z-10 bg-white/40 hover:bg-white rounded-full p-2 shadow-md"
-            aria-label="Previous slide"
-          >
-            <FiChevronLeft className="w-4 h-4" />
-          </button>
-
-          <button
-            onClick={handleNext}
-            className="hidden sm:flex absolute right-2 top-1/2 -translate-y-1/2 z-10 bg-white/40 hover:bg-white rounded-full p-2 shadow-md"
-            aria-label="Next slide"
-          >
-            <FiChevronRight className="w-4 h-4" />
-          </button>
+          <NavButton direction="left" onClick={handlePrevious} />
+          <NavButton direction="right" onClick={handleNext} />
 
           <AnimatePresence initial={false} custom={direction}>
             <motion.div

@@ -17,6 +17,12 @@ service cloud.firestore {
       return isAuthenticated() && request.auth.uid == userId;
     }
 
+    // Carousel collection - allow public read, admin write
+    match /carousel/{carouselId} {
+      allow read: if true;
+      allow write: if isAuthenticated() && getUserRole() == 'admin';
+    }
+
     // Cart collection
     match /cart/{cartId} {
       allow read: if isAuthenticated() && resource.data.userId == request.auth.uid;

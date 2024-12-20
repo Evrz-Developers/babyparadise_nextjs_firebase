@@ -55,7 +55,7 @@ const loginWithEmailPassword = async (email, password) => {
       email: user.email,
       name: userDoc.data().name || "",
       role: userDoc.data().role || "user",
-      photoURL: user.photoURL,
+      imageURL: userDoc.data().imageURL || user.photoURL || null,
       accessToken: user.accessToken,
       lastLoginAt: Date.now(),
     };
@@ -88,6 +88,7 @@ const SignInWithGoogle = async () => {
         name: firstName,
         email: user.email,
         role: "user",
+        imageURL: userDoc.data()?.imageURL || user.photoURL || null,
         createdAt: Date.now(),
         lastLoginAt: Date.now(),
       };
@@ -104,7 +105,7 @@ const SignInWithGoogle = async () => {
         email: user.email,
         name: userData.name,
         role: userData.role,
-        photoURL: user.photoURL,
+        imageURL: userData.imageURL || user.photoURL || null,
         accessToken: user.accessToken,
         lastLoginAt: Date.now(),
       },
@@ -130,11 +131,11 @@ const registerWithEmailPassword = async (name, email, password) => {
     const db = getFirestore();
     const userDocRef = doc(db, "users", user.uid);
 
-    // Prepare user data
     const userData = {
       name: firstName,
       email,
       role: "user",
+      imageURL: user?.photoURL || null,
       createdAt: Date.now(),
       lastLoginAt: Date.now(),
     };
@@ -149,7 +150,7 @@ const registerWithEmailPassword = async (name, email, password) => {
         email: user.email,
         name: userData.name,
         role: userData.role,
-        photoURL: user.photoURL,
+        imageURL: userData.imageURL || user?.photoURL || null,
         accessToken: user.accessToken,
         lastLoginAt: userData.lastLoginAt,
       },

@@ -75,7 +75,7 @@ const Navbar = ({ title }) => {
           <InstallAppManager />
         </NavbarItem>
         {/* Cart Button */}
-        <NavbarItem className="hidden sm:flex">
+        <NavbarItem className="sm:flex">
           <NavbarCart onOpen={onCartOpen} onClose={onCartClose} />
         </NavbarItem>
         {/* Login Button/ Dropdown Menu/ Drawer */}

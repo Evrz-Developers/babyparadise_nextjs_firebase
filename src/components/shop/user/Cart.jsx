@@ -9,7 +9,7 @@ import { Image } from "@nextui-org/image";
 import { Button, ButtonGroup } from "@nextui-org/button";
 import { FiHeart, FiMinus, FiPlus, FiTrash, FiTrash2 } from "react-icons/fi";
 
-const Cart = () => {
+const Cart = ({ isLoggedIn }) => {
   const { products, setProducts } = useCartStore();
   const [loading, setLoading] = useState(true);
   const { user } = useLoggedUserStore();
@@ -64,24 +64,32 @@ const Cart = () => {
         )
       );
 
-      // Then make the API call
-      try {
-        await CART_API.updateProductQuantityInCart(
-          cartItemId,
-          newQuantity,
-          user.uid
+      // If user is logged in, update in backend
+      if (user?.uid) {
+        try {
+          await CART_API.updateProductQuantityInCart(
+            cartItemId,
+            newQuantity,
+            user.uid
+          );
+        } catch (error) {
+          // If API call fails, revert the optimistic update
+          setProducts(
+            products.map((item) =>
+              item.id === cartItemId
+                ? { ...item, quantity: currentQuantity }
+                : item
+            )
+          );
+          toast.error("Failed to update quantity. Please try again.");
+          console.error("Error updating quantity:", error);
+        }
+      } else {
+        // If user is not logged in, update localStorage
+        const updatedProducts = products.map((item) =>
+          item.id === cartItemId ? { ...item, quantity: newQuantity } : item
         );
-      } catch (error) {
-        // If API call fails, revert the optimistic update
-        setProducts(
-          products.map((item) =>
-            item.id === cartItemId
-              ? { ...item, quantity: currentQuantity }
-              : item
-          )
-        );
-        toast.error("Failed to update quantity. Please try again.");
-        console.error("Error updating quantity:", error);
+        localStorage.setItem("cartItems", JSON.stringify(updatedProducts));
       }
     } catch (error) {
       console.error("Error in quantity update:", error);

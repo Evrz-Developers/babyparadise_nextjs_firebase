@@ -30,11 +30,7 @@ const DrawerContent = ({
       case "cart":
         return {
           title: "Cart",
-          content: isLoggedIn ? (
-            <Cart onClose={onClose} isLoggedIn={isLoggedIn} />
-          ) : (
-            <EmptyCart className="h-full" />
-          ),
+          content: <Cart onClose={onClose} isLoggedIn={isLoggedIn} />,
           size: "lg",
         };
 

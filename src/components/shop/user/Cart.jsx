@@ -5,6 +5,7 @@ import CART_API from "@/utilities/api/cart.api";
 import { toast } from "react-toastify";
 import EmptyCart from "./EmptyCart";
 import LoadingSpinner from "@/components/common/LoadingSpinner";
+import { Image } from "@nextui-org/image";
 
 const Cart = () => {
   const { products, setProducts } = useCartStore();
@@ -115,7 +116,7 @@ const Cart = () => {
   }
 
   return (
-    <div className="p-4">
+    <div>
       <h2 className="text-xl font-bold mb-4">Shopping Cart</h2>
       <div className="space-y-4">
         {products.map((item) => (
@@ -123,9 +124,17 @@ const Cart = () => {
             key={item.id}
             className="border p-4 rounded-lg flex justify-between items-center"
           >
-            <div>
-              <h3 className="font-semibold">{item.name}</h3>
-              <p className="text-gray-600">₹{item.price}</p>
+            <div className="flex items-center gap-4">
+              <Image
+                src={item.imageURL}
+                alt={item.name}
+                width={60}
+                height={60}
+              />
+              <div>
+                <h3 className="font-semibold">{item.name}</h3>
+                <p className="text-gray-600">₹{item.price}</p>
+              </div>
             </div>
 
             <div className="flex items-center gap-4">

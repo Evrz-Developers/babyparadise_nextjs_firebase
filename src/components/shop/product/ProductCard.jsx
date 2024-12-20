@@ -10,7 +10,7 @@ import useDrawerStore from "@/store/useDrawerStore";
 
 const ProductCard = ({ product, index }) => {
   const { addProduct } = useCartStore();
-  const { onCartOpen, setCartDrawerContent } = useDrawerStore();
+  const { onCartOpen, setdrawerContent } = useDrawerStore();
 
   const router = useRouter();
 
@@ -37,7 +37,7 @@ const ProductCard = ({ product, index }) => {
         <span>Item added!</span>
         <button
           onClick={() => {
-            setCartDrawerContent("cart");
+            setdrawerContent("cart");
             onCartOpen();
           }}
           className="text-sm bg-color-primary-p100 text-color-primary-p40 px-2 py-1 rounded hover:bg-color-primary-p80"

@@ -67,7 +67,7 @@ const ProductCard = ({ product, index }) => {
         shadow="sm"
         key={index}
         isPressable
-        className="rounded-none rounded-t-md"
+        className="rounded-none rounded-t-md transition-all duration-200 hover:scale-[1.03] hover:-translate-y-1"
         onPress={handleProductClick}
       >
         <CardBody className="overflow-visible p-0">
@@ -97,7 +97,7 @@ const ProductCard = ({ product, index }) => {
       </Card>
       <Button
         size="sm"
-        className="flex bg-orange-50 rounded-none rounded-b-xl"
+        className="flex bg-orange-50 rounded-none rounded-b-xl transition-all duration-200 hover:scale-[1.03] hover:-translate-y-1"
         variant="ghost"
         color="warning"
         onPress={handleAddToCart}

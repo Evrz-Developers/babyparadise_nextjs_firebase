@@ -44,8 +44,7 @@ const ProductCard = ({ product, index }) => {
         </Button>
       </div>,
       {
-        autoClose: 1500,
-        closeOnClick: false,
+        autoClose: 1000,
       }
     );
 

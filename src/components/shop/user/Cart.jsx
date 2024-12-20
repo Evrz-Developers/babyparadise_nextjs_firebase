@@ -3,19 +3,32 @@ import useCartStore from "@/store/useCartStore";
 import useLoggedUserStore from "@/store/useLoggedUserStore";
 import CART_API from "@/utilities/api/cart.api";
 import { toast } from "react-toastify";
+import EmptyCart from "./EmptyCart";
+import LoadingSpinner from "@/components/common/LoadingSpinner";
 
 const Cart = () => {
-  const [cartItems, setCartItems] = useState([]);
+  const { products, setProducts } = useCartStore();
   const [loading, setLoading] = useState(true);
   const { user } = useLoggedUserStore();
 
-  // Fetch cart items
   useEffect(() => {
     const fetchCartItems = async () => {
       try {
         if (user?.uid) {
           const { data } = await CART_API.getProductsInCart(user.uid);
-          setCartItems(data);
+          const mappedData = data.map((item) => ({
+            id: item.id,
+            name: item.name,
+            price: item.price,
+            quantity: item.quantity,
+            imageURL: item.imageURL,
+          }));
+          setProducts(mappedData);
+        } else {
+          // Get items from localStorage when not logged in
+          const localCartItems =
+            JSON.parse(localStorage.getItem("cartItems")) || [];
+          setProducts(localCartItems);
         }
         setLoading(false);
       } catch (error) {
@@ -26,7 +39,7 @@ const Cart = () => {
     };
 
     fetchCartItems();
-  }, [user]);
+  }, [user, setProducts]);
 
   // Handle quantity update
   const handleUpdateQuantity = async (
@@ -41,50 +54,71 @@ const Cart = () => {
         return; // Don't allow quantity less than 1
       }
 
-      await CART_API.updateProductQuantityInCart(
-        cartItemId,
-        newQuantity,
-        user.uid
-      );
-
-      // Update local state
-      setCartItems((prevItems) =>
-        prevItems.map((item) =>
+      // Optimistically update the UI first
+      setProducts(
+        products.map((item) =>
           item.id === cartItemId ? { ...item, quantity: newQuantity } : item
         )
       );
+
+      // Then make the API call
+      try {
+        await CART_API.updateProductQuantityInCart(
+          cartItemId,
+          newQuantity,
+          user.uid
+        );
+      } catch (error) {
+        // If API call fails, revert the optimistic update
+        setProducts(
+          products.map((item) =>
+            item.id === cartItemId
+              ? { ...item, quantity: currentQuantity }
+              : item
+          )
+        );
+        toast.error("Failed to update quantity. Please try again.");
+        console.error("Error updating quantity:", error);
+      }
     } catch (error) {
-      console.error("Error updating quantity:", error);
+      console.error("Error in quantity update:", error);
     }
   };
 
   // Handle remove item
   const handleRemoveItem = async (cartItemId) => {
     try {
-      await CART_API.deleteProductFromCart(cartItemId, user.uid);
+      // Optimistically remove item from UI
+      const previousProducts = [...products];
+      setProducts(products.filter((item) => item.id !== cartItemId));
 
-      // Update local state
-      setCartItems((prevItems) =>
-        prevItems.filter((item) => item.id !== cartItemId)
-      );
+      // Then make the API call
+      try {
+        await CART_API.deleteProductFromCart(cartItemId, user.uid);
+      } catch (error) {
+        // If API call fails, revert the optimistic update
+        setProducts(previousProducts);
+        toast.error("Failed to remove item. Please try again.");
+        console.error("Error removing item:", error);
+      }
     } catch (error) {
-      console.error("Error removing item:", error);
+      console.error("Error in remove item:", error);
     }
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <LoadingSpinner />;
   }
 
-  if (cartItems.length === 0) {
-    return <div>Your cart is empty</div>;
+  if (products.length === 0) {
+    return <EmptyCart isLoggedIn={user ? true : false} />;
   }
 
   return (
     <div className="p-4">
       <h2 className="text-xl font-bold mb-4">Shopping Cart</h2>
       <div className="space-y-4">
-        {cartItems.map((item) => (
+        {products.map((item) => (
           <div
             key={item.id}
             className="border p-4 rounded-lg flex justify-between items-center"
@@ -95,7 +129,6 @@ const Cart = () => {
             </div>
 
             <div className="flex items-center gap-4">
-              {/* Quantity controls */}
               <div className="flex items-center gap-2">
                 <button
                   onClick={() =>
@@ -116,7 +149,6 @@ const Cart = () => {
                 </button>
               </div>
 
-              {/* Remove button */}
               <button
                 onClick={() => handleRemoveItem(item.id)}
                 className="text-red-500 hover:text-red-700"
@@ -128,11 +160,10 @@ const Cart = () => {
         ))}
       </div>
 
-      {/* Cart total */}
       <div className="mt-6 text-right">
         <p className="text-lg font-bold">
           Total: ₹
-          {cartItems.reduce(
+          {products.reduce(
             (total, item) => total + item.price * item.quantity,
             0
           )}

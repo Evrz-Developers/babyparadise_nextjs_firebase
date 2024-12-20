@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import EmptyCart from "./EmptyCart";
 import LoadingSpinner from "@/components/common/LoadingSpinner";
 import { Image } from "@nextui-org/image";
-import { Button } from "@nextui-org/button";
+import { Button, ButtonGroup } from "@nextui-org/button";
 import { FiHeart, FiMinus, FiPlus, FiTrash, FiTrash2 } from "react-icons/fi";
 
 const Cart = () => {
@@ -134,7 +134,7 @@ const Cart = () => {
         {products.map((item) => (
           <div
             key={item.id}
-            className="border p-4 rounded-lg flex justify-between items-center"
+            className="border p-2 rounded-2xl flex justify-between items-center"
           >
             <div className="flex items-center gap-4">
               <Image
@@ -149,37 +149,39 @@ const Cart = () => {
               </div>
             </div>
 
-            <div className="flex items-center gap-4">
-              <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2">
+              <ButtonGroup>
                 <Button
                   isIconOnly
-                  size="md"
-                  variant="ghost"
+                  size="sm"
+                  variant="light"
                   onPress={() =>
                     handleUpdateQuantity(item.id, item.quantity, false)
                   }
-                  className="text-gray-800 hover:text-gray-950"
+                  className="text-gray-800 bg-color-primary-p100 hover:text-gray-950"
                 >
                   <FiMinus />
                 </Button>
-                <span>{item.quantity}</span>
+                <div className="w-6 text-center text-gray-800 hover:text-gray-950">
+                  {item.quantity}
+                </div>
                 <Button
                   isIconOnly
-                  size="md"
-                  variant="ghost"
+                  size="sm"
+                  variant="light"
                   onPress={() =>
                     handleUpdateQuantity(item.id, item.quantity, true)
                   }
-                  className="text-gray-800 hover:text-gray-950"
+                  className="text-gray-800 bg-color-primary-p100 hover:text-gray-950"
                 >
                   <FiPlus />
                 </Button>
-              </div>
-
+              </ButtonGroup>
               <Button
                 isIconOnly
-                size="md"
-                variant="ghost"
+                size="sm"
+                color="danger"
+                variant="light"
                 onPress={() => handleRemoveItem(item.id)}
                 className="text-red-500 hover:text-red-700"
               >

@@ -1,4 +1,3 @@
-import { CustomimageLoader } from "@/components/common/CustomImageLoader";
 import ContentWrapper from "@/components/common/layouts/ContentWrapper";
 import { Button } from "@nextui-org/button";
 import { useRouter } from "next/navigation";

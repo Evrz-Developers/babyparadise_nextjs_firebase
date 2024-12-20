@@ -5,6 +5,7 @@ import LoadingSpinner from "@/components/common/LoadingSpinner";
 import { Image } from "@nextui-org/image";
 import ContentWrapper from "@/components/common/layouts/ContentWrapper";
 import { Button } from "@nextui-org/button";
+import CONSTANTS from "@/utilities/constants";
 
 const ProductDetails = ({ product }) => {
   // Demo data for missing fields
@@ -40,9 +41,14 @@ const ProductDetails = ({ product }) => {
             </h1>
 
             <div className="border-b border-gray-200 pb-4">
-              <span className="text-3xl font-bold text-gray-900">
-                ${product?.price || demoPrice}
-              </span>
+              {product?.price ? (
+                <span className="text-3xl font-bold text-gray-900">
+                  {CONSTANTS.SYMBOLS.CURRENCY}
+                  {product?.price}
+                </span>
+              ) : (
+                CONSTANTS.PLACEHOLDER.CURRENCY
+              )}
             </div>
 
             <div className="space-y-2">
@@ -61,7 +67,14 @@ const ProductDetails = ({ product }) => {
             <div className="bg-white p-6 border border-gray-200 rounded-lg shadow-sm sticky top-4">
               <div className="space-y-4">
                 <div className="text-xl font-bold text-gray-900">
-                  ${product?.price || demoPrice}
+                  {product?.price ? (
+                    <span className="text-xl font-bold text-gray-900">
+                      {CONSTANTS.SYMBOLS.CURRENCY}
+                      {product?.price}
+                    </span>
+                  ) : (
+                    CONSTANTS.PLACEHOLDER.CURRENCY
+                  )}
                 </div>
 
                 <div className="text-sm text-gray-500">

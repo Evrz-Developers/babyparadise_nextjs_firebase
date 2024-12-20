@@ -3,6 +3,7 @@ import SigninSignup from "@/components/auth/SigninSignup";
 import Cart from "@/components/shop/user/Cart";
 import EmptyCart from "@/components/shop/user/EmptyCart";
 import NextDrawer from "@/components/ui/next-drawer";
+import MenuComponent from "@/components/shop/MenuComponent";
 
 const DrawerContent = ({
   type,
@@ -40,7 +41,7 @@ const DrawerContent = ({
       case "menu":
         return {
           title: "Menu",
-          content: <div>Menu Content</div>, // Add your menu content here
+          content: <MenuComponent />,
           size: "lg",
         };
       default:

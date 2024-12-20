@@ -8,7 +8,7 @@ import useDrawerStore from "@/store/useDrawerStore";
 const NavbarCart = ({ onOpen }) => {
   const { user } = useLoggedUserStore();
   const { products } = useCartStore();
-  const { setCartDrawerContent } = useDrawerStore();
+  const { setdrawerContent } = useDrawerStore();
   const [mounted, setMounted] = useState(false);
   const [itemCount, setItemCount] = useState(0);
 
@@ -25,7 +25,7 @@ const NavbarCart = ({ onOpen }) => {
   }, [products, user, mounted]);
 
   const handleCartOpen = () => {
-    setCartDrawerContent("cart");
+    setdrawerContent("cart");
     onOpen();
   };
 

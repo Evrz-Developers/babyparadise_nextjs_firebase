@@ -4,16 +4,11 @@ import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { InstallAppManager } from "@/app/PWAManager";
-import Profile from "@/components/shop/user/Profile";
-import NextDrawer from "@/components/ui/next-drawer";
 import useLoggedUserStore from "@/store/useLoggedUserStore";
-import NavbarCart from "@/components/common/Navbar/NavbarCart";
 import NavbarLogo from "@/components/common/Navbar/NavbarLogo";
-import NavbarLogin from "@/components/common/Navbar/NavbarLogin";
 import NavSearchBar from "@/components/common/Navbar/NavSearchBar";
 import NavbarDeliveryAddress from "@/components/common/Navbar/NavbarDeliveryAddress";
 import useDrawerStore from "@/store/useDrawerStore";
-import Cart from "@/components/shop/user/Cart";
 
 import {
   Navbar as NextNavbar,
@@ -22,20 +17,22 @@ import {
 } from "@nextui-org/navbar";
 import SigninSignup from "@/components/auth/SigninSignup";
 import EmptyCart from "@/components/shop/user/EmptyCart";
+import CartLoginMenuGroup from "@/components/common/Navbar/CartLoginMenuGroup";
+import DrawerContent from "@/components/common/Navbar/DrawerContent";
 
 const Navbar = ({ title }) => {
   const router = useRouter();
   const { user, isLoggedIn, logout } = useLoggedUserStore();
   const {
-    cartDrawerContent,
     isCartOpen,
-    onCartOpen,
     onCartOpenChange,
     onCartClose,
-    onLoginOpen,
     onLoginOpenChange,
     onLoginClose,
     isLoginOpen,
+    isMenuOpen,
+    onMenuOpenChange,
+    onMenuClose,
   } = useDrawerStore();
 
   const handleLogout = async () => {
@@ -74,52 +71,50 @@ const Navbar = ({ title }) => {
         <NavbarItem>
           <InstallAppManager />
         </NavbarItem>
+
         {/* Cart Button */}
-        <NavbarItem className="sm:flex">
+        {/* <NavbarItem className="sm:flex">
           <NavbarCart onOpen={onCartOpen} onClose={onCartClose} />
-        </NavbarItem>
-        {/* Login Button/ Dropdown Menu/ Drawer */}
+        </NavbarItem> */}
+
+        {/* Cart, Login, Menu Button - Drawer */}
         <NavbarItem>
-          <NavbarLogin
+          <CartLoginMenuGroup
             isLoggedIn={isLoggedIn}
             user={user}
-            onOpen={onLoginOpen}
-            onClose={onLoginClose}
             handleLogout={handleLogout}
           />
         </NavbarItem>
       </NavbarContent>
 
-      {/* Drawer Content*/}
-      <NextDrawer
-        title={isLoggedIn ? user?.name : "Guest"}
+      {/* Drawer Contents */}
+      <DrawerContent
+        type="user"
         isOpen={isLoginOpen}
         onOpenChange={onLoginOpenChange}
-      >
-        {isLoggedIn ? (
-          <Profile handleLogout={handleLogout} />
-        ) : (
-          <SigninSignup onClose={onLoginClose} />
-        )}
-      </NextDrawer>
+        onClose={onLoginClose}
+        user={user}
+        isLoggedIn={isLoggedIn}
+        handleLogout={handleLogout}
+      />
 
-      {/* Cart Drawer */}
-      <NextDrawer
-        title="Cart"
+      <DrawerContent
+        type="cart"
         isOpen={isCartOpen}
         onOpenChange={onCartOpenChange}
-        size="xl"
-      >
-        {cartDrawerContent === "cart" ? (
-          isLoggedIn ? (
-            <Cart onClose={onCartClose} isLoggedIn={isLoggedIn} />
-          ) : (
-            <EmptyCart className="h-full" />
-          )
-        ) : (
-          <SigninSignup onClose={onLoginClose} />
-        )}
-      </NextDrawer>
+        onClose={onCartClose}
+        user={user}
+        isLoggedIn={isLoggedIn}
+      />
+
+      <DrawerContent
+        type="menu"
+        isOpen={isMenuOpen}
+        onOpenChange={onMenuOpenChange}
+        onClose={onMenuClose}
+        user={user}
+        isLoggedIn={isLoggedIn}
+      />
     </NextNavbar>
   );
 };

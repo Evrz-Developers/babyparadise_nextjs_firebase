@@ -35,15 +35,13 @@ const ProductCard = ({ product, index }) => {
     const toastId = toast.success(
       <div className="flex flex-row items-center justify-between gap-2 px-2">
         <span>Item added!</span>
-        <button
-          onClick={() => {
-            setdrawerContent("cart");
-            onCartOpen();
-          }}
-          className="text-sm bg-color-primary-p100 text-color-primary-p40 px-2 py-1 rounded hover:bg-color-primary-p80"
+        <Button
+          size="sm"
+          onPress={onCartOpen}
+          className="text-sm bg-color-primary-p100 text-color-primary-p40 hover:bg-color-primary-p80"
         >
           View Cart
-        </button>
+        </Button>
       </div>,
       {
         autoClose: 1500,

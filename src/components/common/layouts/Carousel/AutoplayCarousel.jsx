@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
+import { Skeleton } from "@nextui-org/skeleton";
 
 const NavButton = ({ direction, onClick }) => (
   <button
@@ -82,83 +83,111 @@ export default function AutoplayCarousel({ items }) {
     enter: (direction) => ({
       x: direction > 0 ? 1000 : -1000,
       opacity: 0,
+      scale: 0.85,
+      rotateY: direction > 0 ? 25 : -25,
     }),
     center: {
       zIndex: 1,
       x: 0,
       opacity: 1,
+      scale: 1,
+      rotateY: 0,
     },
     exit: (direction) => ({
       zIndex: 0,
       x: direction < 0 ? 1000 : -1000,
       opacity: 0,
+      scale: 0.85,
+      rotateY: direction > 0 ? -25 : 25,
     }),
   };
 
   return (
-    <div
-      className="w-full overflow-hidden relative"
-      onMouseEnter={stopAutoPlay}
-      onMouseLeave={startAutoPlay}
-    >
-      <div className="relative h-56 sm:h-96">
-        <NavButton direction="left" onClick={handlePrevious} />
-        <NavButton direction="right" onClick={handleNext} />
-
-        <AnimatePresence initial={false} custom={direction}>
-          <motion.div
-            key={currentIndex}
-            custom={direction}
-            variants={slideVariants}
-            initial="enter"
-            animate="center"
-            exit="exit"
-            transition={{
-              x: { type: "spring", stiffness: 300, damping: 30 },
-              opacity: { duration: 0.2 },
-            }}
-            className="absolute w-full h-full"
-            drag="x"
-            dragElastic={1}
-            dragMomentum={true}
-            dragConstraints={{ left: 0, right: 0 }}
-            onDragStart={() => setIsDragging(true)}
-            onDragEnd={handleDragEnd}
-            whileDrag={{ cursor: "grabbing" }}
-            style={{ cursor: "grab" }}
-          >
-            <div className="h-full">
-              <div
-                onClick={() => handleClick(items[currentIndex].id)}
-                className="relative w-full h-full cursor-pointer"
-              >
-                <Image
-                  src={items[currentIndex].imageURL}
-                  alt={`Slide ${items[currentIndex].id}`}
-                  fill
-                  className="rounded-lg"
-                  style={{ objectFit: "cover" }}
-                  priority
-                />
-              </div>
-            </div>
-          </motion.div>
-        </AnimatePresence>
-      </div>
-
-      {/* Dots Navigation */}
-      <div className="flex justify-center gap-2 mt-4">
-        {items.map((_, index) => (
+    <Skeleton isLoaded={true}>
+      <div
+        className="w-full overflow-hidden relative"
+        onMouseEnter={stopAutoPlay}
+        onMouseLeave={startAutoPlay}
+      >
+        <div className="relative h-56 sm:h-96">
+          {/* Navigation Buttons */}
           <button
-            key={index}
-            onClick={() => handleDotClick(index)}
-            className={`w-2 h-2 rounded-full transition-all duration-300 ${
-              currentIndex === index ? "bg-blue-500 w-4" : "bg-gray-300"
-            }`}
-            aria-label={`Go to slide ${index + 1}`}
-          />
-        ))}
+            onClick={handlePrevious}
+            className="hidden sm:flex absolute left-2 top-1/2 -translate-y-1/2 z-10 bg-white/40 hover:bg-white rounded-full p-2 shadow-md"
+            aria-label="Previous slide"
+          >
+            <FiChevronLeft className="w-4 h-4" />
+          </button>
+
+          <button
+            onClick={handleNext}
+            className="hidden sm:flex absolute right-2 top-1/2 -translate-y-1/2 z-10 bg-white/40 hover:bg-white rounded-full p-2 shadow-md"
+            aria-label="Next slide"
+          >
+            <FiChevronRight className="w-4 h-4" />
+          </button>
+
+          <AnimatePresence initial={false} custom={direction}>
+            <motion.div
+              key={currentIndex}
+              custom={direction}
+              variants={slideVariants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              transition={{
+                x: { type: "spring", stiffness: 300, damping: 30 },
+                opacity: { duration: 0.4 },
+                scale: { duration: 0.4 },
+                rotateY: { duration: 0.4 },
+              }}
+              className="absolute w-full h-full"
+              style={{
+                cursor: "grab",
+                perspective: "1000px",
+                transformStyle: "preserve-3d",
+              }}
+              drag="x"
+              dragElastic={1}
+              dragMomentum={true}
+              dragConstraints={{ left: 0, right: 0 }}
+              onDragStart={() => setIsDragging(true)}
+              onDragEnd={handleDragEnd}
+              whileDrag={{ cursor: "grabbing" }}
+            >
+              <div className="h-full">
+                <div
+                  onClick={() => handleClick(items[currentIndex].id)}
+                  className="relative w-full h-full cursor-pointer"
+                >
+                  <Image
+                    src={items[currentIndex].imageURL}
+                    alt={`Slide ${items[currentIndex].id}`}
+                    fill
+                    className="rounded-lg"
+                    style={{ objectFit: "cover" }}
+                    priority
+                  />
+                </div>
+              </div>
+            </motion.div>
+          </AnimatePresence>
+        </div>
+
+        {/* Dots Navigation */}
+        <div className="flex justify-center gap-2 mt-4">
+          {items.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => handleDotClick(index)}
+              className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                currentIndex === index ? "bg-blue-500 w-4" : "bg-gray-300"
+              }`}
+              aria-label={`Go to slide ${index + 1}`}
+            />
+          ))}
+        </div>
       </div>
-    </div>
+    </Skeleton>
   );
 }

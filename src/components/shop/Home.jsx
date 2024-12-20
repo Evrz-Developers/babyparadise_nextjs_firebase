@@ -23,11 +23,7 @@ const Home = ({ initialData }) => {
   return (
     <ContentWrapper className="gap-4">
       {/* Carousel */}
-      {carousel.length > 0 && (
-        <Skeleton isLoaded={true}>
-          <AutoplayCarousel items={carousel} />
-        </Skeleton>
-      )}
+      {carousel.length > 0 && <AutoplayCarousel items={carousel} />}
       {/* Offers */}
       {/* <div className="mb-4">
         <h2 className="text-lg md:text-xl font-bold">Offers here</h2>

@@ -40,7 +40,7 @@ export default function AutoplayCarousel({ items }) {
 
   const startAutoPlay = () => {
     if (autoPlayRef.current) clearInterval(autoPlayRef.current);
-    autoPlayRef.current = setInterval(handleNext, 3000);
+    autoPlayRef.current = setInterval(handleNext, 5000);
   };
 
   const stopAutoPlay = () => {

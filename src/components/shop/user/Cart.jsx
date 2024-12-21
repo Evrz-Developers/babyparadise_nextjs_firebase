@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from "react";
-import useCartStore from "@/store/useCartStore";
-import useLoggedUserStore from "@/store/useLoggedUserStore";
-import CART_API from "@/utilities/api/cart.api";
 import { toast } from "react-toastify";
-import EmptyCart from "./EmptyCart";
-import LoadingSpinner from "@/components/common/LoadingSpinner";
 import { Image } from "@nextui-org/image";
+import CART_API from "@/utilities/api/cart.api";
+import useCartStore from "@/store/useCartStore";
+import React, { useEffect, useState } from "react";
 import { Button, ButtonGroup } from "@nextui-org/button";
-import { FiHeart, FiMinus, FiPlus, FiTrash, FiTrash2 } from "react-icons/fi";
+import EmptyCart from "@/components/shop/user/EmptyCart";
+import useLoggedUserStore from "@/store/useLoggedUserStore";
+import LoadingSpinner from "@/components/common/LoadingSpinner";
+import { FiHeart, FiMinus, FiPlus, FiTrash } from "react-icons/fi";
 
-const Cart = ({ isLoggedIn }) => {
+const Cart = () => {
   const { products, setProducts } = useCartStore();
   const [loading, setLoading] = useState(true);
   const { user } = useLoggedUserStore();
@@ -103,14 +103,22 @@ const Cart = ({ isLoggedIn }) => {
       const previousProducts = [...products];
       setProducts(products.filter((item) => item.id !== cartItemId));
 
-      // Then make the API call
-      try {
-        await CART_API.deleteProductFromCart(cartItemId, user.uid);
-      } catch (error) {
-        // If API call fails, revert the optimistic update
-        setProducts(previousProducts);
-        toast.error("Failed to remove item. Please try again.");
-        console.error("Error removing item:", error);
+      if (user?.uid) {
+        // If user is logged in, make the API call
+        try {
+          await CART_API.deleteProductFromCart(cartItemId, user.uid);
+        } catch (error) {
+          // If API call fails, revert the optimistic update
+          setProducts(previousProducts);
+          toast.error("Failed to remove item. Please try again.");
+          console.error("Error removing item:", error);
+        }
+      } else {
+        // If user is not logged in, update localStorage
+        const updatedProducts = products.filter(
+          (item) => item.id !== cartItemId
+        );
+        localStorage.setItem("cartItems", JSON.stringify(updatedProducts));
       }
     } catch (error) {
       console.error("Error in remove item:", error);
@@ -193,7 +201,7 @@ const Cart = ({ isLoggedIn }) => {
                 onPress={() => handleRemoveItem(item.id)}
                 className="text-red-500 hover:text-red-700"
               >
-                <FiTrash2 />
+                <FiTrash />
               </Button>
             </div>
           </div>

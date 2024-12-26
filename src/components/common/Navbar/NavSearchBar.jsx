@@ -29,8 +29,8 @@ const NavSearchBar = () => {
         Search
       </label>
       <input
-        className="block w-full rounded-md border border-gray-200 py-[9px] px-2 text-sm placeholder:text-gray-500 placeholder:text-end focus:outline-none focus:border-color-primary-p60"
-        placeholder="🔍"
+        className="block w-full rounded-md border border-gray-200 py-[9px] px-3 text-sm placeholder:text-gray-500 placeholder:text-end focus:outline-none focus:border-color-primary-p60"
+        placeholder="&#x1F50D;&#xFE0E;"
         onChange={(e) => {
           handleSearch(e.target.value);
         }}

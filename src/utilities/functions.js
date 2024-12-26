@@ -10,7 +10,7 @@ export const handleLoginResult = (result, onClose, setUser, router) => {
     setUser(result.user);
     toast.success("Login successful!");
     if (result.user.role === "admin") {
-      router.push("/dashboard");
+      router.push("/admin/dashboard");
     }
   }
 };

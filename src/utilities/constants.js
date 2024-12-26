@@ -26,7 +26,7 @@ const menuItems = [
   { label: "Wishlist", href: "/wishlist" },
   { label: "Cart", href: "/cart" },
   { label: "About", href: "/about" },
-  { label: "Dashboard", href: "/dashboard" },
+  { label: "Dashboard", href: "/admin/dashboard" },
   { label: "Help & Feedback", href: "/help" },
 ];
 

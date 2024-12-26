@@ -4,15 +4,11 @@ import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { InstallAppManager } from "@/app/PWAManager";
-import Profile from "@/components/shop/user/Profile";
-import NextDrawer from "@/components/ui/next-drawer";
-import { useDisclosure } from "@nextui-org/use-disclosure";
 import useLoggedUserStore from "@/store/useLoggedUserStore";
-import NavbarCart from "@/components/common/Navbar/NavbarCart";
 import NavbarLogo from "@/components/common/Navbar/NavbarLogo";
-import NavbarLogin from "@/components/common/Navbar/NavbarLogin";
 import NavSearchBar from "@/components/common/Navbar/NavSearchBar";
 import NavbarDeliveryAddress from "@/components/common/Navbar/NavbarDeliveryAddress";
+import useDrawerStore from "@/store/useDrawerStore";
 
 import {
   Navbar as NextNavbar,
@@ -20,11 +16,24 @@ import {
   NavbarItem,
 } from "@nextui-org/navbar";
 import SigninSignup from "@/components/auth/SigninSignup";
+import EmptyCart from "@/components/shop/user/EmptyCart";
+import CartLoginMenuGroup from "@/components/common/Navbar/CartLoginMenuGroup";
+import DrawerContent from "@/components/common/Navbar/DrawerContent";
 
 const Navbar = ({ title }) => {
   const router = useRouter();
   const { user, isLoggedIn, logout } = useLoggedUserStore();
-  const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
+  const {
+    isCartOpen,
+    onCartOpenChange,
+    onCartClose,
+    onLoginOpenChange,
+    onLoginClose,
+    isLoginOpen,
+    isMenuOpen,
+    onMenuOpenChange,
+    onMenuClose,
+  } = useDrawerStore();
 
   const handleLogout = async () => {
     await logout();
@@ -34,15 +43,14 @@ const Navbar = ({ title }) => {
   return (
     <NextNavbar
       maxWidth="2xl"
-      className="shadow-sm "
+      className="shadow-sm"
       classNames={{
         base: "bg-white/50",
         wrapper: "px-4",
       }}
     >
-      {/* Left Section: Hamburger Menu and Shop Logo */}
+      {/* Left Section: Shop Logo */}
       <NavbarContent justify="start">
-        {/* <NavbarMenuToggle /> */}
         <Link href="/" className="flex items-center gap-1">
           <NavbarLogo title={title} />
         </Link>
@@ -63,34 +71,50 @@ const Navbar = ({ title }) => {
         <NavbarItem>
           <InstallAppManager />
         </NavbarItem>
+
         {/* Cart Button */}
-        <NavbarItem className="hidden sm:flex">
-          <NavbarCart />
-        </NavbarItem>
-        {/* Login Button/ Dropdown Menu/ Drawer */}
+        {/* <NavbarItem className="sm:flex">
+          <NavbarCart onOpen={onCartOpen} onClose={onCartClose} />
+        </NavbarItem> */}
+
+        {/* Cart, Login, Menu Button - Drawer */}
         <NavbarItem>
-          <NavbarLogin
+          <CartLoginMenuGroup
             isLoggedIn={isLoggedIn}
             user={user}
-            onOpen={onOpen}
-            onClose={onClose}
             handleLogout={handleLogout}
           />
         </NavbarItem>
       </NavbarContent>
 
-      {/* Drawer Content*/}
-      <NextDrawer
-        title={isLoggedIn ? user?.name : "Guest"}
-        isOpen={isOpen}
-        onOpenChange={onOpenChange}
-      >
-        {isLoggedIn ? (
-          <Profile handleLogout={handleLogout} />
-        ) : (
-          <SigninSignup onClose={onClose} />
-        )}
-      </NextDrawer>
+      {/* Drawer Contents */}
+      <DrawerContent
+        type="user"
+        isOpen={isLoginOpen}
+        onOpenChange={onLoginOpenChange}
+        onClose={onLoginClose}
+        user={user}
+        isLoggedIn={isLoggedIn}
+        handleLogout={handleLogout}
+      />
+
+      <DrawerContent
+        type="cart"
+        isOpen={isCartOpen}
+        onOpenChange={onCartOpenChange}
+        onClose={onCartClose}
+        user={user}
+        isLoggedIn={isLoggedIn}
+      />
+
+      <DrawerContent
+        type="menu"
+        isOpen={isMenuOpen}
+        onOpenChange={onMenuOpenChange}
+        onClose={onMenuClose}
+        user={user}
+        isLoggedIn={isLoggedIn}
+      />
     </NextNavbar>
   );
 };

@@ -1,88 +1,223 @@
-"use client";
-
-import React from "react";
-import ListLayout from "@/components/common/layouts/ListLayout";
-import ProductListItem from "@/components/shop/product/ProductListItem";
+import { toast } from "react-toastify";
+import { Image } from "@nextui-org/image";
+import CART_API from "@/utilities/api/cart.api";
+import useCartStore from "@/store/useCartStore";
+import React, { useEffect, useState } from "react";
+import { Button, ButtonGroup } from "@nextui-org/button";
 import EmptyCart from "@/components/shop/user/EmptyCart";
-import ContentWrapper from "@/components/common/layouts/ContentWrapper";
+import useLoggedUserStore from "@/store/useLoggedUserStore";
+import LoadingSpinner from "@/components/common/LoadingSpinner";
+import { FiHeart, FiMinus, FiPlus, FiTrash } from "react-icons/fi";
 
-const Cart = ({ products }) => {
-  const items = products;
-  const totalPrice = items.reduce((total, item) => total + item.price, 0);
-  const totalDiscount = items.reduce((total, item) => total + item.discount, 0);
-  const deliveryCharges = 0; // Set delivery charges as needed
-  const EMPTYCARTSTYLES = "my-10 justify-center items-center";
+const Cart = () => {
+  const { products, setProducts } = useCartStore();
+  const [loading, setLoading] = useState(true);
+  const { user } = useLoggedUserStore();
 
-  const handleQuantityChange = (id, change) => {
-    // TODO: ADD LOGIC TO UPDATE QUANTITY 
+  useEffect(() => {
+    const fetchCartItems = async () => {
+      try {
+        if (user?.uid) {
+          const { data } = await CART_API.getProductsInCart(user.uid);
+          const mappedData = data.map((item) => ({
+            id: item.id,
+            name: item.name,
+            price: item.price,
+            quantity: item.quantity,
+            imageURL: item.imageURL,
+          }));
+          setProducts(mappedData);
+        } else {
+          // Get items from localStorage when not logged in
+          const localCartItems =
+            JSON.parse(localStorage.getItem("cartItems")) || [];
+          setProducts(localCartItems);
+        }
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching cart:", error);
+        toast.error("Failed to load cart items");
+        setLoading(false);
+      }
+    };
+
+    fetchCartItems();
+  }, [user, setProducts]);
+
+  // Handle quantity update
+  const handleUpdateQuantity = async (
+    cartItemId,
+    currentQuantity,
+    increment
+  ) => {
+    try {
+      const newQuantity = increment ? currentQuantity + 1 : currentQuantity - 1;
+
+      if (newQuantity < 1) {
+        return; // Don't allow quantity less than 1
+      }
+
+      // Optimistically update the UI first
+      setProducts(
+        products.map((item) =>
+          item.id === cartItemId ? { ...item, quantity: newQuantity } : item
+        )
+      );
+
+      // If user is logged in, update in backend
+      if (user?.uid) {
+        try {
+          await CART_API.updateProductQuantityInCart(
+            cartItemId,
+            newQuantity,
+            user.uid
+          );
+        } catch (error) {
+          // If API call fails, revert the optimistic update
+          setProducts(
+            products.map((item) =>
+              item.id === cartItemId
+                ? { ...item, quantity: currentQuantity }
+                : item
+            )
+          );
+          toast.error("Failed to update quantity. Please try again.");
+          console.error("Error updating quantity:", error);
+        }
+      } else {
+        // If user is not logged in, update localStorage
+        const updatedProducts = products.map((item) =>
+          item.id === cartItemId ? { ...item, quantity: newQuantity } : item
+        );
+        localStorage.setItem("cartItems", JSON.stringify(updatedProducts));
+      }
+    } catch (error) {
+      console.error("Error in quantity update:", error);
+    }
   };
 
-  const handleSaveForLater = (id) => {
-    // TODO: ADD LOGIC TO SAVE ITEM FOR LATER
+  // Handle remove item
+  const handleRemoveItem = async (cartItemId) => {
+    try {
+      // Optimistically remove item from UI
+      const previousProducts = [...products];
+      setProducts(products.filter((item) => item.id !== cartItemId));
+
+      if (user?.uid) {
+        // If user is logged in, make the API call
+        try {
+          await CART_API.deleteProductFromCart(cartItemId, user.uid);
+        } catch (error) {
+          // If API call fails, revert the optimistic update
+          setProducts(previousProducts);
+          toast.error("Failed to remove item. Please try again.");
+          console.error("Error removing item:", error);
+        }
+      } else {
+        // If user is not logged in, update localStorage
+        const updatedProducts = products.filter(
+          (item) => item.id !== cartItemId
+        );
+        localStorage.setItem("cartItems", JSON.stringify(updatedProducts));
+      }
+    } catch (error) {
+      console.error("Error in remove item:", error);
+    }
   };
 
-  const handleRemove = (id) => {
-    // TODO: ADD LOGIC TO REMOVE ITEM FROM CART
-  };
+  if (loading) {
+    return <LoadingSpinner />;
+  }
+
+  if (products.length === 0) {
+    return <EmptyCart isLoggedIn={user ? true : false} />;
+  }
 
   return (
-    <ContentWrapper
-      className={`pt-2 ${items.length === 0 ? EMPTYCARTSTYLES : ""}`}
-    >
-      {items.length === 0 && <EmptyCart />}
-      {items.length > 0 && (
-        // Cart Container
-        <main className="flex flex-col md:flex-row w-full">
-          {/* Left Side : Cart Items */}
-          <section className="flex flex-col w-full md:w-3/4 overflow-hidden overflow-y-scroll scrollbar-hide md:order-1 order-2">
-            <header className="flex text-lg font-semibold border p-4 gap-2">
-              Deliver to: Thrissur - 680311
-              <button className="text-blue-500">Change</button>
-            </header>
-            <ListLayout>
-              {items.map((item) => (
-                <ProductListItem
-                  key={item.id}
-                  productName={item.name}
-                  productDescription={item.description}
-                  seller={item.seller}
-                  price={item.price}
-                  discount={item.discount}
-                  quantity={item.quantity}
-                  onQuantityChange={(change) =>
-                    handleQuantityChange(item.id, change)
+    <div>
+      <div className="text-right">
+        <Button
+          size="sm"
+          variant="light"
+          color="danger"
+          className="text-sm font-medium mb-4"
+          endContent={<FiHeart />}
+        >
+          wishlist
+        </Button>
+      </div>
+      <div className="space-y-4">
+        {products.map((item) => (
+          <div
+            key={item.id}
+            className="border p-2 rounded-2xl flex justify-between items-center"
+          >
+            <div className="flex items-center gap-4">
+              <Image
+                src={item.imageURL}
+                alt={item.name}
+                width={60}
+                height={60}
+              />
+              <div>
+                <h3 className="font-semibold">{item.name}</h3>
+                <p className="text-gray-600">₹{item.price}</p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <ButtonGroup>
+                <Button
+                  isIconOnly
+                  size="sm"
+                  variant="light"
+                  onPress={() =>
+                    handleUpdateQuantity(item.id, item.quantity, false)
                   }
-                  onSaveForLater={() => handleSaveForLater(item.id)}
-                  onRemove={() => handleRemove(item.id)}
-                />
-              ))}
-            </ListLayout>
-          </section>
-          {/* Right Side : Price Details */}
-          <section className="flex flex-col w-full md:w-1/4 p-4 border bg-background sticky top-4 md:order-2 order-1 ">
-            {items.length > 0 && (
-              <>
-                <h2 className="text-lg font-bold">PRICE DETAILS</h2>
-                <p>
-                  Price ({items.length} items): ₹{totalPrice}
-                </p>
-                <p>Discount: -₹{totalDiscount}</p>
-                <p>Delivery Charges: ₹{deliveryCharges}</p>
-                <h3 className="text-xl font-bold">
-                  Total Amount: ₹{totalPrice - totalDiscount + deliveryCharges}
-                </h3>
-                <p className="text-green-500">
-                  You will save ₹{totalDiscount} on this order
-                </p>
-                <button className="mt-4 w-full bg-color-primary-p60 text-white py-2 rounded">
-                  PLACE ORDER
-                </button>
-              </>
-            )}
-          </section>
-        </main>
-      )}
-    </ContentWrapper>
+                  className="text-gray-800 bg-color-primary-p100 hover:text-gray-950"
+                >
+                  <FiMinus />
+                </Button>
+                <div className="w-6 text-center text-gray-800 hover:text-gray-950">
+                  {item.quantity}
+                </div>
+                <Button
+                  isIconOnly
+                  size="sm"
+                  variant="light"
+                  onPress={() =>
+                    handleUpdateQuantity(item.id, item.quantity, true)
+                  }
+                  className="text-gray-800 bg-color-primary-p100 hover:text-gray-950"
+                >
+                  <FiPlus />
+                </Button>
+              </ButtonGroup>
+              <Button
+                isIconOnly
+                size="sm"
+                color="danger"
+                variant="light"
+                onPress={() => handleRemoveItem(item.id)}
+                className="text-red-500 hover:text-red-700"
+              >
+                <FiTrash />
+              </Button>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div className="mt-6 text-right">
+        <p className="text-lg font-bold">
+          Total: ₹
+          {products.reduce(
+            (total, item) => total + item.price * item.quantity,
+            0
+          )}
+        </p>
+      </div>
+    </div>
   );
 };
 

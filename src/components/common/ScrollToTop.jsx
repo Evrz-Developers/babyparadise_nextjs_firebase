@@ -30,7 +30,7 @@ const ScrollToTop = () => {
     <Button
       isIconOnly
       size="lg"
-      className={`fixed bottom-8 right-3 bg-color-primary-p100/45 hover:bg-primary-200 text-color-primary-p40 p-4 rounded-full shadow-md ${
+      className={`fixed bottom-8 right-3 bg-color-primary-p100/45 text-color-primary-p40 p-4 rounded-full shadow-md ${
         isVisible ? "opacity-100" : "opacity-0"
       }`}
       variant="shadow"

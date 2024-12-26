@@ -36,7 +36,6 @@ export default function SigninSignup({ onClose }) {
     event.preventDefault();
     let data = Object.fromEntries(new FormData(event.currentTarget));
     const { name, email, password } = data;
-    console.log(name, email, password);
     try {
       const result = await AUTH.REGISTER_WITH_EMAIL_PASSWORD(
         name,
@@ -63,7 +62,7 @@ export default function SigninSignup({ onClose }) {
 
   return (
     <div className="flex flex-col w-full">
-      <Card className="max-w-full w-[340px]s h-[400px]">
+      <Card className="max-w-full h-[400px]">
         <CardBody className="overflow-hidden">
           {isLoading ? (
             <LoadingSpinner

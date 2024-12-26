@@ -5,10 +5,9 @@ import Gridlayout from "@/components/common/layouts/Gridlayout";
 import ProductCard from "@/components/shop/product/ProductCard";
 import useProductStore from "@/store/useProductStore";
 import useCarouselStore from "@/store/useCarouselStore";
-import CarouselLayout from "@/components/common/layouts/Carousel/CarouselLayout";
-import CarouselItem from "@/components/common/layouts/Carousel/CarouselItem";
 import ContentWrapper from "@/components/common/layouts/ContentWrapper";
 import { Skeleton } from "@nextui-org/skeleton";
+import AutoplayCarousel from "@/components/common/Carousel/AutoplayCarousel";
 
 const Home = ({ initialData }) => {
   const { products, setProducts } = useProductStore();
@@ -23,29 +22,15 @@ const Home = ({ initialData }) => {
 
   return (
     <ContentWrapper className="gap-4">
-      {/* Carousel */}
-      {carousel.length > 0 && (
-        <Skeleton isLoaded={true}>
-          <CarouselLayout
-            items={carousel.map((item, index) => (
-              <CarouselItem
-                key={index}
-                src={item?.imageURL}
-                alt={`slide ${index + 1}`}
-                className="h-64 md:h-80"
-                // TODO: Add link once ready
-                // href={item?.link}
-                href="#"
-              />
-            ))}
-          />
-        </Skeleton>
-      )}
-      {/* Offers */}
-      {/* <div className="mb-4">
+      {/* CAROUSEL SECTION */}
+      {carousel.length > 0 && <AutoplayCarousel items={carousel} />}
+
+      {/* OFFERS SECTION */}
+      {/* <Gridlayout>
         <h2 className="text-lg md:text-xl font-bold">Offers here</h2>
-        </div> */}
-      {/* Products */}
+      </Gridlayout> */}
+
+      {/* PRODUCTS SECTION */}
       <Skeleton isLoaded={isLoaded}>
         <Gridlayout>
           {products.map((product, index) => (

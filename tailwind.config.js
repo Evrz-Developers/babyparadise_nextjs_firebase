@@ -5,7 +5,7 @@ module.exports = {
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
-    "./node_modules/@nextui-org/theme/dist/components/(breadcrumbs|button|card|divider|drawer|dropdown|form|image|input|link|navbar|skeleton|tabs|ripple|spinner|modal|menu|popover).js"
+    "./node_modules/@nextui-org/theme/dist/components/(breadcrumbs|button|card|divider|drawer|dropdown|form|image|input|link|navbar|skeleton|tabs|ripple|spinner|modal|menu|popover).js",
   ],
   theme: {
     extend: {
@@ -76,7 +76,7 @@ module.exports = {
         "color-primary-p70": "#B1C6FC",
         "color-primary-p80": "#CCDAFC",
         "color-primary-p90": "#E6EDFF",
-        "color-primary-p100": "#F5F7FC",
+        "color-primary-p100": "#F0F8FF",
         "color-primary-p105": "#FCFDFF",
         "color-purple-p40": "#9E66C3",
         "color-purple-p50": "#B57EDC",

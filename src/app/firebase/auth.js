@@ -24,13 +24,13 @@ const getErrorMessage = (errorCode) => {
     case "auth/email-already-in-use":
       return "Account already exists.";
     case "auth/unauthorized-domain":
-      return "Service temporary unavailable.";
+      return "Service temporarily unavailable.";
     case "auth/cancelled-popup-request":
       return "Popup was cancelled.";
     case "auth/too-many-requests":
       return "Too many login attempts. Please try again later.";
     default:
-      return "An Error occurred." + errorCode;
+      return "An error occurred: " + errorCode;
   }
 };
 
@@ -88,7 +88,7 @@ const SignInWithGoogle = async () => {
         name: firstName,
         email: user.email,
         role: "user",
-        imageURL: userDoc.data()?.imageURL || user.photoURL || null,
+        imageURL: user.photoURL || null,
         createdAt: Date.now(),
         lastLoginAt: Date.now(),
       };

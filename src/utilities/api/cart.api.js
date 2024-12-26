@@ -11,9 +11,6 @@ import {
 } from "firebase/firestore";
 import { db } from "@/app/firebase/firebaseConfig";
 
-const DEFAULT_HOST = process.env.NEXT_PUBLIC_API_URL;
-// const DEFAULT_HOST = process.env.NEXT_PUBLIC_API_URL_PROD;
-
 export async function addProductToCart(product, userId) {
   try {
     const cartRef = collection(db, "cart");

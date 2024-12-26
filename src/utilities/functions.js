@@ -6,11 +6,14 @@ export const handleLoginResult = (result, onClose, setUser, router) => {
   if (result.error) {
     toast.error("Uh-oh! " + result.error);
   } else {
-    onClose();
     setUser(result.user);
     toast.success("Login successful!");
+    onClose();
     if (result.user.role === "admin") {
+      console.log("first", result.user.role);
       router.push("/admin/dashboard");
+    } else {
+      router.push("/");
     }
   }
 };
@@ -21,6 +24,11 @@ const handleRegisterResult = (result, onClose, setUser, router) => {
   } else {
     setUser(result.user);
     toast.success("Registration successful!");
+    if (result.user.role === "admin") {
+      router.push("/admin/dashboard");
+    } else {
+      router.push("/");
+    }
     onClose();
   }
 };

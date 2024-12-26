@@ -26,9 +26,9 @@ const Home = ({ initialData }) => {
       {carousel.length > 0 && <AutoplayCarousel items={carousel} />}
 
       {/* OFFERS SECTION */}
-      <Gridlayout>
+      {/* <Gridlayout>
         <h2 className="text-lg md:text-xl font-bold">Offers here</h2>
-      </Gridlayout>
+      </Gridlayout> */}
 
       {/* PRODUCTS SECTION */}
       <Skeleton isLoaded={isLoaded}>

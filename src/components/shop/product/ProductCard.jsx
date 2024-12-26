@@ -45,6 +45,7 @@ const ProductCard = ({ product, index }) => {
       </div>,
       {
         autoClose: 1000,
+        pauseOnHover: window.innerWidth > 768,
       }
     );
 

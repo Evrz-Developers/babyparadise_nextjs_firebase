@@ -9,14 +9,11 @@ import NavbarLogo from "@/components/common/Navbar/NavbarLogo";
 import NavSearchBar from "@/components/common/Navbar/NavSearchBar";
 import NavbarDeliveryAddress from "@/components/common/Navbar/NavbarDeliveryAddress";
 import useDrawerStore from "@/store/useDrawerStore";
-
 import {
   Navbar as NextNavbar,
   NavbarContent,
   NavbarItem,
 } from "@nextui-org/navbar";
-import SigninSignup from "@/components/auth/SigninSignup";
-import EmptyCart from "@/components/shop/user/EmptyCart";
 import CartLoginMenuGroup from "@/components/common/Navbar/CartLoginMenuGroup";
 import DrawerContent from "@/components/common/Navbar/DrawerContent";
 
@@ -61,7 +58,7 @@ const Navbar = ({ title }) => {
       </NavbarContent>
 
       {/* Middle Section: Search Bar and Delivery Address (DESKTOP ONLY) */}
-      <NavbarContent className="hidden sm:flex gap-4 w-1/3" justify="center">
+      <NavbarContent className="hidden lg:flex gap-4 w-1/3" justify="center">
         <NavSearchBar />
       </NavbarContent>
 

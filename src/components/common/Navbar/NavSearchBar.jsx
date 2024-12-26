@@ -1,26 +1,24 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { FiSearch } from "react-icons/fi";
 import { useDebouncedCallback } from "use-debounce";
-import { useSearchParams, usePathname, useRouter } from "next/navigation";
+// import { useSearchParams, usePathname, useRouter } from "next/navigation";
 
 const NavSearchBar = () => {
-  const searchParams = useSearchParams();
-  const pathname = usePathname();
-  const { replace } = useRouter();
+  // const searchParams = useSearchParams();
+  // const pathname = usePathname();
+  // const { replace } = useRouter();
 
   const handleSearch = useDebouncedCallback((term) => {
     console.log(`Searching... ${term}`);
-    const params = new URLSearchParams(searchParams);
+    // const params = new URLSearchParams(searchParams);
     // params.set("page", "1");
 
-    if (term) {
-      params.set("query", term);
-    } else {
-      params.delete("query");
-    }
-    replace(`${pathname}?${params.toString()}`);
+    // if (term) {
+    //   params.set("query", term);
+    // } else {
+    //   params.delete("query");
+    // }
+    // replace(`${pathname}?${params.toString()}`);
   }, 300);
 
   return (
@@ -34,7 +32,7 @@ const NavSearchBar = () => {
         onChange={(e) => {
           handleSearch(e.target.value);
         }}
-        defaultValue={searchParams.get("query")?.toString()}
+        // defaultValue={searchParams.get("query")?.toString()}
       />
     </div>
   );

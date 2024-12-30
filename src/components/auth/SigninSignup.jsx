@@ -12,7 +12,7 @@ import useLoggedUserStore from "@/store/useLoggedUserStore";
 import FUNCTIONS from "@/utilities/functions";
 import { FcGoogle } from "react-icons/fc";
 import BlurFade from "@/components/ui/blur-fade";
-import LoadingSpinner from "@/components/common/LoadingSpinner";
+import LoadingSpinnerWithMessage from "@/components/common/LoadingSpinnerWithMessage";
 
 export default function SigninSignup({ onClose }) {
   const [selected, setSelected] = React.useState("login");
@@ -65,7 +65,7 @@ export default function SigninSignup({ onClose }) {
       <Card className="max-w-full h-[400px]">
         <CardBody className="overflow-hidden">
           {isLoading ? (
-            <LoadingSpinner
+            <LoadingSpinnerWithMessage
               initialMessage="Connecting to Google..."
               delayMessage="Fetching user data"
               secondaryMessage="Almost there..."

@@ -1,38 +1,39 @@
 "use client";
 
-import React, { useState } from "react";
-import { FiSearch } from "react-icons/fi";
+import { useDebouncedCallback } from "use-debounce";
+// import { useSearchParams, usePathname, useRouter } from "next/navigation";
 
 const NavSearchBar = () => {
-  const [searchQuery, setSearchQuery] = useState("");
+  // const searchParams = useSearchParams();
+  // const pathname = usePathname();
+  // const { replace } = useRouter();
 
-  const handleSearch = () => {
-    // TODO: Remove log
-    console.log(`Searching for: ${searchQuery}`);
-  };
+  const handleSearch = useDebouncedCallback((term) => {
+    console.log(`Searching... ${term}`);
+    // const params = new URLSearchParams(searchParams);
+    // params.set("page", "1");
+
+    // if (term) {
+    //   params.set("query", term);
+    // } else {
+    //   params.delete("query");
+    // }
+    // replace(`${pathname}?${params.toString()}`);
+  }, 300);
 
   return (
-    <div className="w-full flex items-center relative">
-      <div className="flex w-full overflow-hidden rounded-xl border focus-within:border-color-primary-p70  sm:max-w-md md:max-w-lg lg:max-w-xl md:ml-2">
-        <input
-          type="text"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder="Search products..."
-          className="w-full px-4 py-2 text-sm border-none outline-none focus:ring-0 bg-color-primary-p100/35"
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              handleSearch();
-            }
-          }}
-        />
-        <button
-          onClick={handleSearch}
-          className="bg-color-primary-p80 hover:bg-color-primary-p70 text-white px-4 py-2 flex items-center justify-center"
-        >
-          <FiSearch className="h-5 w-5" />
-        </button>
-      </div>
+    <div className="relative flex flex-1 flex-shrink-0">
+      <label htmlFor="search" className="sr-only">
+        Search
+      </label>
+      <input
+        className="block w-full rounded-md border border-gray-200 py-[9px] px-3 text-sm placeholder:text-gray-500 placeholder:text-end focus:outline-none focus:border-color-primary-p60"
+        placeholder="&#x1F50D;&#xFE0E;"
+        onChange={(e) => {
+          handleSearch(e.target.value);
+        }}
+        // defaultValue={searchParams.get("query")?.toString()}
+      />
     </div>
   );
 };

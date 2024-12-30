@@ -45,6 +45,7 @@ const ProductCard = ({ product, index }) => {
       </div>,
       {
         autoClose: 1000,
+        pauseOnHover: window.innerWidth > 768,
       }
     );
 
@@ -64,10 +65,10 @@ const ProductCard = ({ product, index }) => {
   return (
     <ContentWrapper>
       <Card
-        shadow="sm"
+        shadow="none"
         key={index}
         isPressable
-        className="rounded-none rounded-t-md transition-all duration-200 hover:scale-[1.03] hover:-translate-y-1"
+        className="rounded-none"
         onPress={handleProductClick}
       >
         <CardBody className="overflow-visible p-0">
@@ -76,7 +77,7 @@ const ProductCard = ({ product, index }) => {
             width="100"
             height={200}
             alt={product?.name}
-            className="w-full object-cover h-[140px] rounded-none rounded-t-md"
+            className="w-full object-cover h-[140px] rounded-none transition-all duration-200 hover:scale-[1.03] hover:-translate-y-1"
             src={product?.imageURL}
             layout="fixed"
           />
@@ -97,7 +98,7 @@ const ProductCard = ({ product, index }) => {
       </Card>
       <Button
         size="sm"
-        className="flex bg-orange-50 rounded-none rounded-b-xl transition-all duration-200 hover:scale-[1.03] hover:-translate-y-1"
+        className="flex bg-orange-50 rounded-full transition-all duration-200"
         variant="ghost"
         color="warning"
         onPress={handleAddToCart}

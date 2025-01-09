@@ -27,7 +27,7 @@ const Profile = ({ handleLogout }) => {
         <div className="flex flex-col items-center gap-4">
           <div className="relative w-20 h-20 rounded-full overflow-hidden">
             <Image
-              src={user?.imageURL || user?.photoURL}
+              src={user?.imageURL || user?.photoURL || "/images/user.png"}
               alt="Profile picture"
               fill
               sizes="80px"

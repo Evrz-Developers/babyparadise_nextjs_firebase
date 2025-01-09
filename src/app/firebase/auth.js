@@ -77,7 +77,6 @@ const SignInWithGoogle = async () => {
     const db = getFirestore();
     const userDocRef = doc(db, "users", user.uid);
     const userDoc = await getDoc(userDocRef);
-
     let userData;
 
     const firstName = user.displayName?.split(" ")[0] || "";
@@ -94,11 +93,16 @@ const SignInWithGoogle = async () => {
       };
       await setDoc(userDocRef, userData);
     } else {
+      // For existing users, preserve their data and only update lastLoginAt
       userData = userDoc.data();
-      // Update last login
-      await setDoc(userDocRef, { lastLoginAt: Date.now() }, { merge: true });
+      await setDoc(
+        userDocRef,
+        { lastLoginAt: Date.now() },
+        { merge: true }
+      );
     }
 
+    // Return user data with preserved role
     return {
       user: {
         uid: user.uid,
@@ -150,7 +154,7 @@ const registerWithEmailPassword = async (name, email, password) => {
         email: user.email,
         name: userData.name,
         role: userData.role,
-        imageURL: userData.imageURL || user?.photoURL || null,
+        imageURL: userData?.imageURL || null,
         accessToken: user.accessToken,
         lastLoginAt: userData.lastLoginAt,
       },
